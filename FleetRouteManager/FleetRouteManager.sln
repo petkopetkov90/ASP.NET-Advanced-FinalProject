@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetRouteManager.Web", "FleetRouteManager.Web\FleetRouteManager.Web.csproj", "{B982FACF-73BE-475C-A60B-8F7BEF44C407}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetRouteManager.Data", "FleetRouteManager.Data\FleetRouteManager.Data.csproj", "{8C0972D1-E5B3-4120-BF2F-1BD764B4508D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetRouteManager.Services", "FleetRouteManager.Services\FleetRouteManager.Services.csproj", "{C4A9C15B-68F4-43F0-8210-5ADB87659240}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FleetRouteManager.Data", "FleetRouteManager.Data", "{AB89B81E-C6CB-4DD9-BCF2-64FAAA5BCD6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FleetRouteManager.Services", "FleetRouteManager.Services", "{9DD8499D-D0A2-4E8C-ADEF-0525FB1D0B9F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FleetRouteManager.Web", "FleetRouteManager.Web", "{FE775B5F-24BE-4D29-9EC9-1D82FE864A0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FleetRouteManager.Models", "FleetRouteManager.Models", "{1738D8A2-9724-4B76-82FF-74C30288FA6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetRouteManager.Models", "FleetRouteManager.Models\FleetRouteManager.Models.csproj", "{D591657D-0B61-4060-83DB-FBDDCA1AE0C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B982FACF-73BE-475C-A60B-8F7BEF44C407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B982FACF-73BE-475C-A60B-8F7BEF44C407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B982FACF-73BE-475C-A60B-8F7BEF44C407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B982FACF-73BE-475C-A60B-8F7BEF44C407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0972D1-E5B3-4120-BF2F-1BD764B4508D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0972D1-E5B3-4120-BF2F-1BD764B4508D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0972D1-E5B3-4120-BF2F-1BD764B4508D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0972D1-E5B3-4120-BF2F-1BD764B4508D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A9C15B-68F4-43F0-8210-5ADB87659240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A9C15B-68F4-43F0-8210-5ADB87659240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A9C15B-68F4-43F0-8210-5ADB87659240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A9C15B-68F4-43F0-8210-5ADB87659240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D591657D-0B61-4060-83DB-FBDDCA1AE0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D591657D-0B61-4060-83DB-FBDDCA1AE0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D591657D-0B61-4060-83DB-FBDDCA1AE0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D591657D-0B61-4060-83DB-FBDDCA1AE0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B982FACF-73BE-475C-A60B-8F7BEF44C407} = {FE775B5F-24BE-4D29-9EC9-1D82FE864A0B}
+		{8C0972D1-E5B3-4120-BF2F-1BD764B4508D} = {AB89B81E-C6CB-4DD9-BCF2-64FAAA5BCD6C}
+		{C4A9C15B-68F4-43F0-8210-5ADB87659240} = {9DD8499D-D0A2-4E8C-ADEF-0525FB1D0B9F}
+		{D591657D-0B61-4060-83DB-FBDDCA1AE0C1} = {1738D8A2-9724-4B76-82FF-74C30288FA6F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6F310B9-437C-48A1-AC8B-D0AEFD2660E3}
+	EndGlobalSection
+EndGlobal
