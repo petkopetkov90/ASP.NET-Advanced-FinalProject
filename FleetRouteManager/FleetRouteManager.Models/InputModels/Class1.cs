@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FleetRouteManager.Models.InputModels
+﻿namespace FleetRouteManager.Web.Models.InputModels
 {
     internal class Class1
     {

@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FleetRouteManager.Data\FleetRouteManager.Data.csproj" />
-    <ProjectReference Include="..\FleetRouteManager.Models\FleetRouteManager.Models.csproj" />
+    <ProjectReference Include="..\FleetRouteManager.Models\FleetRouteManager.Web.Models.csproj" />
     <ProjectReference Include="..\FleetRouteManager.Services\FleetRouteManager.Services.csproj" />
   </ItemGroup>
 

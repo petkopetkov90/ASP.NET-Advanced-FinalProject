@@ -1,4 +1,4 @@
-namespace FleetRouteManager.Models.ViewModels
+namespace FleetRouteManager.Web.Models.ViewModels
 {
     public class ErrorViewModel
     {

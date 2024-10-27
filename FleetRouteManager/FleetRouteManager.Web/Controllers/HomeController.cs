@@ -1,6 +1,6 @@
-using FleetRouteManager.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using FleetRouteManager.Web.Models.ViewModels;
 
 namespace FleetRouteManager.Web.Controllers
 {
