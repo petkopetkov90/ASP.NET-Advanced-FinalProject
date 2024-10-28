@@ -74,48 +74,116 @@ namespace FleetRouteManager.Data.Repositories
 
         public virtual bool Update(T entity)
         {
+            var entry = context.Entry(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                context.Set<T>().Attach(entity);
+            }
+
             context.Set<T>().Update(entity);
             return Save();
         }
 
         public virtual async Task<bool> UpdateAsync(T entity)
         {
+            var entry = context.Entry(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                context.Set<T>().Attach(entity);
+            }
+
             context.Set<T>().Update(entity);
             return await SaveAsync();
         }
 
         public virtual bool UpdateRange(IEnumerable<T> entities)
         {
+            foreach (var entity in entities)
+            {
+                var entry = context.Entry(entity);
+
+                if (entry.State == EntityState.Detached)
+                {
+                    context.Set<T>().Attach(entity);
+                }
+            }
+
             context.Set<T>().UpdateRange(entities);
             return Save();
         }
 
         public virtual async Task<bool> UpdateRangeAsync(IEnumerable<T> entities)
         {
+            foreach (var entity in entities)
+            {
+                var entry = context.Entry(entity);
+
+                if (entry.State == EntityState.Detached)
+                {
+                    context.Set<T>().Attach(entity);
+                }
+            }
+
             context.Set<T>().UpdateRange(entities);
             return await SaveAsync();
         }
 
         public virtual bool Delete(T entity)
         {
+            var entry = context.Entry(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                context.Set<T>().Attach(entity);
+            }
+
             context.Set<T>().Remove(entity);
             return Save();
         }
 
         public virtual async Task<bool> DeleteAsync(T entity)
         {
+            var entry = context.Entry(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                context.Set<T>().Attach(entity);
+            }
+
             context.Set<T>().Remove(entity);
             return await SaveAsync();
         }
 
         public virtual bool DeleteRange(IEnumerable<T> entities)
         {
+            foreach (var entity in entities)
+            {
+                var entry = context.Entry(entity);
+
+                if (entry.State == EntityState.Detached)
+                {
+                    context.Set<T>().Attach(entity);
+                }
+            }
+
             context.Set<T>().RemoveRange(entities);
             return Save();
         }
 
         public virtual async Task<bool> DeleteRangeAsync(IEnumerable<T> entities)
         {
+            foreach (var entity in entities)
+            {
+                var entry = context.Entry(entity);
+
+                if (entry.State == EntityState.Detached)
+                {
+                    context.Set<T>().Attach(entity);
+                }
+            }
+
             context.Set<T>().RemoveRange(entities);
             return await SaveAsync();
         }
