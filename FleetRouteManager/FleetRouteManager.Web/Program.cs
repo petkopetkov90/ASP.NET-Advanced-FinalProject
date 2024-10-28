@@ -12,6 +12,8 @@ builder.Services.AddDbContext<FleetRouteManagerDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// TODO: builder.Services.AddScoped<IRepository<?, ?>, IRepository<?, ?>>();
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
         options.SignIn.RequireConfirmedAccount = true;
