@@ -22,6 +22,184 @@ namespace FleetRouteManager.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FleetRouteManager.Data.Models.Models.Manufacturer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary Key for Manufacturer entity");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2")
+                        .HasComment("Deletion date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasComment("Soft Delete");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasComment("Manufacturer Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Manufacturers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "Mercedes"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "Ford"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDeleted = false,
+                            Name = "Renault"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsDeleted = false,
+                            Name = "Volkswagen"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsDeleted = false,
+                            Name = "Iveco"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            IsDeleted = false,
+                            Name = "Man"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            IsDeleted = false,
+                            Name = "Scania"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            IsDeleted = false,
+                            Name = "Volvo"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            IsDeleted = false,
+                            Name = "Schmitz"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            IsDeleted = false,
+                            Name = "Krone"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            IsDeleted = false,
+                            Name = "Fruehauf"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            IsDeleted = false,
+                            Name = "Peugeot"
+                        });
+                });
+
+            modelBuilder.Entity("FleetRouteManager.Data.Models.Models.Vehicle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary Key for Vehicle entity");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AddedOn")
+                        .HasColumnType("datetime2")
+                        .HasComment("Vehicle adding date");
+
+                    b.Property<int>("Axles")
+                        .HasColumnType("int")
+                        .HasComment("Vehicle Axles count");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2")
+                        .HasComment("Deletion date");
+
+                    b.Property<string>("EuroClass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Vehicle Emission Class");
+
+                    b.Property<DateTime>("FirstRegistration")
+                        .HasColumnType("datetime2")
+                        .HasComment("Vehicle first registration");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasComment("Soft Delete");
+
+                    b.Property<int>("ManufacturerId")
+                        .HasColumnType("int")
+                        .HasComment("Type of Vehicle");
+
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)")
+                        .HasComment("Vehicle Registration Number");
+
+                    b.Property<string>("VehicleType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Vehicle Type");
+
+                    b.Property<double>("VehicleWeight")
+                        .HasColumnType("float")
+                        .HasColumnName("Vehicle weight");
+
+                    b.Property<string>("Vin")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("VIN")
+                        .HasComment("Vehicle VIN/frame number");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("RegistrationNumber")
+                        .IsUnique();
+
+                    b.ToTable("Vehicles", t =>
+                        {
+                            t.HasCheckConstraint("CK_Vehicles_Axles", "Axles >= 2 AND Axles <= 6");
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -224,6 +402,17 @@ namespace FleetRouteManager.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FleetRouteManager.Data.Models.Models.Vehicle", b =>
+                {
+                    b.HasOne("FleetRouteManager.Data.Models.Models.Manufacturer", "Manufacturer")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Manufacturer");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -273,6 +462,11 @@ namespace FleetRouteManager.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FleetRouteManager.Data.Models.Models.Manufacturer", b =>
+                {
+                    b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618
         }

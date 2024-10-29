@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FleetRouteManager.Data.Common\FleetRouteManager.Data.Common.csproj" />
+    <ProjectReference Include="..\FleetRouteManager.Common\FleetRouteManager.Common.csproj" />
   </ItemGroup>
 
 </Project>
