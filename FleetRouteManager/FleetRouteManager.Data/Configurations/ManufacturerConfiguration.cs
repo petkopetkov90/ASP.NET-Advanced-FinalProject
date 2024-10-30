@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FleetRouteManager.Data.Common.Configurations
+namespace FleetRouteManager.Data.Configurations
 {
     public class ManufacturerConfiguration : IEntityTypeConfiguration<Manufacturer>
     {

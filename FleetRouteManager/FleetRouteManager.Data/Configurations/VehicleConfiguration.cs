@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FleetRouteManager.Data.Common.Configurations
+namespace FleetRouteManager.Data.Configurations
 {
     public class VehicleConfiguration : IEntityTypeConfiguration<Vehicle>
     {
@@ -19,10 +19,6 @@ namespace FleetRouteManager.Data.Common.Configurations
 
             builder
                 .Property(v => v.EuroClass)
-                .HasConversion<string>();
-
-            builder
-                .Property(v => v.VehicleType)
                 .HasConversion<string>();
 
             builder

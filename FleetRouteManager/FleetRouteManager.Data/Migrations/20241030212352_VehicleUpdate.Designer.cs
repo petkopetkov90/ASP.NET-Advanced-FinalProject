@@ -4,6 +4,7 @@ using FleetRouteManager.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030212352_VehicleUpdate")]
+    partial class VehicleUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,15 +173,6 @@ namespace FleetRouteManager.Data.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)")
                         .HasComment("Vehicle Registration Number");
-
-                    b.Property<string>("VehicleType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Vehicle Type");
-
-                    b.Property<double>("VehicleWeight")
-                        .HasColumnType("float")
-                        .HasColumnName("Vehicle weight");
 
                     b.Property<string>("Vin")
                         .IsRequired()

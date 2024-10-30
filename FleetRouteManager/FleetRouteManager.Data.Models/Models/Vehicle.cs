@@ -44,14 +44,6 @@ namespace FleetRouteManager.Data.Models.Models
         public int Axles { get; set; }
 
         [Required]
-        [Column("Vehicle weight")]
-        public double VehicleWeight { get; set; }
-
-        [Required]
-        [Comment("Vehicle Type")]
-        public VehicleType VehicleType { get; set; }
-
-        [Required]
         [Comment("Vehicle adding date")]
         public DateTime AddedOn { get; set; } = DateTime.Now.Date;
 
