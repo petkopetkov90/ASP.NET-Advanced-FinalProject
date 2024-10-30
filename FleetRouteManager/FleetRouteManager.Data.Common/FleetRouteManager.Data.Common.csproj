@@ -12,8 +12,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FleetRouteManager.Data.Models\FleetRouteManager.Data.Models.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -3,7 +3,8 @@ using FleetRouteManager.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static FleetRouteManager.Common.Constants.VehicleConstants;
+using static FleetRouteManager.Data.Common.Constants.VehicleConstants;
+
 
 namespace FleetRouteManager.Data.Models.Models
 {
@@ -19,20 +20,19 @@ namespace FleetRouteManager.Data.Models.Models
         public string RegistrationNumber { get; set; } = null!;
 
         [Required]
-        [Comment("Type of Vehicle")]
+        [Comment("Vehicle Manufacturer")]
         public int ManufacturerId { get; set; }
-
         [ForeignKey(nameof(ManufacturerId))]
         public Manufacturer Manufacturer { get; set; } = null!;
 
         [Required]
         [MaxLength(VinMaxLength)]
         [Column("VIN")]
-        [Comment("Vehicle VIN/frame number")]
+        [Comment("Vehicle VIN/Frame number")]
         public string Vin { get; set; } = null!;
 
         [Required]
-        [Comment("Vehicle first registration")]
+        [Comment("Vehicle First Registration")]
         public DateTime FirstRegistration { get; set; }
 
         [Required]
@@ -44,7 +44,13 @@ namespace FleetRouteManager.Data.Models.Models
         public int Axles { get; set; }
 
         [Required]
-        [Comment("Vehicle adding date")]
+        [Comment("Type of Vehicle")]
+        public int VehicleTypeId { get; set; }
+        [ForeignKey(nameof(VehicleTypeId))]
+        public VehicleType VehicleType { get; set; } = null!;
+
+        [Required]
+        [Comment("Vehicle date of bought")]
         public DateTime AddedOn { get; set; } = DateTime.Now.Date;
 
         [Comment("Soft Delete")]

@@ -14,6 +14,11 @@ namespace FleetRouteManager.Data.Configurations
                 .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
 
             builder
+                .HasOne(e => e.VehicleType)
+                .WithMany(vt => vt.Vehicles)
+                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+
+            builder
                 .HasIndex(v => v.RegistrationNumber)
                 .IsUnique();
 

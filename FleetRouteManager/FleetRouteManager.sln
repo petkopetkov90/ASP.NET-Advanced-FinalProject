@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetRouteManager.Web.Model
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{155B055B-CDF1-4DD2-9790-95B041E2609A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetRouteManager.Common", "FleetRouteManager.Common\FleetRouteManager.Common.csproj", "{DBBB4414-26B8-45E0-986B-5A2E04B22E2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetRouteManager.Common", "FleetRouteManager.Common\FleetRouteManager.Common.csproj", "{DBBB4414-26B8-45E0-986B-5A2E04B22E2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetRouteManager.Web.Common", "FleetRouteManager.Web.Common\FleetRouteManager.Web.Common.csproj", "{306CD70B-277E-4834-9AC7-A2386FF59737}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{DBBB4414-26B8-45E0-986B-5A2E04B22E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBBB4414-26B8-45E0-986B-5A2E04B22E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBBB4414-26B8-45E0-986B-5A2E04B22E2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{306CD70B-277E-4834-9AC7-A2386FF59737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{306CD70B-277E-4834-9AC7-A2386FF59737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{306CD70B-277E-4834-9AC7-A2386FF59737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{306CD70B-277E-4834-9AC7-A2386FF59737}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{CCE4E4ED-E589-485C-B126-96B278518A37} = {9DD8499D-D0A2-4E8C-ADEF-0525FB1D0B9F}
 		{DD12C142-CD54-4D0B-9AA9-269D418E50B1} = {FE775B5F-24BE-4D29-9EC9-1D82FE864A0B}
 		{DBBB4414-26B8-45E0-986B-5A2E04B22E2A} = {155B055B-CDF1-4DD2-9790-95B041E2609A}
+		{306CD70B-277E-4834-9AC7-A2386FF59737} = {FE775B5F-24BE-4D29-9EC9-1D82FE864A0B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6F310B9-437C-48A1-AC8B-D0AEFD2660E3}

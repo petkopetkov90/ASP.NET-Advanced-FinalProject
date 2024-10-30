@@ -1,4 +1,4 @@
-﻿namespace FleetRouteManager.Common.Constants
+﻿namespace FleetRouteManager.Data.Common.Constants
 {
     public static class VehicleConstants
     {

@@ -26,6 +26,7 @@
     <ProjectReference Include="..\FleetRouteManager.Data.Repositories\FleetRouteManager.Data.Repositories.csproj" />
     <ProjectReference Include="..\FleetRouteManager.Data\FleetRouteManager.Data.csproj" />
     <ProjectReference Include="..\FleetRouteManager.Services\FleetRouteManager.Services.csproj" />
+    <ProjectReference Include="..\FleetRouteManager.Web.Common\FleetRouteManager.Web.Common.csproj" />
     <ProjectReference Include="..\FleetRouteManager.Web.Models\FleetRouteManager.Web.Models.csproj" />
   </ItemGroup>
 

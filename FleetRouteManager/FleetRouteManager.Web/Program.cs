@@ -1,4 +1,5 @@
 using FleetRouteManager.Data.Data;
+using FleetRouteManager.Web.Common.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ builder.Services.AddDbContext<FleetRouteManagerDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
-// TODO: builder.Services.AddScoped<IRepository<?, ?>, IRepository<?, ?>>();
+builder.Services.AddSoftDeleteRepositories();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
