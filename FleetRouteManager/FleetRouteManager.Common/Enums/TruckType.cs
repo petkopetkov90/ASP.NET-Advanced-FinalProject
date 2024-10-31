@@ -3,7 +3,6 @@
     public enum TruckType
     {
         Truck,
-        Car,
         Van,
         Tractor
     }

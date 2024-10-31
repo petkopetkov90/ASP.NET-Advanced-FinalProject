@@ -1,6 +1,6 @@
+using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using FleetRouteManager.Web.Models.ViewModels;
 
 namespace FleetRouteManager.Web.Controllers
 {
@@ -13,11 +13,13 @@ namespace FleetRouteManager.Web.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();

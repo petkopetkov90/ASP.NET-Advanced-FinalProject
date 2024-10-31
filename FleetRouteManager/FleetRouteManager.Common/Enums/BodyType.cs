@@ -2,10 +2,8 @@
 {
     public enum BodyType
     {
-        Taut,
+        Curtain,
         Box,
         Open,
-        CarTransporter,
-        Dump
     }
 }

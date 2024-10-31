@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FleetRouteManager.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FleetRouteManager - "Company Name"</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -31,16 +31,38 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <h5 class="sidebar-title">Navigation</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Vehicle" asp-action="Index">Trucks</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Driver" asp-action="Index">Drivers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Trip" asp-action="Index">Trips</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Client" asp-action="Index">Clients</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main role="main" class="col-md-10 ms-sm-auto col-lg-10 px-4">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - @(DateTime.Now.Year != 2024 ? $"{DateTime.Now.Year}" : "")
-            FleetRouteManager - <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            FleetRouteManager - "Company Name"
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

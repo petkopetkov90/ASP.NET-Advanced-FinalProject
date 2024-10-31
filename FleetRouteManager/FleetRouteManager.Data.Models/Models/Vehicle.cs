@@ -25,6 +25,10 @@ namespace FleetRouteManager.Data.Models.Models
         [ForeignKey(nameof(ManufacturerId))]
         public Manufacturer Manufacturer { get; set; } = null!;
 
+        [MaxLength(ModelMaxLength)]
+        [Comment("Vehicle Model")]
+        public string? Model { get; set; }
+
         [Required]
         [MaxLength(VinMaxLength)]
         [Column("VIN")]
