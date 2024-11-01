@@ -1,5 +1,6 @@
 ﻿namespace FleetRouteManager.Common.Enums
 {
+    //Euro classes for vehicles
     public enum EuroClass
     {
         Euro0,

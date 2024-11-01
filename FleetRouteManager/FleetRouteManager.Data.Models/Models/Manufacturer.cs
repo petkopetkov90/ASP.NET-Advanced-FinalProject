@@ -5,6 +5,7 @@ using static FleetRouteManager.Data.Common.Constants.ManufacturerConstants;
 
 namespace FleetRouteManager.Data.Models.Models
 {
+    //Manufacturer of Vehicle - class for EF entity 
     public class Manufacturer : ISoftDeletable
     {
         [Key]

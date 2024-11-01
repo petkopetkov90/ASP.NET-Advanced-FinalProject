@@ -4,6 +4,7 @@ using FleetRouteManager.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241101204245_VehicleTypeSeed")]
+    partial class VehicleTypeSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,72 +213,6 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("VehicleTypeId");
 
                     b.ToTable("Vehicles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddedOn = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Local),
-                            EuroClass = "Euro6",
-                            FirstRegistration = new DateTime(2024, 4, 15, 0, 0, 0, 0, DateTimeKind.Local),
-                            IsDeleted = false,
-                            LiabilityInsurance = "010/LEV/1111111111-11",
-                            LiabilityInsuranceExpirationDate = new DateTime(2025, 10, 27, 0, 0, 0, 0, DateTimeKind.Local),
-                            ManufacturerId = 1,
-                            Model = "Atego",
-                            RegistrationNumber = "CB 1111 CB",
-                            VehicleTypeId = 1,
-                            Vin = "MER1111111111"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AddedOn = new DateTime(2024, 10, 31, 0, 0, 0, 0, DateTimeKind.Local),
-                            EuroClass = "Euro5",
-                            FirstRegistration = new DateTime(2023, 9, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            IsDeleted = false,
-                            LiabilityInsurance = "020/LEV/2222222222-22",
-                            LiabilityInsuranceExpirationDate = new DateTime(2025, 7, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            ManufacturerId = 6,
-                            Model = "TGL",
-                            RegistrationNumber = "CB 2222 CB",
-                            TechnicalReviewExpirationDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Local),
-                            VehicleTypeId = 2,
-                            Vin = "MAN2222222222"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AddedOn = new DateTime(2024, 10, 18, 0, 0, 0, 0, DateTimeKind.Local),
-                            EuroClass = "Euro5",
-                            FirstRegistration = new DateTime(2023, 9, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            IsDeleted = false,
-                            LiabilityInsurance = "030/LEV/3333333333-33",
-                            LiabilityInsuranceExpirationDate = new DateTime(2024, 10, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            ManufacturerId = 6,
-                            Model = "TGL",
-                            RegistrationNumber = "CB 3333 CB",
-                            TachographExpirationDate = new DateTime(2025, 1, 16, 0, 0, 0, 0, DateTimeKind.Local),
-                            VehicleTypeId = 3,
-                            Vin = "MAN3333333333"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AddedOn = new DateTime(2024, 7, 10, 0, 0, 0, 0, DateTimeKind.Local),
-                            EuroClass = "Euro4",
-                            FirstRegistration = new DateTime(2022, 11, 12, 0, 0, 0, 0, DateTimeKind.Local),
-                            IsDeleted = false,
-                            LiabilityInsurance = "040/LEV/4444444444-44",
-                            LiabilityInsuranceExpirationDate = new DateTime(2024, 12, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            ManufacturerId = 7,
-                            Model = "R420",
-                            RegistrationNumber = "CB 4444 CB",
-                            TachographExpirationDate = new DateTime(2025, 1, 13, 0, 0, 0, 0, DateTimeKind.Local),
-                            TechnicalReviewExpirationDate = new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Local),
-                            VehicleTypeId = 3,
-                            Vin = "SCA4444444444"
-                        });
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Models.VehicleType", b =>

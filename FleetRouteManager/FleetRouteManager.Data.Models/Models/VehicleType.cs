@@ -6,6 +6,7 @@ using static FleetRouteManager.Data.Common.Constants.VehicleTypeConstants;
 
 namespace FleetRouteManager.Data.Models.Models
 {
+    //Type of Vehicle - class for EF entity 
     public class VehicleType : ISoftDeletable
     {
         [Key]
