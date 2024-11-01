@@ -20,7 +20,7 @@ namespace FleetRouteManager.Data.Models.Models
         public string RegistrationNumber { get; set; } = null!;
 
         [Required]
-        [Comment("Vehicle Manufacturer")]
+        [Comment("Foreign key to the Manufacturer")]
         public int ManufacturerId { get; set; }
         [ForeignKey(nameof(ManufacturerId))]
         public Manufacturer Manufacturer { get; set; } = null!;
@@ -44,23 +44,36 @@ namespace FleetRouteManager.Data.Models.Models
         public EuroClass EuroClass { get; set; }
 
         [Required]
-        [Comment("Vehicle Axles count")]
+        [Comment("Vehicle number of axles")]
         public int Axles { get; set; }
 
         [Required]
-        [Comment("Type of Vehicle")]
+        [Comment("Foreign key to the VehicleType")]
         public int VehicleTypeId { get; set; }
         [ForeignKey(nameof(VehicleTypeId))]
         public VehicleType VehicleType { get; set; } = null!;
 
         [Required]
-        [Comment("Vehicle date of bought")]
-        public DateTime AddedOn { get; set; } = DateTime.Now.Date;
+        [Comment("Vehicle Date of Purchase")]
+        public DateTime AddedOn { get; set; }
 
-        [Comment("Soft Delete")]
+        [MaxLength(LiabilityInsuranceMaxLength)]
+        [Comment("Vehicle Liability Insurance policy number")]
+        public string? LiabilityInsurance { get; set; }
+
+        [Comment("Vehicle Liability Insurance expiration date")]
+        public DateTime? LiabilityInsuranceExpirationDate { get; set; }
+
+        [Comment("Vehicle Technical Review expiration date")]
+        public DateTime? TechnicalReviewExpirationDate { get; set; }
+
+        [Comment("Vehicle Tachograph Certification expiration date")]
+        public DateTime? TachographExpirationDate { get; set; }
+
+        [Comment("Indicates if the vehicle was deleted")]
         public bool IsDeleted { get; set; } = false;
 
-        [Comment("Deletion date")]
+        [Comment("Date and time when the vehicle was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
     }
 }
