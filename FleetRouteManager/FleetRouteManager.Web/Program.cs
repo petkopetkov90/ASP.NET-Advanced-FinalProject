@@ -33,11 +33,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<FleetRouteManagerDbContext>();
-        dbContext.Database.Migrate(); // This will apply all pending migrations
-    }
+    //using (var scope = app.Services.CreateScope())
+    //{
+    //    var dbContext = scope.ServiceProvider.GetRequiredService<FleetRouteManagerDbContext>();
+    //    dbContext.Database.Migrate(); // This will apply all pending migrations
+    //}
 }
 else
 {

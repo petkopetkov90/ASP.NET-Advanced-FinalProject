@@ -12,7 +12,7 @@ namespace FleetRouteManager.Data.Models.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ManufacturerMaxLength)]
+        [MaxLength(NameMaxLength)]
         [Comment("Manufacturer Name")]
         public string Name { get; set; } = null!;
 

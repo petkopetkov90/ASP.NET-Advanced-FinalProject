@@ -25,9 +25,6 @@ namespace FleetRouteManager.Data.Configurations
             builder
                 .Property(v => v.EuroClass)
                 .HasConversion<string>();
-
-            builder
-                .ToTable(t => t.HasCheckConstraint("CK_Vehicles_Axles", "Axles >= 2 AND Axles <= 6"));
         }
     }
 }

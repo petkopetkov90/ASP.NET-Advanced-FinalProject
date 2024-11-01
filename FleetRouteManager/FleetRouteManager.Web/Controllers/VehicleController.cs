@@ -14,32 +14,35 @@ namespace FleetRouteManager.Web.Controllers
                 new VehicleViewModel
                 {
                     Id = 1,
-                    RegistrationNumber = "CB1111CB",
+                    RegistrationNumber = "CB 1111 CB",
                     Vin = "MAN1111111111",
-                    Manufacturer = "MAN",
+                    Manufacturer = "Man",
                     Model = "TGL",
                     FirstRegistrationDate = "21/12/2015",
-                    EuroClass = "EURO 5"
+                    EuroClass = "Euro 5",
+                    TruckType = "Solo 7.5t"
                 },
                 new VehicleViewModel
                 {
                     Id = 2,
-                    RegistrationNumber = "CB2222CB",
+                    RegistrationNumber = "CB 2222 CB",
                     Vin = "MAN2222222",
                     Manufacturer = "Renault",
                     Model = "Premium",
                     FirstRegistrationDate = "11/05/2018",
-                    EuroClass = "EURO 6"
+                    EuroClass = "Euro 6",
+                    TruckType = "Solo 7.5t"
                 },
                 new VehicleViewModel
                 {
                     Id = 3,
-                    RegistrationNumber = "CB3333CB",
+                    RegistrationNumber = "CB 3333 CB",
                     Vin = "MAN333333333",
                     Manufacturer = "Mercedes",
                     Model = "Atego",
                     FirstRegistrationDate = "04/09/2021",
-                    EuroClass = "EURO 6"
+                    EuroClass = "Euro 6",
+                    TruckType = "Solo 12.0t"
                 }
             };
 

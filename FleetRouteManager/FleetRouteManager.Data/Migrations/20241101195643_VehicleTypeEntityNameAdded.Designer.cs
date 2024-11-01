@@ -4,6 +4,7 @@ using FleetRouteManager.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241101195643_VehicleTypeEntityNameAdded")]
+    partial class VehicleTypeEntityNameAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,6 +143,10 @@ namespace FleetRouteManager.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Vehicle Date of Purchase");
 
+                    b.Property<int>("Axles")
+                        .HasColumnType("int")
+                        .HasComment("Vehicle number of axles");
+
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2")
                         .HasComment("Date and time when the vehicle was marked as deleted");
@@ -209,7 +216,10 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleTypeId");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", t =>
+                        {
+                            t.HasCheckConstraint("CK_Vehicles_Axles", "Axles >= 2 AND Axles <= 6");
+                        });
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Models.VehicleType", b =>
@@ -220,10 +230,6 @@ namespace FleetRouteManager.Data.Migrations
                         .HasComment("Primary Key for VehicleType");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Axles")
-                        .HasColumnType("int")
-                        .HasComment("Vehicle number of axles");
 
                     b.Property<string>("BodyType")
                         .IsRequired()

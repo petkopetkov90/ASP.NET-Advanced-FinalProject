@@ -1,6 +1,6 @@
 ﻿namespace FleetRouteManager.Data.Common.Constants
 {
-    public static class ManufacturerConstants
+    public static class VehicleTypeConstants
     {
         public const int NameMaxLength = 30;
     }

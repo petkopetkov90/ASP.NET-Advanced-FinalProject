@@ -44,10 +44,6 @@ namespace FleetRouteManager.Data.Models.Models
         public EuroClass EuroClass { get; set; }
 
         [Required]
-        [Comment("Vehicle number of axles")]
-        public int Axles { get; set; }
-
-        [Required]
         [Comment("Foreign key to the VehicleType")]
         public int VehicleTypeId { get; set; }
         [ForeignKey(nameof(VehicleTypeId))]

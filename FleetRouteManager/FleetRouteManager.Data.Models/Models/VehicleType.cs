@@ -2,6 +2,7 @@
 using FleetRouteManager.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using static FleetRouteManager.Data.Common.Constants.VehicleTypeConstants;
 
 namespace FleetRouteManager.Data.Models.Models
 {
@@ -12,12 +13,21 @@ namespace FleetRouteManager.Data.Models.Models
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(NameMaxLength)]
+        [Comment("Vehicle type name")]
+        public string TypeName { get; set; } = null!;
+
+        [Required]
         [Comment("Truck type")]
-        public TruckType TruckType { get; set; }
+        public CargoType TruckType { get; set; }
 
         [Required]
         [Comment("Body type")]
         public BodyType BodyType { get; set; }
+
+        [Required]
+        [Comment("Vehicle number of axles")]
+        public int Axles { get; set; }
 
         [Required]
         [Comment("Total capacity in tons")]

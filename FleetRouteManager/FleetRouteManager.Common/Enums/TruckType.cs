@@ -1,9 +1,11 @@
 ﻿namespace FleetRouteManager.Common.Enums
 {
-    public enum TruckType
+    public enum CargoType
     {
         Truck,
         Van,
-        Tractor
+        Tractor,
+        Semitrailer,
+        Trailer,
     }
 }

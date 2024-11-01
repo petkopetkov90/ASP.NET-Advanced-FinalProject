@@ -15,5 +15,7 @@
         public required string FirstRegistrationDate { get; set; }
 
         public required string EuroClass { get; set; }
+
+        public required string TruckType { get; set; }
     }
 }
