@@ -1,50 +1,41 @@
-﻿using FleetRouteManager.Web.Models.ViewModels;
+﻿using FleetRouteManager.Data.Models.Models;
+using FleetRouteManager.Data.Repositories.Interfaces;
+using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FleetRouteManager.Web.Controllers
 {
     //[Authorize]
     public class VehicleController : Controller
     {
-        [HttpGet("Vehicles")]
-        public IActionResult Index()
+        private readonly ISoftDeleteRepository<Vehicle, int> repository;
+
+        public VehicleController(ISoftDeleteRepository<Vehicle, int> repository)
         {
-            var vehicles = new List<VehicleViewModel>
-            {
-                new VehicleViewModel
+            this.repository = repository;
+        }
+
+        [HttpGet("Vehicles")]
+        public async Task<IActionResult> Index()
+        {
+
+            var vehicles = await repository.GetAllAsIQueryable()
+                .AsNoTracking()
+                .Select(v => new VehicleViewModel
                 {
-                    Id = 1,
-                    RegistrationNumber = "CB 1111 CB",
-                    Vin = "MAN1111111111",
-                    Manufacturer = "Man",
-                    Model = "TGL",
-                    FirstRegistrationDate = "21/12/2015",
-                    EuroClass = "Euro 5",
-                    TruckType = "Solo 7.5t"
-                },
-                new VehicleViewModel
-                {
-                    Id = 2,
-                    RegistrationNumber = "CB 2222 CB",
-                    Vin = "MAN2222222",
-                    Manufacturer = "Renault",
-                    Model = "Premium",
-                    FirstRegistrationDate = "11/05/2018",
-                    EuroClass = "Euro 6",
-                    TruckType = "Solo 7.5t"
-                },
-                new VehicleViewModel
-                {
-                    Id = 3,
-                    RegistrationNumber = "CB 3333 CB",
-                    Vin = "MAN333333333",
-                    Manufacturer = "Mercedes",
-                    Model = "Atego",
-                    FirstRegistrationDate = "04/09/2021",
-                    EuroClass = "Euro 6",
-                    TruckType = "Solo 12.0t"
-                }
-            };
+                    Id = v.Id,
+                    RegistrationNumber = v.RegistrationNumber,
+                    Vin = v.Vin,
+                    Manufacturer = v.Manufacturer.Name,
+                    Model = v.Model,
+                    FirstRegistrationDate = v.FirstRegistration,
+                    EuroClass = v.EuroClass,
+                    TruckType = v.VehicleType.TypeName
+
+                })
+                .OrderBy(v => v.RegistrationNumber)
+                .ToListAsync();
 
             return View(vehicles);
         }

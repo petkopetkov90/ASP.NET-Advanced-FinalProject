@@ -25,17 +25,17 @@
                     <td style="padding: 15px">@vehicle.Vin</td>
                     <td style="padding: 15px">@vehicle.Manufacturer</td>
                     <td style="padding: 15px">@vehicle.Model</td>
-                    <td style="padding: 15px">@vehicle.FirstRegistrationDate</td>
+                    <td style="padding: 15px">@vehicle.FirstRegistrationDate.ToString("dd-MM-yyyy")</td>
                     <td style="padding: 15px">@vehicle.EuroClass</td>
                     <td style="padding: 15px">@vehicle.TruckType</td>
                     <td style="padding: 5px 0px">
                         <a asp-action="Details" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
                     </td>
                     <td style="padding: 5px 0px">
-                        @if (User.IsInRole("Admin"))
-                        {
+@*                         @if (User.IsInRole("Admin"))
+                        { *@
                             <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
-                        }
+                        @* } *@
                     </td>
                 </tr>
             }
@@ -43,8 +43,8 @@
         <tfoot>
         </tfoot>
     </table>
-    @if (User.IsInRole("Admin"))
-    {
+@*     @if (User.IsInRole("Admin"))
+    { *@
         <a asp-action="Add" asp-controller="Vehicle" style="border-radius: 9999px" class="btn btn-primary">Add new Vehicle</a>
-    }
+    @* } *@
 </div>

@@ -83,7 +83,7 @@ namespace FleetRouteManager.Data.Configurations
                         Vin = "SCA4444444444",
                         FirstRegistration = DateTime.Today.AddDays(-720).Date,
                         EuroClass = EuroClass.Euro4,
-                        VehicleTypeId = 3,
+                        VehicleTypeId = 5,
                         AddedOn = DateTime.Today.AddDays(-114).Date,
                         LiabilityInsurance = "040/LEV/4444444444-44",
                         LiabilityInsuranceExpirationDate = DateTime.Today.AddDays(55).Date,

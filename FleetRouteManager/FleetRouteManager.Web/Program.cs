@@ -14,8 +14,7 @@ builder.Services.AddDbContext<FleetRouteManagerDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
-builder.Services.AddSoftDeleteRepositories();
+builder.Services.AddRepositories();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
@@ -45,7 +44,6 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -7,13 +7,21 @@ namespace FleetRouteManager.Web.Common.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddSoftDeleteRepositories(this IServiceCollection services)
+        public static void AddRepositories(this IServiceCollection services)
+        {
+            SoftDeleteRepositories(services);
+            Repositories(services);
+        }
+
+        public static void SoftDeleteRepositories(this IServiceCollection services)
         {
             services.AddScoped<ISoftDeleteRepository<Vehicle, int>, SoftDeleteRepository<Vehicle, int>>();
             services.AddScoped<ISoftDeleteRepository<Manufacturer, int>, SoftDeleteRepository<Manufacturer, int>>();
             services.AddScoped<ISoftDeleteRepository<VehicleType, int>, SoftDeleteRepository<VehicleType, int>>();
+        }
 
-            return services;
+        public static void Repositories(this IServiceCollection services)
+        {
         }
     }
 }

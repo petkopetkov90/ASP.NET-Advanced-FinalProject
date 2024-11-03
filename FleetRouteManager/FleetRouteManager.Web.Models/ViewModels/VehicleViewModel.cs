@@ -1,4 +1,6 @@
-﻿namespace FleetRouteManager.Web.Models.ViewModels
+﻿using FleetRouteManager.Common.Enums;
+
+namespace FleetRouteManager.Web.Models.ViewModels
 {
     public class VehicleViewModel
     {
@@ -10,11 +12,11 @@
 
         public required string Manufacturer { get; set; }
 
-        public required string Model { get; set; }
+        public string? Model { get; set; }
 
-        public required string FirstRegistrationDate { get; set; }
+        public required DateTime FirstRegistrationDate { get; set; }
 
-        public required string EuroClass { get; set; }
+        public required EuroClass EuroClass { get; set; }
 
         public required string TruckType { get; set; }
     }
