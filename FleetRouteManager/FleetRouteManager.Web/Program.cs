@@ -15,11 +15,18 @@ builder.Services.AddDbContext<FleetRouteManagerDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddRepositories();
+builder.Services.AddSoftDeleteRepositories();
+
+builder.Services.AddServices();
+
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
         options.SignIn.RequireConfirmedAccount = true;
         options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
     })
     .AddEntityFrameworkStores<FleetRouteManagerDbContext>();
 
@@ -30,6 +37,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 
     //using (var scope = app.Services.CreateScope())

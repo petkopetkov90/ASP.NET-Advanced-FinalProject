@@ -1,11 +1,11 @@
-﻿@model ICollection<VehicleViewModel>
+﻿@model IEnumerable<VehicleViewModel>
 
 @{
     ViewData["Title"] = "Trucks";
 }
-<div>
+<div class="text center" style="width: 100%; margin: 0;">
     <table class="table table-striped table-hover table-borderless">
-        <thead>
+        <thead style="font-style: italic">
             <tr>
                 <th scope="col">Registration Number</th>
                 <th scope="col">VIN</th>
@@ -30,21 +30,23 @@
                     <td style="padding: 15px">@vehicle.TruckType</td>
                     <td style="padding: 5px 0px">
                         <a asp-action="Details" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
-                    </td>
-                    <td style="padding: 5px 0px">
-@*                         @if (User.IsInRole("Admin"))
-                        { *@
-                            <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                        @*    @if (User.IsInRole("Admin"))s
+                    { *@
+                        <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
                         @* } *@
                     </td>
                 </tr>
             }
         </tbody>
         <tfoot>
+            <tr>
+                <td style="padding: 5px 0px">
+                    @*     @if (User.IsInRole("Admin"))
+                    { *@
+                    <a asp-action="Add" asp-controller="Vehicle" style="border-radius: 9999px; background-color:forestgreen; border-color: forestgreen" class="btn btn-primary">Add new Vehicle</a>
+                    @* } *@
+                </td>
+            </tr>
         </tfoot>
     </table>
-@*     @if (User.IsInRole("Admin"))
-    { *@
-        <a asp-action="Add" asp-controller="Vehicle" style="border-radius: 9999px" class="btn btn-primary">Add new Vehicle</a>
-    @* } *@
 </div>

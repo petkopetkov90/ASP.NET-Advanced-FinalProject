@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FleetRouteManager.Data.Models\FleetRouteManager.Data.Models.csproj" />
     <ProjectReference Include="..\FleetRouteManager.Data.Repositories\FleetRouteManager.Data.Repositories.csproj" />
+    <ProjectReference Include="..\FleetRouteManager.Services\FleetRouteManager.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,41 +1,35 @@
-﻿using FleetRouteManager.Data.Models.Models;
-using FleetRouteManager.Data.Repositories.Interfaces;
-using FleetRouteManager.Web.Models.ViewModels;
+﻿using FleetRouteManager.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace FleetRouteManager.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class VehicleController : Controller
     {
-        private readonly ISoftDeleteRepository<Vehicle, int> repository;
+        private readonly IVehicleService service;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public VehicleController(ISoftDeleteRepository<Vehicle, int> repository)
+        public VehicleController(IVehicleService service, UserManager<IdentityUser> userManager)
         {
-            this.repository = repository;
+            this.service = service;
+            this.userManager = userManager;
+
         }
 
         [HttpGet("Vehicles")]
         public async Task<IActionResult> Index()
         {
+            var userId = userManager.GetUserId(User);
 
-            var vehicles = await repository.GetAllAsIQueryable()
-                .AsNoTracking()
-                .Select(v => new VehicleViewModel
-                {
-                    Id = v.Id,
-                    RegistrationNumber = v.RegistrationNumber,
-                    Vin = v.Vin,
-                    Manufacturer = v.Manufacturer.Name,
-                    Model = v.Model,
-                    FirstRegistrationDate = v.FirstRegistration,
-                    EuroClass = v.EuroClass,
-                    TruckType = v.VehicleType.TypeName
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-                })
-                .OrderBy(v => v.RegistrationNumber)
-                .ToListAsync();
+            var vehicles = await service.GetAllVehicles();
 
             return View(vehicles);
         }

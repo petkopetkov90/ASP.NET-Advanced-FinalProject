@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FleetRouteManager.Data.Repositories\FleetRouteManager.Data.Repositories.csproj" />
     <ProjectReference Include="..\FleetRouteManager.Services.Common\FleetRouteManager.Services.Common.csproj" />
     <ProjectReference Include="..\FleetRouteManager.Web.Models\FleetRouteManager.Web.Models.csproj" />
