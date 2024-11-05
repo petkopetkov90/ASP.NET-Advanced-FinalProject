@@ -34,9 +34,23 @@ namespace FleetRouteManager.Web.Controllers
             return View(vehicles);
         }
 
-        public IActionResult Details()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> Details(int id)
+        //{
+        //    var userId = userManager.GetUserId(User);
+
+        //    if (userId == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    var model = await service.GetVehicleDetails(id);
+
+        //    if (model == null)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View(model);
+        //}
     }
 }

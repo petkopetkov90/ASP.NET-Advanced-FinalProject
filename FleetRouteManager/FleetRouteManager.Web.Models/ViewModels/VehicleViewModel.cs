@@ -18,6 +18,6 @@ namespace FleetRouteManager.Web.Models.ViewModels
 
         public required EuroClass EuroClass { get; set; }
 
-        public required string TruckType { get; set; }
+        public required string Type { get; set; }
     }
 }

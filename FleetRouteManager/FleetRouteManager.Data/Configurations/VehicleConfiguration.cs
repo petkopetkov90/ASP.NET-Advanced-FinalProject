@@ -15,16 +15,16 @@ namespace FleetRouteManager.Data.Configurations
                 .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
 
             builder
-                .HasOne(e => e.VehicleType)
-                .WithMany(vt => vt.Vehicles)
-                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
-
-            builder
                 .HasIndex(v => v.RegistrationNumber)
                 .IsUnique();
 
             builder
                 .Property(v => v.EuroClass)
+                .HasConversion<string>();
+
+
+            builder
+                .Property(v => v.BodyType)
                 .HasConversion<string>();
 
             builder
@@ -37,12 +37,15 @@ namespace FleetRouteManager.Data.Configurations
                         ManufacturerId = 1,
                         Model = "Atego",
                         Vin = "MER1111111111",
-                        FirstRegistration = DateTime.Today.AddDays(-200).Date,
+                        FirstRegistration = new DateTime(2011, 01, 01),
                         EuroClass = EuroClass.Euro6,
                         VehicleTypeId = 1,
-                        AddedOn = DateTime.Today,
+                        BodyType = BodyType.Curtain,
+                        Axles = 2,
+                        WeightCapacity = 1.64,
+                        AcquiredOn = new DateTime(2024, 01, 01),
                         LiabilityInsurance = "010/LEV/1111111111-11",
-                        LiabilityInsuranceExpirationDate = DateTime.Today.AddDays(360).Date
+                        LiabilityInsuranceExpirationDate = new DateTime(2025, 01, 01)
                     },
                     new Vehicle
                     {
@@ -51,13 +54,16 @@ namespace FleetRouteManager.Data.Configurations
                         ManufacturerId = 6,
                         Model = "TGL",
                         Vin = "MAN2222222222",
-                        FirstRegistration = DateTime.Today.AddDays(-400).Date,
+                        FirstRegistration = new DateTime(2012, 02, 02),
                         EuroClass = EuroClass.Euro5,
                         VehicleTypeId = 2,
-                        AddedOn = DateTime.Today.AddDays(-1).Date,
+                        BodyType = BodyType.Box,
+                        Axles = 2,
+                        WeightCapacity = 4.7,
+                        AcquiredOn = new DateTime(2024, 02, 02),
                         LiabilityInsurance = "020/LEV/2222222222-22",
-                        LiabilityInsuranceExpirationDate = DateTime.Today.AddDays(260).Date,
-                        TechnicalReviewExpirationDate = DateTime.Today.AddDays(120).Date
+                        LiabilityInsuranceExpirationDate = new DateTime(2025, 02, 02),
+                        TechnicalReviewExpirationDate = new DateTime(2025, 02, 02)
                     },
                     new Vehicle
                     {
@@ -66,13 +72,16 @@ namespace FleetRouteManager.Data.Configurations
                         ManufacturerId = 6,
                         Model = "TGL",
                         Vin = "MAN3333333333",
-                        FirstRegistration = DateTime.Today.AddDays(-420).Date,
+                        FirstRegistration = new DateTime(2013, 03, 03),
                         EuroClass = EuroClass.Euro5,
                         VehicleTypeId = 3,
-                        AddedOn = DateTime.Today.AddDays(-14).Date,
+                        BodyType = BodyType.Frigo,
+                        Axles = 3,
+                        WeightCapacity = 9,
+                        AcquiredOn = new DateTime(2024, 03, 03),
                         LiabilityInsurance = "030/LEV/3333333333-33",
-                        LiabilityInsuranceExpirationDate = DateTime.Today.AddDays(-30).Date,
-                        TachographExpirationDate = DateTime.Today.AddDays(76).Date
+                        LiabilityInsuranceExpirationDate = new DateTime(2025, 03, 03),
+                        TachographExpirationDate = new DateTime(2025, 03, 03)
                     },
                     new Vehicle
                     {
@@ -81,14 +90,17 @@ namespace FleetRouteManager.Data.Configurations
                         ManufacturerId = 7,
                         Model = "R420",
                         Vin = "SCA4444444444",
-                        FirstRegistration = DateTime.Today.AddDays(-720).Date,
+                        FirstRegistration = new DateTime(2014, 04, 04),
                         EuroClass = EuroClass.Euro4,
                         VehicleTypeId = 5,
-                        AddedOn = DateTime.Today.AddDays(-114).Date,
+                        BodyType = BodyType.None,
+                        Axles = 2,
+                        WeightCapacity = 0,
+                        AcquiredOn = new DateTime(2024, 04, 04),
                         LiabilityInsurance = "040/LEV/4444444444-44",
-                        LiabilityInsuranceExpirationDate = DateTime.Today.AddDays(55).Date,
-                        TechnicalReviewExpirationDate = DateTime.Today.AddDays(60).Date,
-                        TachographExpirationDate = DateTime.Today.AddDays(73).Date,
+                        LiabilityInsuranceExpirationDate = new DateTime(2025, 04, 04),
+                        TechnicalReviewExpirationDate = new DateTime(2025, 04, 04),
+                        TachographExpirationDate = new DateTime(2025, 04, 04),
                     }
                 );
         }

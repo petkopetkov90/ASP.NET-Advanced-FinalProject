@@ -45,14 +45,26 @@ namespace FleetRouteManager.Data.Models.Models
         public EuroClass EuroClass { get; set; }
 
         [Required]
-        [Comment("Foreign key to the VehicleType")]
+        [Comment("Vehicle type foreign key")]
         public int VehicleTypeId { get; set; }
         [ForeignKey(nameof(VehicleTypeId))]
         public VehicleType VehicleType { get; set; } = null!;
 
         [Required]
+        [Comment("Body type")]
+        public BodyType BodyType { get; set; }
+
+        [Required]
+        [Comment("Vehicle number of axles")]
+        public int Axles { get; set; }
+
+        [Required]
+        [Comment("Total capacity in tons")]
+        public double WeightCapacity { get; set; }
+
+        [Required]
         [Comment("Vehicle Date of Purchase")]
-        public DateTime AddedOn { get; set; }
+        public DateTime AcquiredOn { get; set; }
 
         [MaxLength(LiabilityInsuranceMaxLength)]
         [Comment("Vehicle Liability Insurance policy number")]

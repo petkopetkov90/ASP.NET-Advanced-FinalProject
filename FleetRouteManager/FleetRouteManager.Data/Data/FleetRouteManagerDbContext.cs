@@ -17,7 +17,6 @@ namespace FleetRouteManager.Data.Data
         public virtual DbSet<Manufacturer> Manufacturers { get; set; }
         public virtual DbSet<VehicleType> VehicleTypes { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

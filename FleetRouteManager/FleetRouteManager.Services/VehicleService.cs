@@ -28,11 +28,47 @@ namespace FleetRouteManager.Services
                     Model = v.Model,
                     FirstRegistrationDate = v.FirstRegistration,
                     EuroClass = v.EuroClass,
-                    TruckType = v.VehicleType.TypeName
+                    Type = v.VehicleType.Type
 
                 })
                 .OrderBy(v => v.RegistrationNumber)
                 .ToListAsync();
         }
+
+        //public async Task<VehicleDetailsViewModel> GetVehicleDetails(int id)
+        //{
+        //    var vehicle = await repository.GetWhereAsIQueryable(v => v.Id == id)
+        //        .Include(v => v.Manufacturer)
+        //        .Include(v => v.VehicleType)
+        //        .FirstOrDefaultAsync();
+
+        //    if (vehicle == null)
+        //    {
+        //        return null;
+        //    }
+
+        //    var model = new VehicleDetailsViewModel()
+        //    {
+        //        Id = vehicle.Id,
+        //        RegistrationNumber = vehicle.RegistrationNumber,
+        //        Vin = vehicle.Vin,
+        //        Manufacturer = vehicle.Manufacturer.Name,
+        //        Model = vehicle.Model,
+        //        FirstRegistrationDate = vehicle.FirstRegistration.ToString("dd-MM-yyyy"),
+        //        EuroClass = vehicle.EuroClass,
+        //        Type = vehicle.VehicleType.TypeName,
+        //        TruckType = vehicle.VehicleType.TruckType,
+        //        BodyType = vehicle.VehicleType.BodyType,
+        //        Axles = vehicle.VehicleType.Axles,
+        //        WeightCapacity = vehicle.VehicleType.WeightCapacity,
+        //        AcquiredOn = vehicle.AddedOn.ToString("dd-MM-yyyy"),
+        //        LiabilityInsurance = vehicle.LiabilityInsurance,
+        //        LiabilityInsuranceExpirationDate = vehicle.LiabilityInsuranceExpirationDate?.ToString("dd-MM-yyyy") ?? "",
+        //        TechnicalReviewExpirationDate = vehicle.TechnicalReviewExpirationDate?.ToString("dd-MM-yyyy") ?? "",
+        //        TachographExpirationDate = vehicle.TachographExpirationDate?.ToString("dd-MM-yyyy") ?? ""
+        //    };
+
+        //    return model;
+        //}
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    [Migration("20241102095125_VehicleSeed")]
+    [Migration("20241105185634_VehicleSeed")]
     partial class VehicleSeed
     {
         /// <inheritdoc />
@@ -218,12 +218,12 @@ namespace FleetRouteManager.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AddedOn = new DateTime(2024, 11, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            AddedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EuroClass = "Euro6",
-                            FirstRegistration = new DateTime(2024, 4, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            FirstRegistration = new DateTime(2011, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LiabilityInsurance = "010/LEV/1111111111-11",
-                            LiabilityInsuranceExpirationDate = new DateTime(2025, 10, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            LiabilityInsuranceExpirationDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ManufacturerId = 1,
                             Model = "Atego",
                             RegistrationNumber = "CB 1111 CB",
@@ -233,49 +233,49 @@ namespace FleetRouteManager.Data.Migrations
                         new
                         {
                             Id = 2,
-                            AddedOn = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            AddedOn = new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EuroClass = "Euro5",
-                            FirstRegistration = new DateTime(2023, 9, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            FirstRegistration = new DateTime(2012, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LiabilityInsurance = "020/LEV/2222222222-22",
-                            LiabilityInsuranceExpirationDate = new DateTime(2025, 7, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            LiabilityInsuranceExpirationDate = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ManufacturerId = 6,
                             Model = "TGL",
                             RegistrationNumber = "CB 2222 CB",
-                            TechnicalReviewExpirationDate = new DateTime(2025, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            TechnicalReviewExpirationDate = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             VehicleTypeId = 2,
                             Vin = "MAN2222222222"
                         },
                         new
                         {
                             Id = 3,
-                            AddedOn = new DateTime(2024, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            AddedOn = new DateTime(2024, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EuroClass = "Euro5",
-                            FirstRegistration = new DateTime(2023, 9, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            FirstRegistration = new DateTime(2013, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LiabilityInsurance = "030/LEV/3333333333-33",
-                            LiabilityInsuranceExpirationDate = new DateTime(2024, 10, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            LiabilityInsuranceExpirationDate = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ManufacturerId = 6,
                             Model = "TGL",
                             RegistrationNumber = "CB 3333 CB",
-                            TachographExpirationDate = new DateTime(2025, 1, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            TachographExpirationDate = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             VehicleTypeId = 3,
                             Vin = "MAN3333333333"
                         },
                         new
                         {
                             Id = 4,
-                            AddedOn = new DateTime(2024, 7, 11, 0, 0, 0, 0, DateTimeKind.Local),
+                            AddedOn = new DateTime(2024, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EuroClass = "Euro4",
-                            FirstRegistration = new DateTime(2022, 11, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            FirstRegistration = new DateTime(2014, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LiabilityInsurance = "040/LEV/4444444444-44",
-                            LiabilityInsuranceExpirationDate = new DateTime(2024, 12, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            LiabilityInsuranceExpirationDate = new DateTime(2025, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ManufacturerId = 7,
                             Model = "R420",
                             RegistrationNumber = "CB 4444 CB",
-                            TachographExpirationDate = new DateTime(2025, 1, 14, 0, 0, 0, 0, DateTimeKind.Local),
-                            TechnicalReviewExpirationDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            TachographExpirationDate = new DateTime(2025, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TechnicalReviewExpirationDate = new DateTime(2025, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             VehicleTypeId = 5,
                             Vin = "SCA4444444444"
                         });

@@ -6,6 +6,9 @@
         None,
         Curtain,
         Box,
+        Frigo,
         Open,
+        CarTransporter,
+        Tank
     }
 }
