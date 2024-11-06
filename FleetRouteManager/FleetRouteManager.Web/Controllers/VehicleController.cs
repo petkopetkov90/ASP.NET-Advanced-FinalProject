@@ -29,28 +29,28 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var vehicles = await service.GetAllVehicles();
+            var vehicles = await service.GetAllVehiclesAsync();
 
             return View(vehicles);
         }
 
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var userId = userManager.GetUserId(User);
+        public async Task<IActionResult> Details(int id)
+        {
+            var userId = userManager.GetUserId(User);
 
-        //    if (userId == null)
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    var model = await service.GetVehicleDetails(id);
+            var model = await service.GetVehicleDetailsAsync(id);
 
-        //    if (model == null)
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
     }
 }

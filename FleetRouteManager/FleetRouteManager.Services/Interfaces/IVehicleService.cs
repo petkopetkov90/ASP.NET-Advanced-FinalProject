@@ -4,7 +4,7 @@ namespace FleetRouteManager.Services.Interfaces
 {
     public interface IVehicleService
     {
-        public Task<IEnumerable<VehicleViewModel>> GetAllVehicles();
-        //public Task<VehicleDetailsViewModel> GetVehicleDetails(int id);
+        public Task<IEnumerable<VehicleViewModel>> GetAllVehiclesAsync();
+        public Task<VehicleDetailsViewModel?> GetVehicleDetailsAsync(int id);
     }
 }
