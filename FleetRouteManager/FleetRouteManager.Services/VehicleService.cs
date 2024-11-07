@@ -35,11 +35,12 @@ namespace FleetRouteManager.Services
                 .ToListAsync();
         }
 
-        public async Task<VehicleDetailsViewModel?> GetVehicleDetailsAsync(int id)
+        public async Task<VehicleDetailsViewModel?> GetVehicleDetailModelAsync(int id)
         {
             var vehicle = await repository.GetWhereAsIQueryable(v => v.Id == id)
                 .Include(v => v.Manufacturer)
                 .Include(v => v.VehicleType)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
 
             if (vehicle == null)
@@ -68,6 +69,31 @@ namespace FleetRouteManager.Services
             };
 
             return model;
+        }
+
+        public async Task<VehicleDeleteModel?> GetVehicleDeleteModelAsync(int id)
+        {
+            return await repository.GetWhereAsIQueryable(v => v.Id == id)
+                .AsNoTracking()
+                .Select(v => new VehicleDeleteModel
+                {
+                    Id = v.Id,
+                    RegistrationNumber = v.RegistrationNumber
+                })
+                .FirstOrDefaultAsync();
+
+        }
+
+        public async Task<bool> DeleteVehicleAsync(int id)
+        {
+            var model = await repository.GetByIdAsync(id);
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            return await repository.DeleteAsync(model);
         }
     }
 }

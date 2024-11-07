@@ -4,24 +4,18 @@
     ViewData["Title"] = "Details";
 }
 <div class="text center" style="width: 100%; margin: 0; text-align:center">
-    <h1>
+    <h1 style="font-family: Arial; font-weight:bolder">
         @Model.RegistrationNumber
     </h1>
-    <table class="table table-striped table-hover table-borderless" style="text-align: center; width: 100%">
+    <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
         <thead style="font-style: italic">
             <tr>
-                <td colspan="7" style="font-style: italic">
-                    <h6>Main Information</h6>
-                </td>
-            </tr>
-            <tr>
+                <h5 style="font-style: italic; text-decoration-line: underline">Main Information</h5>
                 <th scope="col">VIN</th>
                 <th scope="col">Manufacturer</th>
                 <th scope="col">Model</th>
                 <th scope="col">First Registration</th>
                 <th scope="col">Euro class</th>
-                <th scope="col">Type</th>
-                <th scope="col">Body</th>
             </tr>
         </thead>
         <tbody>
@@ -31,31 +25,42 @@
                 <td>@Model.Model</td>
                 <td>@Model.FirstRegistrationDate</td>
                 <td>@Model.EuroClass</td>
-                <td>@Model.Type</td>
-                <td>@Model.BodyType</td>
             </tr>
         </tbody>
     </table>
-    <table class="table table-striped table-hover table-borderless" style="text-align: center; width: 100%">
+    <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
         <thead style="font-style: italic">
-        <td colspan="7" style="font-style: italic">
-            <h6>Additional Information</h6>
-        </td>
-        <tr>
-            <th scope="col">Axles</th>
-            <th scope="col">Capacity</th>
-            <th scope="col">Acquired On</th>
-            <th scope="col">Liability Insurance</th>
-            <th scope="col">Liability Ins. expires on</th>
-            <th scope="col">Technical Cert. expires on</th>
-            <th scope="col">Tachograph Cert. expires on</th>
-        </tr>
+            <tr>
+                <h5 style="font-style: italic; text-decoration-line: underline">Additional Information</h5>
+                <th scope="col">Axles</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Acquired On</th>
+                <th scope="col">Type</th>
+                <th scope="col">Body</th>
+            </tr>
         </thead>
         <tbody>
             <tr>
                 <td>@Model.Axles</td>
                 <td>@($"{Model.WeightCapacity:f2}t")</td>
                 <td>@Model.AcquiredOn</td>
+                <td>@Model.Type</td>
+                <td>@Model.BodyType</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+        <thead style="font-style: italic">
+            <tr>
+                <h5 style="font-style: italic; text-decoration-line: underline">Insurance and Certificates</h5>
+                <th scope="col">Liability Insurance</th>
+                <th scope="col">Liability Ins. expires on</th>
+                <th scope="col">Technical Cert. expires on</th>
+                <th scope="col">Tachograph Cert. expires on</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
                 <td>@Model.LiabilityInsurance</td>
                 <td>@Model.LiabilityInsuranceExpirationDate</td>
                 <td>@Model.TechnicalReviewExpirationDate</td>
@@ -66,10 +71,10 @@
     <div class="text center" style="width: 100%; margin: 0">
         <div style="display: inline-flex; gap: 10px;">
             <a asp-action="Index" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;" class="btn btn-primary">Back</a>
-@*             @if (User.IsInRole("Admin"))
+            @*             @if (User.IsInRole("Admin"))
             { *@
-                <a asp-action="Edit" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px; background-color: forestgreen; border-color: forestgreen;" class="btn btn-primary">Edit</a>
-                <a asp-action="Delete" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;" class="btn btn-danger">Delete</a>
+            <a asp-action="Edit" asp-controller="Vehicle" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;" class="btn btn-warning">Edit</a>
+            <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;" class="btn btn-danger">Delete</a>
             @* } *@
         </div>
     </div>
