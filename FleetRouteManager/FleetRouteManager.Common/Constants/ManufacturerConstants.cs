@@ -1,4 +1,4 @@
-﻿namespace FleetRouteManager.Data.Common.Constants
+﻿namespace FleetRouteManager.Common.Constants
 {
     public static class ManufacturerConstants
     {

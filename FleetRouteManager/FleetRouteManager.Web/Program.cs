@@ -15,7 +15,6 @@ builder.Services.AddDbContext<FleetRouteManagerDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddRepositories();
-builder.Services.AddSoftDeleteRepositories();
 
 builder.Services.AddServices();
 

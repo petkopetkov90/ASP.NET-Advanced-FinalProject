@@ -1,7 +1,7 @@
 ﻿using FleetRouteManager.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using static FleetRouteManager.Data.Common.Constants.VehicleTypeConstants;
+using static FleetRouteManager.Common.Constants.VehicleTypeConstants;
 
 
 namespace FleetRouteManager.Data.Models.Models

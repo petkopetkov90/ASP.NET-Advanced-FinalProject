@@ -1,7 +1,7 @@
 ﻿using FleetRouteManager.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using static FleetRouteManager.Data.Common.Constants.ManufacturerConstants;
+using static FleetRouteManager.Common.Constants.ManufacturerConstants;
 
 namespace FleetRouteManager.Data.Models.Models
 {

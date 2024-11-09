@@ -1,7 +1,9 @@
 ﻿using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace FleetRouteManager.Web.Controllers
@@ -9,12 +11,16 @@ namespace FleetRouteManager.Web.Controllers
     [Authorize]
     public class VehicleController : Controller
     {
-        private readonly IVehicleService service;
+        private readonly IVehicleService vehicleService;
+        private readonly IManufacturerService manufacturerService;
+        private readonly IVehicleTypeService vehicleTypeService;
         private readonly UserManager<IdentityUser> userManager;
 
-        public VehicleController(IVehicleService service, UserManager<IdentityUser> userManager)
+        public VehicleController(IVehicleService vehicleService, IManufacturerService manufacturerService, IVehicleTypeService vehicleTypeService, UserManager<IdentityUser> userManager)
         {
-            this.service = service;
+            this.vehicleService = vehicleService;
+            this.manufacturerService = manufacturerService;
+            this.vehicleTypeService = vehicleTypeService;
             this.userManager = userManager;
 
         }
@@ -29,7 +35,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var vehicles = await service.GetAllVehiclesAsync();
+            var vehicles = await vehicleService.GetAllVehiclesAsync();
 
             return View(vehicles);
         }
@@ -44,7 +50,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var model = await service.GetVehicleDetailModelAsync(id);
+            var model = await vehicleService.GetVehicleDetailsModelAsync(id);
 
             if (model == null)
             {
@@ -64,7 +70,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var model = await service.GetVehicleDeleteModelAsync(id);
+            var model = await vehicleService.GetVehicleDeleteModelAsync(id);
 
             if (model == null)
             {
@@ -93,7 +99,49 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await service.DeleteVehicleAsync(id);
+            await vehicleService.DeleteVehicleAsync(id);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            var userId = userManager.GetUserId(User);
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
+            ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
+
+            var model = new VehicleCreateInputModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(VehicleCreateInputModel model)
+        {
+            var userId = userManager.GetUserId(User);
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+
+                ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
+                ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
+
+                return View(model);
+            }
+
+            await vehicleService.AddNewVehicle(model);
 
             return RedirectToAction("Index");
         }

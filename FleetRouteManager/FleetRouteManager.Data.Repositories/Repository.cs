@@ -1,4 +1,5 @@
 ﻿using FleetRouteManager.Data.Data;
+using FleetRouteManager.Data.Models.Interfaces;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -139,7 +140,16 @@ namespace FleetRouteManager.Data.Repositories
                 context.Set<T>().Attach(entity);
             }
 
-            context.Set<T>().Remove(entity);
+            //Insurance in case the service calls the Delete method on SoftDeletable entities
+            if (entity is ISoftDeletable softDeletableEntity)
+            {
+                softDeletableEntity.IsDeleted = true;
+            }
+            else
+            {
+                context.Set<T>().Remove(entity);
+            }
+
             return Save();
         }
 
@@ -152,12 +162,23 @@ namespace FleetRouteManager.Data.Repositories
                 context.Set<T>().Attach(entity);
             }
 
-            context.Set<T>().Remove(entity);
+            //Insurance in case the service calls the Delete method on SoftDeletable entities
+            if (entity is ISoftDeletable softDeletableEntity)
+            {
+                softDeletableEntity.IsDeleted = true;
+            }
+            else
+            {
+                context.Set<T>().Remove(entity);
+            }
+
             return await SaveAsync();
         }
 
         public virtual bool DeleteRange(IEnumerable<T> entities)
         {
+            var entitiesToDelete = new List<T>();
+
             foreach (var entity in entities)
             {
                 var entry = context.Entry(entity);
@@ -166,14 +187,27 @@ namespace FleetRouteManager.Data.Repositories
                 {
                     context.Set<T>().Attach(entity);
                 }
+
+                //Insurance in case the service calls the Delete method on SoftDeletable entities
+                if (entity is ISoftDeletable softDeletableEntity)
+                {
+                    softDeletableEntity.IsDeleted = true;
+                }
+                else
+                {
+                    entitiesToDelete.Add(entity);
+                }
+
             }
 
-            context.Set<T>().RemoveRange(entities);
+            context.Set<T>().RemoveRange(entitiesToDelete);
             return Save();
         }
 
         public virtual async Task<bool> DeleteRangeAsync(IEnumerable<T> entities)
         {
+            var entitiesToDelete = new List<T>();
+
             foreach (var entity in entities)
             {
                 var entry = context.Entry(entity);
@@ -182,9 +216,19 @@ namespace FleetRouteManager.Data.Repositories
                 {
                     context.Set<T>().Attach(entity);
                 }
+
+                //Insurance in case the service calls the Delete method on SoftDeletable entities
+                if (entity is ISoftDeletable softDeletableEntity)
+                {
+                    softDeletableEntity.IsDeleted = true;
+                }
+                else
+                {
+                    entitiesToDelete.Add(entity);
+                }
             }
 
-            context.Set<T>().RemoveRange(entities);
+            context.Set<T>().RemoveRange(entitiesToDelete);
             return await SaveAsync();
         }
 

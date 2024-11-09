@@ -1,16 +1,20 @@
 ﻿using FleetRouteManager.Data.Models.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using static FleetRouteManager.Common.Constants.VehicleConstants;
+
 
 namespace FleetRouteManager.Services
 {
     public class VehicleService : IVehicleService
     {
-        private readonly ISoftDeleteRepository<Vehicle, int> repository;
+        private readonly IRepository<Vehicle, int> repository;
 
-        public VehicleService(ISoftDeleteRepository<Vehicle, int> repository)
+        public VehicleService(IRepository<Vehicle, int> repository)
         {
             this.repository = repository;
         }
@@ -18,6 +22,9 @@ namespace FleetRouteManager.Services
         public async Task<IEnumerable<VehicleViewModel>> GetAllVehiclesAsync()
         {
             return await repository.GetAllAsIQueryable()
+                .Where(e => e.IsDeleted == false)
+                .Include(v => v.Manufacturer)
+                .Include(v => v.VehicleType)
                 .AsNoTracking()
                 .Select(v => new VehicleViewModel
                 {
@@ -35,9 +42,9 @@ namespace FleetRouteManager.Services
                 .ToListAsync();
         }
 
-        public async Task<VehicleDetailsViewModel?> GetVehicleDetailModelAsync(int id)
+        public async Task<VehicleDetailsViewModel?> GetVehicleDetailsModelAsync(int id)
         {
-            var vehicle = await repository.GetWhereAsIQueryable(v => v.Id == id)
+            var vehicle = await repository.GetWhereAsIQueryable(v => v.Id == id && v.IsDeleted == false)
                 .Include(v => v.Manufacturer)
                 .Include(v => v.VehicleType)
                 .AsNoTracking()
@@ -73,7 +80,7 @@ namespace FleetRouteManager.Services
 
         public async Task<VehicleDeleteModel?> GetVehicleDeleteModelAsync(int id)
         {
-            return await repository.GetWhereAsIQueryable(v => v.Id == id)
+            return await repository.GetWhereAsIQueryable(v => v.Id == id && v.IsDeleted == false)
                 .AsNoTracking()
                 .Select(v => new VehicleDeleteModel
                 {
@@ -86,14 +93,51 @@ namespace FleetRouteManager.Services
 
         public async Task<bool> DeleteVehicleAsync(int id)
         {
-            var model = await repository.GetByIdAsync(id);
+            var vehicle = await repository.GetByIdAsync(id);
 
-            if (model == null)
+            if (vehicle == null)
             {
                 return false;
             }
 
-            return await repository.DeleteAsync(model);
+            vehicle.IsDeleted = true;
+
+            return await repository.SaveAsync();
+        }
+
+        public async Task<bool> AddNewVehicle(VehicleCreateInputModel model)
+        {
+            if (await repository.GetAllAsIQueryable().Where(v => v.RegistrationNumber == model.RegistrationNumber).AnyAsync())
+            {
+                return false;
+            }
+
+            var vehicle = new Vehicle
+            {
+                RegistrationNumber = model.RegistrationNumber,
+                ManufacturerId = model.ManufacturerId,
+                Model = model.VehicleModel,
+                Vin = model.Vin,
+                FirstRegistration = DateTime.ParseExact(model.FirstRegistration, VehicleDateFormat, CultureInfo.InvariantCulture),
+                EuroClass = model.EuroClass,
+                VehicleTypeId = model.VehicleTypeId,
+                BodyType = model.BodyType,
+                Axles = model.Axles,
+                WeightCapacity = model.WeightCapacity,
+                AcquiredOn = DateTime.ParseExact(model.AcquiredOn, VehicleDateFormat, CultureInfo.InvariantCulture),
+                LiabilityInsurance = model.LiabilityInsurance,
+                LiabilityInsuranceExpirationDate = string.IsNullOrEmpty(model.LiabilityInsuranceExpirationDate)
+                    ? (DateTime?)null
+                    : DateTime.ParseExact(model.LiabilityInsuranceExpirationDate, VehicleDateFormat, CultureInfo.InvariantCulture),
+                TechnicalReviewExpirationDate = string.IsNullOrEmpty(model.TechnicalReviewExpirationDate)
+                    ? (DateTime?)null
+                    : DateTime.ParseExact(model.TechnicalReviewExpirationDate, VehicleDateFormat, CultureInfo.InvariantCulture),
+                TachographExpirationDate = string.IsNullOrEmpty(model.TachographExpirationDate)
+                    ? (DateTime?)null
+                    : DateTime.ParseExact(model.TachographExpirationDate, VehicleDateFormat, CultureInfo.InvariantCulture)
+            };
+
+            return await repository.AddAsync(vehicle);
         }
     }
 }

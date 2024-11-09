@@ -3,7 +3,7 @@ using FleetRouteManager.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static FleetRouteManager.Data.Common.Constants.VehicleConstants;
+using static FleetRouteManager.Common.Constants.VehicleConstants;
 
 
 namespace FleetRouteManager.Data.Models.Models
