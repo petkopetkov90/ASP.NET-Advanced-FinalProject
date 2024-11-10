@@ -4,8 +4,8 @@ using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
+using static FleetRouteManager.Common.Parsers.CustomDateParser;
 
 
 namespace FleetRouteManager.Services
@@ -107,7 +107,7 @@ namespace FleetRouteManager.Services
 
         public async Task<bool> AddNewVehicle(VehicleCreateInputModel model)
         {
-            if (await repository.GetAllAsIQueryable().Where(v => v.RegistrationNumber == model.RegistrationNumber).AnyAsync())
+            if (await repository.GetAllAsIQueryable().FirstOrDefaultAsync(v => v.RegistrationNumber == model.RegistrationNumber) != null)
             {
                 return false;
             }
@@ -118,24 +118,19 @@ namespace FleetRouteManager.Services
                 ManufacturerId = model.ManufacturerId,
                 Model = model.VehicleModel,
                 Vin = model.Vin,
-                FirstRegistration = DateTime.ParseExact(model.FirstRegistration, VehicleDateFormat, CultureInfo.InvariantCulture),
+                FirstRegistration = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "FirstRegistration"),
                 EuroClass = model.EuroClass,
                 VehicleTypeId = model.VehicleTypeId,
                 BodyType = model.BodyType,
                 Axles = model.Axles,
                 WeightCapacity = model.WeightCapacity,
-                AcquiredOn = DateTime.ParseExact(model.AcquiredOn, VehicleDateFormat, CultureInfo.InvariantCulture),
+                AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "AcquiredOn"),
                 LiabilityInsurance = model.LiabilityInsurance,
-                LiabilityInsuranceExpirationDate = string.IsNullOrEmpty(model.LiabilityInsuranceExpirationDate)
-                    ? (DateTime?)null
-                    : DateTime.ParseExact(model.LiabilityInsuranceExpirationDate, VehicleDateFormat, CultureInfo.InvariantCulture),
-                TechnicalReviewExpirationDate = string.IsNullOrEmpty(model.TechnicalReviewExpirationDate)
-                    ? (DateTime?)null
-                    : DateTime.ParseExact(model.TechnicalReviewExpirationDate, VehicleDateFormat, CultureInfo.InvariantCulture),
-                TachographExpirationDate = string.IsNullOrEmpty(model.TachographExpirationDate)
-                    ? (DateTime?)null
-                    : DateTime.ParseExact(model.TachographExpirationDate, VehicleDateFormat, CultureInfo.InvariantCulture)
+                LiabilityInsuranceExpirationDate = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "LiabilityInsuranceExpirationDate"),
+                TechnicalReviewExpirationDate = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "TechnicalReviewExpirationDate"),
+                TachographExpirationDate = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "TachographExpirationDate")
             };
+
 
             return await repository.AddAsync(vehicle);
         }

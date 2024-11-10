@@ -1,4 +1,4 @@
-﻿namespace FleetRouteManager.Data.Common.ErrorMessages
+﻿namespace FleetRouteManager.Common.ErrorMessages
 {
     public static class VehicleErrorMessages
     {
@@ -10,6 +10,7 @@
         public const string VinLength = "VIN must be between 10 and 30 characters";
         public const string DateRequired = "Please enter a valid date in format \"dd-MM-yyyy\"";
         public const string DateValidFormat = "Date must be in format: \"dd-MM-yyyy\"";
+        public const string InvalidDate = "Date {0} is invalid. Please enter a valid date in format \"{1}\".";
         public const string EuroClassRequired = "Please select valid Euro Class";
         public const string TypeRequired = "Please select valid vehicle Type";
         public const string BodyRequired = "Please select valid body Type";

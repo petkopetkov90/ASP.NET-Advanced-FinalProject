@@ -1,4 +1,5 @@
-﻿using FleetRouteManager.Services.Interfaces;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -141,9 +142,20 @@ namespace FleetRouteManager.Web.Controllers
                 return View(model);
             }
 
-            await vehicleService.AddNewVehicle(model);
+            try
+            {
+                await vehicleService.AddNewVehicle(model);
+                return RedirectToAction("Index");
+            }
+            catch (CustomDateFormatException e)
+            {
+                ModelState.AddModelError(e.PropertyName, e.Message);
 
-            return RedirectToAction("Index");
+                ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
+                ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
+
+                return View(model);
+            }
         }
     }
 }

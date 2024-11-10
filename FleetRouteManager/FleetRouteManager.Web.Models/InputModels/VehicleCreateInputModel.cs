@@ -1,7 +1,7 @@
 ﻿using FleetRouteManager.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
-using static FleetRouteManager.Data.Common.ErrorMessages.VehicleErrorMessages;
+using static FleetRouteManager.Common.ErrorMessages.VehicleErrorMessages;
 
 
 namespace FleetRouteManager.Web.Models.InputModels
