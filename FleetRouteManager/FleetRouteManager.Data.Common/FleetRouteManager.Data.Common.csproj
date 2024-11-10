@@ -12,8 +12,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ErrorMessages\" />
-  </ItemGroup>
-
 </Project>

@@ -1,0 +1,115 @@
+﻿@model VehicleCreateInputModel
+
+@{
+    ViewData["Title"] = "Create New Vehicle";
+}
+
+<h1 style="font-style: italic">@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.RegistrationNumber" style="font-style: italic; font-weight: 600">Registration Number</label>
+        <input asp-for="@Model.RegistrationNumber" class="form-control" />
+        <span asp-validation-for="@Model.RegistrationNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.ManufacturerId" style="font-style: italic; font-weight: 600">Manufacturer</label>
+        <select asp-for="@Model.ManufacturerId" asp-items="ViewBag.Manufacturers" class="form-control"></select>
+        <span asp-validation-for="@Model.ManufacturerId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.VehicleModel" style="font-style: italic; font-weight: 600">Model</label>
+        <input asp-for="@Model.VehicleModel" class="form-control" />
+        <span asp-validation-for="@Model.VehicleModel" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Vin" style="font-style: italic; font-weight: 600">VIN</label>
+        <input asp-for="@Model.Vin" class="form-control" />
+        <span asp-validation-for="@Model.Vin" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.FirstRegistration" style="font-style: italic; font-weight: 600">First Registration Date</label>
+        <input asp-for="@Model.FirstRegistration" type="text" class="form-control"
+               value="@(DateTime.Now.ToString("dd-MM-yyyy"))" />
+        <span asp-validation-for="@Model.FirstRegistration" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.EuroClass" style="font-style: italic; font-weight: 600">Euro Class</label>
+        <select asp-for="@Model.EuroClass" asp-items="Html.GetEnumSelectList<EuroClass>()" class="form-control"></select>
+        <span asp-validation-for="@Model.EuroClass" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.VehicleTypeId" style="font-style: italic; font-weight: 600">Vehicle Type</label>
+        <select asp-for="@Model.VehicleTypeId" asp-items="ViewBag.VehicleTypes" class="form-control"></select>
+        <span asp-validation-for="@Model.VehicleTypeId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.BodyType" style="font-style: italic; font-weight: 600">Body Type</label>
+        <select asp-for="@Model.BodyType" asp-items="Html.GetEnumSelectList<BodyType>()" class="form-control"></select>
+        <span asp-validation-for="@Model.BodyType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Axles" style="font-style: italic; font-weight: 600">Axles count</label>
+        <input asp-for="@Model.Axles" type="number" class="form-control" />
+        <span asp-validation-for="@Model.Axles" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.WeightCapacity" style="font-style: italic; font-weight: 600">Weight Capacity in tons</label>
+        <input asp-for="@Model.WeightCapacity" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="@Model.WeightCapacity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.AcquiredOn" style="font-style: italic; font-weight: 600">Acquired Date</label>
+        <input asp-for="@Model.AcquiredOn" type="text" class="form-control"
+               value="@(DateTime.Now.ToString("dd-MM-yyyy"))" />
+        <span asp-validation-for="@Model.AcquiredOn" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.LiabilityInsurance" style="font-style: italic; font-weight: 600">Liability Insurance</label>
+        <input asp-for="@Model.LiabilityInsurance" class="form-control" />
+        <span asp-validation-for="@Model.LiabilityInsurance" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.LiabilityInsuranceExpirationDate"
+               style="font-style: italic; font-weight: 600">Liability Insurance Expiration Date</label>
+        <input asp-for="@Model.LiabilityInsuranceExpirationDate" type="text" class="form-control" />
+        <span asp-validation-for="@Model.LiabilityInsuranceExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.TechnicalReviewExpirationDate"
+               style="font-style: italic; font-weight: 600">Technical Review Expiration Date</label>
+        <input asp-for="@Model.TechnicalReviewExpirationDate" type="text" class="form-control" />
+        <span asp-validation-for="@Model.TechnicalReviewExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.TachographExpirationDate"
+               style="font-style: italic; font-weight: 600">Tachograph Certificate Expiration Date</label>
+        <input asp-for="@Model.TachographExpirationDate" type="text" class="form-control" />
+        <span asp-validation-for="@Model.TachographExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div style="margin-top: 16px">
+        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Create</button>
+        <a asp-action="Index" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

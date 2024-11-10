@@ -37,7 +37,6 @@ namespace FleetRouteManager.Web.Controllers
             }
 
             var vehicles = await vehicleService.GetAllVehiclesAsync();
-
             return View(vehicles);
         }
 
@@ -78,7 +77,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            var returnUrl = Request.Headers?["Referer"].ToString();
+            var returnUrl = Request.Headers["Referer"].ToString();
 
             if (String.IsNullOrEmpty(returnUrl))
             {
@@ -86,7 +85,6 @@ namespace FleetRouteManager.Web.Controllers
             }
 
             ViewData["ReturnUrl"] = returnUrl;
-
             return View("DeleteConfirmation", model);
         }
 
@@ -101,12 +99,11 @@ namespace FleetRouteManager.Web.Controllers
             }
 
             await vehicleService.DeleteVehicleAsync(id);
-
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Add()
+        [HttpGet("Create")]
+        public async Task<IActionResult> Create()
         {
             var userId = userManager.GetUserId(User);
 
@@ -115,16 +112,13 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
-            ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
-
+            await SetVehicleViewDataSelectListsAsync();
             var model = new VehicleCreateInputModel();
-
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(VehicleCreateInputModel model)
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create(VehicleCreateInputModel model)
         {
             var userId = userManager.GetUserId(User);
 
@@ -135,27 +129,77 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-
-                ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
-                ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
-
+                await SetVehicleViewDataSelectListsAsync();
                 return View(model);
             }
 
             try
             {
-                await vehicleService.AddNewVehicle(model);
+                await vehicleService.CreateNewVehicle(model);
                 return RedirectToAction("Index");
             }
             catch (CustomDateFormatException e)
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
 
-                ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
-                ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
-
+                await SetVehicleViewDataSelectListsAsync();
                 return View(model);
             }
+
+        }
+
+        [HttpGet("Edit")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userId = userManager.GetUserId(User);
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            await SetVehicleViewDataSelectListsAsync();
+
+            var model = await vehicleService.GetVehicleEditModel(id);
+
+            return View(model);
+        }
+
+        [HttpPost("Edit")]
+        public async Task<IActionResult> Edit(VehicleEditInputModel model)
+        {
+            var userId = userManager.GetUserId(User);
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await SetVehicleViewDataSelectListsAsync();
+                return View(model);
+            }
+
+            try
+            {
+                await vehicleService.EditVehicle(model);
+                return RedirectToAction("Details", new { model.Id });
+            }
+            catch (CustomDateFormatException e)
+            {
+                ModelState.AddModelError(e.PropertyName, e.Message);
+
+                await SetVehicleViewDataSelectListsAsync();
+                return View(model);
+            }
+
+        }
+
+        private async Task SetVehicleViewDataSelectListsAsync()
+        {
+            ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
+            ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
         }
     }
 }

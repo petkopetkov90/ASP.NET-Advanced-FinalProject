@@ -9,6 +9,8 @@ namespace FleetRouteManager.Services.Interfaces
         public Task<VehicleDetailsViewModel?> GetVehicleDetailsModelAsync(int id);
         public Task<VehicleDeleteModel?> GetVehicleDeleteModelAsync(int id);
         public Task<bool> DeleteVehicleAsync(int id);
-        public Task<bool> AddNewVehicle(VehicleCreateInputModel vehicle);
+        public Task<bool> CreateNewVehicle(VehicleCreateInputModel vehicle);
+        public Task<VehicleEditInputModel> GetVehicleEditModel(int id);
+        public Task<bool> EditVehicle(VehicleEditInputModel model);
     }
 }

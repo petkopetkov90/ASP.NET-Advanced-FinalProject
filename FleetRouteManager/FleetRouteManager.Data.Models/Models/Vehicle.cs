@@ -8,7 +8,6 @@ using static FleetRouteManager.Common.Constants.VehicleConstants;
 
 namespace FleetRouteManager.Data.Models.Models
 {
-    //Vehicle - class for EF entity 
     public class Vehicle : ISoftDeletable
     {
         [Key]

@@ -14,7 +14,7 @@ namespace FleetRouteManager.Web.Models.ViewModels
 
         public string? Model { get; set; }
 
-        public required DateTime FirstRegistrationDate { get; set; }
+        public required string FirstRegistrationDate { get; set; }
 
         public required EuroClass EuroClass { get; set; }
 

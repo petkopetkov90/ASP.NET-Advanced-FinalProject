@@ -33,7 +33,7 @@
             <tr>
                 <h5 style="font-style: italic; text-decoration-line: underline">Additional Information</h5>
                 <th scope="col">Axles</th>
-                <th scope="col">Capacity</th>
+                <th scope="col">Capacity in tons</th>
                 <th scope="col">Acquired On</th>
                 <th scope="col">Type</th>
                 <th scope="col">Body</th>
@@ -42,7 +42,7 @@
         <tbody>
             <tr>
                 <td>@Model.Axles</td>
-                <td>@($"{Model.WeightCapacity:f2}t")</td>
+                <td>@Model.WeightCapacity</td>
                 <td>@Model.AcquiredOn</td>
                 <td>@Model.Type</td>
                 <td>@Model.BodyType</td>
@@ -69,12 +69,12 @@
         </tbody>
     </table>
     <div class="text center" style="width: 100%; margin: 0">
-        <div style="display: inline-flex; gap: 10px;">
-            <a asp-action="Index" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;" class="btn btn-primary">Back</a>
+        <div style="display: inline-flex; column-gap: 5px">
+            <a asp-action="Index" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 40px" class="btn btn-primary">Back</a>
             @*             @if (User.IsInRole("Admin"))
             { *@
-            <a asp-action="Edit" asp-controller="Vehicle" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;" class="btn btn-warning">Edit</a>
-            <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;" class="btn btn-danger">Delete</a>
+            <a asp-action="Edit" asp-controller="Vehicle" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 40px" class="btn btn-warning">Edit</a>
+            <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 40px" class="btn btn-danger">Delete</a>
             @* } *@
         </div>
     </div>

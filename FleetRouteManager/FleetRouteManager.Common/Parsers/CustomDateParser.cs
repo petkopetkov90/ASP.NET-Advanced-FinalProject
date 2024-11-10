@@ -15,10 +15,10 @@ namespace FleetRouteManager.Common.Parsers
             }
             catch (FormatException)
             {
-                throw new CustomDateFormatException(fieldName, string.Format(InvalidDate, dateString, dateFormat));
+                throw new CustomDateFormatException(fieldName, string.Format(InvalidDateException, dateString, dateFormat));
             }
         }
-        public static DateTime? CustomNullableDateParseExact(string dateString, string dateFormat, string fieldName)
+        public static DateTime? CustomNullableDateParseExact(string? dateString, string dateFormat, string fieldName)
         {
             if (string.IsNullOrEmpty(dateString))
             {

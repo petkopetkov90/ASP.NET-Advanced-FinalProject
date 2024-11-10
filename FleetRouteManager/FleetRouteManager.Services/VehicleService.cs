@@ -33,7 +33,7 @@ namespace FleetRouteManager.Services
                     Vin = v.Vin,
                     Manufacturer = v.Manufacturer.Name,
                     Model = v.Model,
-                    FirstRegistrationDate = v.FirstRegistration,
+                    FirstRegistrationDate = v.FirstRegistration.ToString("dd-MM-yyyy"),
                     EuroClass = v.EuroClass,
                     Type = v.VehicleType.Type
 
@@ -102,12 +102,12 @@ namespace FleetRouteManager.Services
 
             vehicle.IsDeleted = true;
 
-            return await repository.SaveAsync();
+            return await repository.UpdateAsync(vehicle);
         }
 
-        public async Task<bool> AddNewVehicle(VehicleCreateInputModel model)
+        public async Task<bool> CreateNewVehicle(VehicleCreateInputModel model)
         {
-            if (await repository.GetAllAsIQueryable().FirstOrDefaultAsync(v => v.RegistrationNumber == model.RegistrationNumber) != null)
+            if (await CheckForRegistrationNumber(model.RegistrationNumber))
             {
                 return false;
             }
@@ -118,7 +118,7 @@ namespace FleetRouteManager.Services
                 ManufacturerId = model.ManufacturerId,
                 Model = model.VehicleModel,
                 Vin = model.Vin,
-                FirstRegistration = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "FirstRegistration"),
+                FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, "FirstRegistration"),
                 EuroClass = model.EuroClass,
                 VehicleTypeId = model.VehicleTypeId,
                 BodyType = model.BodyType,
@@ -126,13 +126,87 @@ namespace FleetRouteManager.Services
                 WeightCapacity = model.WeightCapacity,
                 AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "AcquiredOn"),
                 LiabilityInsurance = model.LiabilityInsurance,
-                LiabilityInsuranceExpirationDate = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "LiabilityInsuranceExpirationDate"),
-                TechnicalReviewExpirationDate = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "TechnicalReviewExpirationDate"),
-                TachographExpirationDate = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "TachographExpirationDate")
+                LiabilityInsuranceExpirationDate = CustomNullableDateParseExact(model.LiabilityInsuranceExpirationDate, VehicleDateFormat, "LiabilityInsuranceExpirationDate"),
+                TechnicalReviewExpirationDate = CustomNullableDateParseExact(model.TechnicalReviewExpirationDate, VehicleDateFormat, "TechnicalReviewExpirationDate"),
+                TachographExpirationDate = CustomNullableDateParseExact(model.TachographExpirationDate, VehicleDateFormat, "TachographExpirationDate")
             };
 
 
             return await repository.AddAsync(vehicle);
+        }
+
+        public async Task<VehicleEditInputModel> GetVehicleEditModel(int id)
+        {
+            var vehicle = await repository.GetByIdAsync(id);
+
+            if (vehicle == null)
+            {
+                return null;
+            }
+
+            var model = new VehicleEditInputModel
+            {
+                Id = vehicle.Id,
+                RegistrationNumber = vehicle.RegistrationNumber,
+                VehicleModel = vehicle.Model,
+                ManufacturerId = vehicle.ManufacturerId,
+                Vin = vehicle.Vin,
+                FirstRegistration = vehicle.FirstRegistration.ToString(VehicleDateFormat),
+                EuroClass = vehicle.EuroClass,
+                VehicleTypeId = vehicle.VehicleTypeId,
+                BodyType = vehicle.BodyType,
+                Axles = vehicle.Axles,
+                WeightCapacity = vehicle.WeightCapacity,
+                AcquiredOn = vehicle.AcquiredOn.ToString(VehicleDateFormat),
+                LiabilityInsurance = vehicle.LiabilityInsurance,
+                LiabilityInsuranceExpirationDate = vehicle.LiabilityInsuranceExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
+                TechnicalReviewExpirationDate = vehicle.TechnicalReviewExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
+                TachographExpirationDate = vehicle.TachographExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
+            };
+
+            return model;
+        }
+
+        public async Task<bool> EditVehicle(VehicleEditInputModel model)
+        {
+            var vehicle = await repository.GetByIdAsync(model.Id);
+
+            if (vehicle == null)
+            {
+                return false;
+            }
+
+            if (model.RegistrationNumber != vehicle.RegistrationNumber && await CheckForRegistrationNumber(model.RegistrationNumber))
+            {
+                return false;
+            }
+
+            vehicle.RegistrationNumber = model.RegistrationNumber;
+            vehicle.ManufacturerId = model.ManufacturerId;
+            vehicle.Model = model.VehicleModel;
+            vehicle.Vin = model.Vin;
+            vehicle.FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, "FirstRegistration");
+            vehicle.EuroClass = model.EuroClass;
+            vehicle.VehicleTypeId = model.VehicleTypeId;
+            vehicle.BodyType = model.BodyType;
+            vehicle.Axles = model.Axles;
+            vehicle.WeightCapacity = model.WeightCapacity;
+            vehicle.AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "AcquiredOn");
+            vehicle.LiabilityInsurance = model.LiabilityInsurance;
+            vehicle.LiabilityInsuranceExpirationDate = CustomNullableDateParseExact(
+                model.LiabilityInsuranceExpirationDate, VehicleDateFormat, "LiabilityInsuranceExpirationDate");
+            vehicle.TechnicalReviewExpirationDate = CustomNullableDateParseExact(model.TechnicalReviewExpirationDate,
+                VehicleDateFormat, "TechnicalReviewExpirationDate");
+            vehicle.TachographExpirationDate = CustomNullableDateParseExact(model.TachographExpirationDate,
+                VehicleDateFormat, "TachographExpirationDate");
+
+            return await repository.UpdateAsync(vehicle);
+        }
+
+        private async Task<bool> CheckForRegistrationNumber(string registrationNumber)
+        {
+            return await repository.GetAllAsIQueryable()
+                .FirstOrDefaultAsync(v => v.RegistrationNumber == registrationNumber) != null;
         }
     }
 }
