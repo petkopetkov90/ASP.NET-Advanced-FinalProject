@@ -1,4 +1,4 @@
-﻿using FleetRouteManager.Data.Models.Models;
+﻿using FleetRouteManager.Data.Models;
 
 namespace FleetRouteManager.Services.Interfaces
 {

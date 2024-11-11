@@ -1,10 +1,10 @@
 ﻿using FleetRouteManager.Data.Configurations;
-using FleetRouteManager.Data.Models.Models;
+using FleetRouteManager.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace FleetRouteManager.Data.Data
+namespace FleetRouteManager.Data
 {
     public class FleetRouteManagerDbContext : IdentityDbContext<IdentityUser>
     {

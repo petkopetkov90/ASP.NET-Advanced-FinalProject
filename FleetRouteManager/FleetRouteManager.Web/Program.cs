@@ -1,4 +1,4 @@
-using FleetRouteManager.Data.Data;
+using FleetRouteManager.Data;
 using FleetRouteManager.Web.Common.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

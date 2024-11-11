@@ -1,25 +1,26 @@
 ﻿using FleetRouteManager.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using static FleetRouteManager.Common.Constants.ManufacturerConstants;
+using static FleetRouteManager.Common.Constants.VehicleTypeConstants;
 
-namespace FleetRouteManager.Data.Models.Models
+
+namespace FleetRouteManager.Data.Models
 {
-    public class Manufacturer : ISoftDeletable
+    public class VehicleType : ISoftDeletable
     {
         [Key]
-        [Comment("Primary Key for Manufacturer entity")]
+        [Comment("Primary key for Vehicle Type")]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(NameMaxLength)]
-        [Comment("Manufacturer Name")]
-        public string Name { get; set; } = null!;
+        [Comment("Type of vehicle")]
+        public string Type { get; set; } = null!;
 
-        [Comment("Soft Delete")]
+        [Comment("Indicates if the Type was deleted")]
         public bool IsDeleted { get; set; } = false;
 
-        [Comment("Deletion date")]
+        [Comment("Date and time when the Type was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();

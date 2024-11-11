@@ -1,5 +1,4 @@
-﻿using FleetRouteManager.Data.Data;
-using FleetRouteManager.Data.Models.Interfaces;
+﻿using FleetRouteManager.Data.Models.Interfaces;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
 
 
-namespace FleetRouteManager.Data.Models.Models
+namespace FleetRouteManager.Data.Models
 {
     public class Vehicle : ISoftDeletable
     {

@@ -1,5 +1,5 @@
 ﻿using FleetRouteManager.Common.Enums;
-using FleetRouteManager.Data.Models.Models;
+using FleetRouteManager.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

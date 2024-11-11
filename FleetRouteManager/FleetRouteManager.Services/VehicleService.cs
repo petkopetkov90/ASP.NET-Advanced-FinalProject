@@ -1,4 +1,4 @@
-﻿using FleetRouteManager.Data.Models.Models;
+﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels;
@@ -141,7 +141,7 @@ namespace FleetRouteManager.Services
 
             if (vehicle == null)
             {
-                return null;
+                return null!;
             }
 
             var model = new VehicleEditInputModel
