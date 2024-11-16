@@ -4,9 +4,12 @@ using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.InputModels;
+using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;
+using System.Linq.Expressions;
 
 namespace FleetRouteManager.Tests.ServicesTests
 {
@@ -30,9 +33,9 @@ namespace FleetRouteManager.Tests.ServicesTests
 
             this.context = new FleetRouteManagerDbContext(options);
 
-            mockRepository.Setup(repo => repo.GetAllAsIQueryable()).Returns(context.Vehicles);
-
             await SeedInMemoryDatabase();
+
+            MockConfig();
         }
 
         [TearDown]
@@ -42,14 +45,18 @@ namespace FleetRouteManager.Tests.ServicesTests
         }
 
         [Test]
-        public async Task GetAllVehiclesAsyncShouldReturnProperCollectionWithoutSoftDeletedEntities()
+        public async Task GetAllVehiclesAsyncShouldReturnCollectionWithoutSoftDeletedEntities()
         {
             var result = await vehicleService.GetAllVehiclesAsync();
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Count(), Is.EqualTo(context.Vehicles.Count(v => v.IsDeleted == false)));
-            Assert.That(result.Count(), Is.Not.EqualTo(context.Vehicles.Count()));
+
+            foreach (var model in result)
+            {
+                Assert.That(model, Is.InstanceOf<VehicleViewModel>());
+            }
 
             foreach (var vehicle in context.Vehicles)
             {
@@ -60,12 +67,259 @@ namespace FleetRouteManager.Tests.ServicesTests
 
             result = await vehicleService.GetAllVehiclesAsync();
 
-            Assert.That(result.Count(), Is.EqualTo(0));
             Assert.That(result, Is.Empty);
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task GetVehicleDetailsModelAsyncShouldReturnModel(int id)
+        {
+            var result = await vehicleService.GetVehicleDetailsModelAsync(id);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<VehicleDetailsViewModel>());
+            Assert.That(result.Manufacturer, Is.Not.Null);
+            Assert.That(result.Type, Is.Not.Null);
+
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(-999)]
+        [TestCase(3)]
+        [TestCase(10)]
+        public async Task GetVehicleDetailsModelAsyncShouldReturnNullWhenIdIsIncorrect(int id)
+        {
+            var result = await vehicleService.GetVehicleDetailsModelAsync(id);
+
+            Assert.That(result, Is.Null);
+            Assert.That(result?.Manufacturer, Is.Null);
+            Assert.That(result?.Type, Is.Null);
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task GetVehicleDeleteModelAsyncShouldReturnModel(int id)
+        {
+            var result = await vehicleService.GetVehicleDeleteModelAsync(id);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<VehicleDeleteModel>());
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(3)]
+        public async Task GetVehicleDeleteModelAsyncShouldReturnNullWhenIdIsIncorrectOrEntityIsDeleted(int id)
+        {
+            var result = await vehicleService.GetVehicleDeleteModelAsync(id);
+
+            Assert.That(result, Is.Null);
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task DeleteVehicleAsyncShouldReturnTrueAndUpdateThisEntity(int id)
+        {
+            var result = await vehicleService.DeleteVehicleAsync(id);
+
+            Assert.That(result, Is.True);
+
+            var deletedEntity = await context.Vehicles.FindAsync(id);
+
+            Assert.That(deletedEntity?.IsDeleted, Is.True);
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(3)]
+        public async Task DeleteVehicleAsyncShouldReturnFalseWhenIdIsIncorrectOrEntityIsDeleted(int id)
+        {
+            var result = await vehicleService.DeleteVehicleAsync(id);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public async Task CreateNewVehicleAsyncShouldReturnTrueAndAddNewEntity()
+        {
+            var model = new VehicleCreateInputModel
+            {
+                RegistrationNumber = "CB 4444 CB",
+                Vin = "4444444444",
+                ManufacturerId = 1,
+                VehicleModel = "New Model",
+                FirstRegistration = "04-04-2024",
+                EuroClass = EuroClass.Euro1,
+                VehicleTypeId = 1,
+                BodyType = BodyType.Curtain,
+                Axles = 2,
+                WeightCapacity = 1.64,
+                AcquiredOn = "04-04-2024",
+                LiabilityInsurance = "040/LEV/4444444444-44",
+            };
+
+            var result = await vehicleService.CreateNewVehicleAsync(model);
+
+            Assert.That(result, Is.True);
+
+            var totalVehicles = await context.Vehicles.CountAsync();
+
+            Assert.That(totalVehicles, Is.EqualTo(4));
+        }
+
+        [Test]
+        public async Task CreateNewVehicleAsyncShouldReturnFalseIfEntityWithSameRegistrationNumberExists()
+        {
+            var model = new VehicleCreateInputModel
+            {
+                RegistrationNumber = "CB 1111 CB",
+                Vin = "4444444444",
+                ManufacturerId = 1,
+                VehicleModel = "New Model",
+                FirstRegistration = "04-04-2024",
+                EuroClass = EuroClass.Euro1,
+                VehicleTypeId = 1,
+                BodyType = BodyType.Curtain,
+                Axles = 2,
+                WeightCapacity = 1.64,
+                AcquiredOn = "04-04-2024",
+                LiabilityInsurance = "040/LEV/4444444444-44",
+            };
+
+            var result = await vehicleService.CreateNewVehicleAsync(model);
+
+            Assert.That(result, Is.False);
+
+            var totalVehicles = await context.Vehicles.CountAsync();
+
+            Assert.That(totalVehicles, Is.EqualTo(3));
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task GetVehicleEditModelAsyncShouldReturnVehicleEditInputModel(int id)
+        {
+            var model = await vehicleService.GetVehicleEditModelAsync(id);
+
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model, Is.TypeOf<VehicleEditInputModel>());
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(3)]
+        public async Task GetVehicleEditModelAsyncShouldReturnNullIfIdDoesNotExistsOrEntityIsDeleted(int id)
+        {
+            var model = await vehicleService.GetVehicleEditModelAsync(id);
+
+            Assert.That(model, Is.Null);
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task EditVehicleShouldReturnTrueAndUpdateThisEntity(int id)
+        {
+            var model = new VehicleEditInputModel
+            {
+                Id = id,
+                RegistrationNumber = "CB 4444 CB",
+                Vin = "4444444444",
+                ManufacturerId = 1,
+                VehicleModel = "New Model",
+                FirstRegistration = "04-04-2024",
+                EuroClass = EuroClass.Euro1,
+                VehicleTypeId = 1,
+                BodyType = BodyType.Curtain,
+                Axles = 2,
+                WeightCapacity = 1.64,
+                AcquiredOn = "04-04-2024",
+                LiabilityInsurance = "040/LEV/4444444444-44",
+            };
+
+            var result = await vehicleService.EditVehicleAsync(model);
+
+            Assert.That(result, Is.True);
+
+            var vehicle = await context.Vehicles.FindAsync(model.Id);
+
+            Assert.That(vehicle?.RegistrationNumber, Is.EqualTo(model.RegistrationNumber));
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(3)]
+        public async Task EditVehicleShouldReturnFalseWhenIdDoesNotExistsOrEntityIsDeleted(int id)
+        {
+            var model = new VehicleEditInputModel
+            {
+                Id = id,
+                RegistrationNumber = "CB 4444 CB",
+                Vin = "4444444444",
+                ManufacturerId = 1,
+                VehicleModel = "New Model",
+                FirstRegistration = "04-04-2024",
+                EuroClass = EuroClass.Euro1,
+                VehicleTypeId = 1,
+                BodyType = BodyType.Curtain,
+                Axles = 2,
+                WeightCapacity = 1.64,
+                AcquiredOn = "04-04-2024",
+                LiabilityInsurance = "040/LEV/4444444444-44",
+            };
+
+            var result = await vehicleService.EditVehicleAsync(model);
+
+            Assert.That(result, Is.False);
+        }
+
+        private void MockConfig()
+        {
+            mockRepository.Setup(repo => repo.GetAllAsIQueryable())
+                .Returns(context.Vehicles);
+
+            mockRepository.Setup(repo => repo.GetWhereAsIQueryable(It.IsAny<Expression<Func<Vehicle, bool>>>()))
+                .Returns((Expression<Func<Vehicle, bool>> predicate) => context.Vehicles.Where(predicate));
+
+            mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>()))
+                .Returns((int id) => Task.Run(async () => await context.Vehicles.FindAsync(id)));
+
+            mockRepository.Setup(repo => repo.UpdateAsync(It.IsAny<Vehicle>()))
+                .Returns((Vehicle entity) =>
+                {
+                    return Task.Run(async () =>
+                    {
+                        var entry = context.Entry(entity);
+
+                        if (entry.State == EntityState.Detached)
+                        {
+                            context.Vehicles.Attach(entity);
+                        }
+
+                        context.Vehicles.Update(entity);
+                        return await context.SaveChangesAsync() > 0;
+                    });
+                });
+
+            mockRepository.Setup(repo => repo.AddAsync(It.IsAny<Vehicle>()))
+                .Returns((Vehicle entity) =>
+                {
+                    return Task.Run(async () =>
+                    {
+                        await context.Vehicles.AddAsync(entity);
+                        return await context.SaveChangesAsync() > 0;
+                    });
+                });
+
         }
 
         private async Task SeedInMemoryDatabase()
         {
+            context.Vehicles.RemoveRange(context.Vehicles);
+            context.Manufacturers.RemoveRange(context.Manufacturers);
+            context.VehicleTypes.RemoveRange(context.VehicleTypes);
+            await context.SaveChangesAsync();
+
             var vehicles = new List<Vehicle>
             {
                 new Vehicle
@@ -77,7 +331,13 @@ namespace FleetRouteManager.Tests.ServicesTests
                     Model = "First Model",
                     FirstRegistration = new DateTime(2001, 01,01),
                     EuroClass = EuroClass.Euro1,
-                    VehicleType= new VehicleType{Id = 1, Type = "First"}
+                    VehicleType= new VehicleType{Id = 1, Type = "First"},
+                    BodyType = BodyType.Curtain,
+                    Axles = 2,
+                    WeightCapacity = 1.64,
+                    AcquiredOn = new DateTime(2024, 01, 01),
+                    LiabilityInsurance = "010/LEV/1111111111-11",
+                    LiabilityInsuranceExpirationDate = new DateTime(2025, 01, 01)
                 },
                 new Vehicle
                 {
@@ -88,7 +348,14 @@ namespace FleetRouteManager.Tests.ServicesTests
                     Model = "Second Model",
                     FirstRegistration = new DateTime(2002, 02,02),
                     EuroClass = EuroClass.Euro2,
-                    VehicleType= new VehicleType{Id = 2, Type = "Second"}
+                    VehicleType= new VehicleType{Id = 2, Type = "Second"},
+                    BodyType = BodyType.Box,
+                    Axles = 2,
+                    WeightCapacity = 4.7,
+                    AcquiredOn = new DateTime(2024, 02, 02),
+                    LiabilityInsurance = "020/LEV/2222222222-22",
+                    LiabilityInsuranceExpirationDate = new DateTime(2025, 02, 02),
+                    TechnicalReviewExpirationDate = new DateTime(2025, 02, 02)
                 },
                 new Vehicle
                 {
@@ -100,6 +367,13 @@ namespace FleetRouteManager.Tests.ServicesTests
                     FirstRegistration = new DateTime(2003, 03,03),
                     EuroClass = EuroClass.Euro3,
                     VehicleType= new VehicleType{Id = 3, Type = "Third"},
+                    BodyType = BodyType.Frigo,
+                    Axles = 3,
+                    WeightCapacity = 9,
+                    AcquiredOn = new DateTime(2024, 03, 03),
+                    LiabilityInsurance = "030/LEV/3333333333-33",
+                    LiabilityInsuranceExpirationDate = new DateTime(2025, 03, 03),
+                    TachographExpirationDate = new DateTime(2025, 03, 03),
                     IsDeleted = true
                 }
             };

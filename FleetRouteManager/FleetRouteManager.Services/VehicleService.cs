@@ -95,7 +95,7 @@ namespace FleetRouteManager.Services
         {
             var vehicle = await repository.GetByIdAsync(id);
 
-            if (vehicle == null)
+            if (vehicle == null || vehicle.IsDeleted)
             {
                 return false;
             }
@@ -105,7 +105,7 @@ namespace FleetRouteManager.Services
             return await repository.UpdateAsync(vehicle);
         }
 
-        public async Task<bool> CreateNewVehicle(VehicleCreateInputModel model)
+        public async Task<bool> CreateNewVehicleAsync(VehicleCreateInputModel model)
         {
             if (await CheckForRegistrationNumber(model.RegistrationNumber))
             {
@@ -135,11 +135,11 @@ namespace FleetRouteManager.Services
             return await repository.AddAsync(vehicle);
         }
 
-        public async Task<VehicleEditInputModel> GetVehicleEditModel(int id)
+        public async Task<VehicleEditInputModel> GetVehicleEditModelAsync(int id)
         {
             var vehicle = await repository.GetByIdAsync(id);
 
-            if (vehicle == null)
+            if (vehicle == null || vehicle.IsDeleted)
             {
                 return null!;
             }
@@ -167,11 +167,11 @@ namespace FleetRouteManager.Services
             return model;
         }
 
-        public async Task<bool> EditVehicle(VehicleEditInputModel model)
+        public async Task<bool> EditVehicleAsync(VehicleEditInputModel model)
         {
             var vehicle = await repository.GetByIdAsync(model.Id);
 
-            if (vehicle == null)
+            if (vehicle == null || vehicle.IsDeleted)
             {
                 return false;
             }
@@ -206,7 +206,8 @@ namespace FleetRouteManager.Services
         private async Task<bool> CheckForRegistrationNumber(string registrationNumber)
         {
             return await repository.GetAllAsIQueryable()
-                .FirstOrDefaultAsync(v => v.RegistrationNumber == registrationNumber) != null;
+                .Select(v => v.RegistrationNumber)
+                .FirstOrDefaultAsync(r => r == registrationNumber) != null;
         }
     }
 }

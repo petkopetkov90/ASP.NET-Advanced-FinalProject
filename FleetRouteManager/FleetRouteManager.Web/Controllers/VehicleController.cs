@@ -29,9 +29,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Vehicles")]
         public async Task<IActionResult> Index()
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -40,12 +38,11 @@ namespace FleetRouteManager.Web.Controllers
             return View(vehicles);
         }
 
+
         [HttpGet("Details")]
         public async Task<IActionResult> Details(int id)
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -54,6 +51,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
+                //TODO: Vehicle not found!
                 return RedirectToAction("Index");
             }
 
@@ -63,9 +61,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -91,9 +87,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpPost("DeleteConfirmation")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -105,9 +99,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -120,9 +112,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Create(VehicleCreateInputModel model)
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -135,7 +125,7 @@ namespace FleetRouteManager.Web.Controllers
 
             try
             {
-                await vehicleService.CreateNewVehicle(model);
+                await vehicleService.CreateNewVehicleAsync(model);
                 return RedirectToAction("Index");
             }
             catch (CustomDateFormatException e)
@@ -151,16 +141,14 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(int id)
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
 
             await SetVehicleViewDataSelectListsAsync();
 
-            var model = await vehicleService.GetVehicleEditModel(id);
+            var model = await vehicleService.GetVehicleEditModelAsync(id);
 
             return View(model);
         }
@@ -168,9 +156,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpPost("Edit")]
         public async Task<IActionResult> Edit(VehicleEditInputModel model)
         {
-            var userId = userManager.GetUserId(User);
-
-            if (userId == null)
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -183,7 +169,7 @@ namespace FleetRouteManager.Web.Controllers
 
             try
             {
-                await vehicleService.EditVehicle(model);
+                await vehicleService.EditVehicleAsync(model);
                 return RedirectToAction("Details", new { model.Id });
             }
             catch (CustomDateFormatException e)
