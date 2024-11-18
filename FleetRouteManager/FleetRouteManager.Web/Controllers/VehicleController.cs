@@ -29,7 +29,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Vehicles")]
         public async Task<IActionResult> Index()
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -42,7 +42,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Details")]
         public async Task<IActionResult> Details(int id)
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -61,7 +61,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -87,7 +87,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpPost("DeleteConfirmation")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -99,7 +99,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -112,7 +112,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Create(VehicleCreateInputModel model)
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -141,7 +141,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(int id)
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -156,7 +156,7 @@ namespace FleetRouteManager.Web.Controllers
         [HttpPost("Edit")]
         public async Task<IActionResult> Edit(VehicleEditInputModel model)
         {
-            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
