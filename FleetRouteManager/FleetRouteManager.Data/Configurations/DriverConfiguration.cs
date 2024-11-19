@@ -30,7 +30,7 @@ namespace FleetRouteManager.Data.Configurations
                         ProfessionalQualificationCard = "PQ111111",
                         ProfessionalQualificationCardExpirationDate = new DateTime(2025, 01, 11),
                         DateOfBirth = new DateTime(2001, 01, 01),
-                        EmployedAt = new DateTime(2021, 01, 01)
+                        EmployedOn = new DateTime(2021, 01, 01)
                     },
                     new Driver
                     {
@@ -47,7 +47,7 @@ namespace FleetRouteManager.Data.Configurations
                         ProfessionalQualificationCard = "PQ222222",
                         ProfessionalQualificationCardExpirationDate = new DateTime(2025, 02, 12),
                         DateOfBirth = new DateTime(2002, 02, 02),
-                        EmployedAt = new DateTime(2022, 02, 02)
+                        EmployedOn = new DateTime(2022, 02, 02)
                     },
                     new Driver
                     {
@@ -64,7 +64,7 @@ namespace FleetRouteManager.Data.Configurations
                         ProfessionalQualificationCard = "PQ111111",
                         ProfessionalQualificationCardExpirationDate = new DateTime(2025, 03, 13),
                         DateOfBirth = new DateTime(2003, 03, 03),
-                        EmployedAt = new DateTime(2023, 03, 03)
+                        EmployedOn = new DateTime(2023, 03, 03)
                     }
                 );
         }

@@ -1,13 +1,88 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FleetRouteManager.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FleetRouteManager.Web.Controllers
 {
+    [Authorize]
     public class DriverController : Controller
     {
-        public IActionResult Index()
-        {
+        private readonly IDriverService driverService;
 
-            return View();
+        public DriverController(IDriverService driverService)
+        {
+            this.driverService = driverService;
+        }
+
+        [HttpGet("Drivers")]
+        public async Task<IActionResult> Index()
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = await driverService.GetAllDriversAsync();
+
+            return View(model);
+        }
+
+        [HttpGet("Driver Details")]
+        public async Task<IActionResult> Details(int id)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = await driverService.GetDriverDetailsAsync(id);
+
+            if (model == null)
+            {
+                //TODO: Vehicle not found!
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet("Delete Driver")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = await driverService.GetDriverDeleteModelAsync(id);
+
+            if (model == null)
+            {
+                //TODO: Vehicle not found!
+                return RedirectToAction("Index");
+            }
+
+            var returnUrl = Request.Headers["Referer"].ToString();
+
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = Url.Action("Index", "Driver");
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View("DeleteConfirmation", model);
+        }
+
+        [HttpPost("Delete Driver Confirmation")]
+        public async Task<IActionResult> DeleteConfirmation(int id)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            await driverService.DeleteDriverAsync(id);
+            return RedirectToAction("Index");
         }
     }
 }

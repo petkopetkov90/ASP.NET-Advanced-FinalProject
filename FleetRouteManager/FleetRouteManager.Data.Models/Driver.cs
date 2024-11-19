@@ -73,7 +73,14 @@ namespace FleetRouteManager.Data.Models
 
         [Required]
         [Comment("Driver's employing date")]
-        public DateTime EmployedAt { get; set; }
+        public DateTime EmployedOn { get; set; }
+
+        [MaxLength(DriverMedicalInsuranceLength)]
+        [Comment("Driver's Medical Insurance")]
+        public string? MedicalInsurance { get; set; }
+
+        [Comment("Driver's Medical Insurance expiration date")]
+        public DateTime? MedicalInsuranceExpirationDate { get; set; }
 
 
         [Comment("Indicates if the Driver was released")]

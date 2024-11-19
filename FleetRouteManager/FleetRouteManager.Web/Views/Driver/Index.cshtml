@@ -5,11 +5,11 @@
 }
 <div class="text center" style="width: 100%; margin: 0;">
     <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
-        <thead style="font-style: italic">
+        <thead style="font-style: italic; text-decoration: underline">
             <tr>
                 <th style="padding: 15px" scope="col">Driver Names</th>
-                <th style="padding: 15px" scope="col">Driver's Phone'</th>
-                <th style="padding: 15px" scope="col">Driver's License</th>
+                <th style="padding: 15px" scope="col">Driver Phone</th>
+                <th style="padding: 15px" scope="col">Driver License</th>
                 <th style="padding: 15px" scope="col">Employed at</th>
             </tr>
         </thead>
@@ -17,9 +17,9 @@
             @foreach (var driver in Model)
             {
                 <tr>
-                    <th style="padding: 15px">@driver.FirstName @driver.MiddleName @driver.LastName</th>
+                    <th style="padding: 15px">@driver.FullName</th>
                     <td style="padding: 15px">@driver.PhoneNumber</td>
-                    <td style="padding: 15px">@driver.LicenseNumber</td>
+                    <td style="padding: 15px">@driver.DrivingLicense</td>
                     <td style="padding: 15px">@driver.EmployedAt</td>
                     <td style="padding: 5px 0px">
                         <a asp-action="Details" asp-controller="Driver" asp-route-id="@driver.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>

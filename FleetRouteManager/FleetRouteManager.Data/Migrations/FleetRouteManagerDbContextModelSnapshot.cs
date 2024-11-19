@@ -54,7 +54,7 @@ namespace FleetRouteManager.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Driver's Driving License expiration date");
 
-                    b.Property<DateTime>("EmployedAt")
+                    b.Property<DateTime>("EmployedOn")
                         .HasColumnType("datetime2")
                         .HasComment("Driver's employing date");
 
@@ -83,6 +83,15 @@ namespace FleetRouteManager.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasComment("Driver's Last Name");
+
+                    b.Property<string>("MedicalInsurance")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)")
+                        .HasComment("Driver's Medical Insurance");
+
+                    b.Property<DateTime?>("MedicalInsuranceExpirationDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("Driver's Medical Insurance expiration date");
 
                     b.Property<string>("MiddleName")
                         .IsRequired()
@@ -126,7 +135,7 @@ namespace FleetRouteManager.Data.Migrations
                             DateOfBirth = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DrivingLicense = "D111111111",
                             DrivingLicenseExpirationDate = new DateTime(2025, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EmployedAt = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployedOn = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ivan",
                             IdentityCard = "111111111",
                             IdentityCardExpirationDate = new DateTime(2025, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -144,7 +153,7 @@ namespace FleetRouteManager.Data.Migrations
                             DateOfBirth = new DateTime(2002, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DrivingLicense = "D222222222",
                             DrivingLicenseExpirationDate = new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EmployedAt = new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployedOn = new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Georgi",
                             IdentityCard = "222222222",
                             IdentityCardExpirationDate = new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -162,7 +171,7 @@ namespace FleetRouteManager.Data.Migrations
                             DateOfBirth = new DateTime(2003, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DrivingLicense = "D333333333",
                             DrivingLicenseExpirationDate = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EmployedAt = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployedOn = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Petar",
                             IdentityCard = "333333333",
                             IdentityCardExpirationDate = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),

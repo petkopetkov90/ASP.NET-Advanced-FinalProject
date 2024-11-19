@@ -33,12 +33,12 @@ namespace FleetRouteManager.Services
                     Vin = v.Vin,
                     Manufacturer = v.Manufacturer.Name,
                     Model = v.Model,
-                    FirstRegistrationDate = v.FirstRegistration.ToString("dd-MM-yyyy"),
+                    FirstRegistrationDate = v.FirstRegistration.ToString(VehicleDateFormat),
                     EuroClass = v.EuroClass,
                     Type = v.VehicleType.Type
 
                 })
-                .OrderBy(v => v.RegistrationNumber)
+                .OrderBy(v => v.Id)
                 .ToListAsync();
         }
 
@@ -62,17 +62,17 @@ namespace FleetRouteManager.Services
                 Vin = vehicle.Vin,
                 Manufacturer = vehicle.Manufacturer.Name,
                 Model = vehicle.Model,
-                FirstRegistrationDate = vehicle.FirstRegistration.ToString("dd-MM-yyyy"),
+                FirstRegistrationDate = vehicle.FirstRegistration.ToString(VehicleDateFormat),
                 EuroClass = vehicle.EuroClass,
                 Type = vehicle.VehicleType.Type,
                 BodyType = vehicle.BodyType,
                 Axles = vehicle.Axles,
                 WeightCapacity = vehicle.WeightCapacity,
-                AcquiredOn = vehicle.AcquiredOn.ToString("dd-MM-yyyy"),
+                AcquiredOn = vehicle.AcquiredOn.ToString(VehicleDateFormat),
                 LiabilityInsurance = vehicle.LiabilityInsurance,
-                LiabilityInsuranceExpirationDate = vehicle.LiabilityInsuranceExpirationDate?.ToString("dd-MM-yyyy") ?? "",
-                TechnicalReviewExpirationDate = vehicle.TechnicalReviewExpirationDate?.ToString("dd-MM-yyyy") ?? "",
-                TachographExpirationDate = vehicle.TachographExpirationDate?.ToString("dd-MM-yyyy") ?? ""
+                LiabilityInsuranceExpirationDate = vehicle.LiabilityInsuranceExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
+                TechnicalReviewExpirationDate = vehicle.TechnicalReviewExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
+                TachographExpirationDate = vehicle.TachographExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty
             };
 
             return model;
@@ -101,6 +101,7 @@ namespace FleetRouteManager.Services
             }
 
             vehicle.IsDeleted = true;
+            vehicle.DeletedOn = DateTime.Now;
 
             return await repository.UpdateAsync(vehicle);
         }
@@ -118,17 +119,17 @@ namespace FleetRouteManager.Services
                 ManufacturerId = model.ManufacturerId,
                 Model = model.VehicleModel,
                 Vin = model.Vin,
-                FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, "FirstRegistration"),
+                FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, nameof(model.FirstRegistration)),
                 EuroClass = model.EuroClass,
                 VehicleTypeId = model.VehicleTypeId,
                 BodyType = model.BodyType,
                 Axles = model.Axles,
                 WeightCapacity = model.WeightCapacity,
-                AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "AcquiredOn"),
+                AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, nameof(model.AcquiredOn)),
                 LiabilityInsurance = model.LiabilityInsurance,
-                LiabilityInsuranceExpirationDate = CustomNullableDateParseExact(model.LiabilityInsuranceExpirationDate, VehicleDateFormat, "LiabilityInsuranceExpirationDate"),
-                TechnicalReviewExpirationDate = CustomNullableDateParseExact(model.TechnicalReviewExpirationDate, VehicleDateFormat, "TechnicalReviewExpirationDate"),
-                TachographExpirationDate = CustomNullableDateParseExact(model.TachographExpirationDate, VehicleDateFormat, "TachographExpirationDate")
+                LiabilityInsuranceExpirationDate = CustomNullableDateParseExact(model.LiabilityInsuranceExpirationDate, VehicleDateFormat, nameof(model.LiabilityInsuranceExpirationDate)),
+                TechnicalReviewExpirationDate = CustomNullableDateParseExact(model.TechnicalReviewExpirationDate, VehicleDateFormat, nameof(model.TechnicalReviewExpirationDate)),
+                TachographExpirationDate = CustomNullableDateParseExact(model.TachographExpirationDate, VehicleDateFormat, nameof(model.TachographExpirationDate))
             };
 
 
@@ -185,20 +186,20 @@ namespace FleetRouteManager.Services
             vehicle.ManufacturerId = model.ManufacturerId;
             vehicle.Model = model.VehicleModel;
             vehicle.Vin = model.Vin;
-            vehicle.FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, "FirstRegistration");
+            vehicle.FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, nameof(model.FirstRegistration));
             vehicle.EuroClass = model.EuroClass;
             vehicle.VehicleTypeId = model.VehicleTypeId;
             vehicle.BodyType = model.BodyType;
             vehicle.Axles = model.Axles;
             vehicle.WeightCapacity = model.WeightCapacity;
-            vehicle.AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, "AcquiredOn");
+            vehicle.AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, nameof(model.AcquiredOn));
             vehicle.LiabilityInsurance = model.LiabilityInsurance;
             vehicle.LiabilityInsuranceExpirationDate = CustomNullableDateParseExact(
-                model.LiabilityInsuranceExpirationDate, VehicleDateFormat, "LiabilityInsuranceExpirationDate");
+                model.LiabilityInsuranceExpirationDate, VehicleDateFormat, nameof(model.LiabilityInsuranceExpirationDate));
             vehicle.TechnicalReviewExpirationDate = CustomNullableDateParseExact(model.TechnicalReviewExpirationDate,
-                VehicleDateFormat, "TechnicalReviewExpirationDate");
+                VehicleDateFormat, nameof(model.TechnicalReviewExpirationDate));
             vehicle.TachographExpirationDate = CustomNullableDateParseExact(model.TachographExpirationDate,
-                VehicleDateFormat, "TachographExpirationDate");
+                VehicleDateFormat, nameof(model.TachographExpirationDate));
 
             return await repository.UpdateAsync(vehicle);
         }

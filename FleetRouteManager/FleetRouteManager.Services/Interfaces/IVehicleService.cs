@@ -5,12 +5,12 @@ namespace FleetRouteManager.Services.Interfaces
 {
     public interface IVehicleService
     {
-        public Task<IEnumerable<VehicleViewModel>> GetAllVehiclesAsync();
-        public Task<VehicleDetailsViewModel?> GetVehicleDetailsModelAsync(int id);
-        public Task<VehicleDeleteModel?> GetVehicleDeleteModelAsync(int id);
-        public Task<bool> DeleteVehicleAsync(int id);
-        public Task<bool> CreateNewVehicleAsync(VehicleCreateInputModel vehicle);
-        public Task<VehicleEditInputModel> GetVehicleEditModelAsync(int id);
-        public Task<bool> EditVehicleAsync(VehicleEditInputModel model);
+        Task<IEnumerable<VehicleViewModel>> GetAllVehiclesAsync();
+        Task<VehicleDetailsViewModel?> GetVehicleDetailsModelAsync(int id);
+        Task<VehicleDeleteModel?> GetVehicleDeleteModelAsync(int id);
+        Task<bool> DeleteVehicleAsync(int id);
+        Task<bool> CreateNewVehicleAsync(VehicleCreateInputModel vehicle);
+        Task<VehicleEditInputModel> GetVehicleEditModelAsync(int id);
+        Task<bool> EditVehicleAsync(VehicleEditInputModel model);
     }
 }

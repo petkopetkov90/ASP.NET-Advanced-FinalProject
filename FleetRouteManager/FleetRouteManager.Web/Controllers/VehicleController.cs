@@ -39,7 +39,7 @@ namespace FleetRouteManager.Web.Controllers
         }
 
 
-        [HttpGet("Details")]
+        [HttpGet("Vehicle Details")]
         public async Task<IActionResult> Details(int id)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -58,7 +58,7 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
-        [HttpGet("Delete")]
+        [HttpGet("Delete Vehicle")]
         public async Task<IActionResult> Delete(int id)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -70,12 +70,13 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
+                //TODO: Vehicle not found!
                 return RedirectToAction("Index");
             }
 
             var returnUrl = Request.Headers["Referer"].ToString();
 
-            if (String.IsNullOrEmpty(returnUrl))
+            if (string.IsNullOrEmpty(returnUrl))
             {
                 returnUrl = Url.Action("Index", "Vehicle");
             }
@@ -84,7 +85,7 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
-        [HttpPost("DeleteConfirmation")]
+        [HttpPost("Delete Vehicle Confirmation")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -96,7 +97,7 @@ namespace FleetRouteManager.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("Create")]
+        [HttpGet("Create Vehicle")]
         public async Task<IActionResult> Create()
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -109,7 +110,7 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
-        [HttpPost("Create")]
+        [HttpPost("Create Vehicle")]
         public async Task<IActionResult> Create(VehicleCreateInputModel model)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -138,7 +139,7 @@ namespace FleetRouteManager.Web.Controllers
 
         }
 
-        [HttpGet("Edit")]
+        [HttpGet("Edit Vehicle")]
         public async Task<IActionResult> Edit(int id)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -153,7 +154,7 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
-        [HttpPost("Edit")]
+        [HttpPost("Edit Vehicle")]
         public async Task<IActionResult> Edit(VehicleEditInputModel model)
         {
             if (User.Identity?.IsAuthenticated != true)
