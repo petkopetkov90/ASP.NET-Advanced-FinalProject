@@ -130,6 +130,77 @@ namespace FleetRouteManager.Services
             return await repository.AddAsync(driver);
         }
 
+        public async Task<DriverEditInputModel> GetDriverEditModelAsync(int id)
+        {
+            var driver = await repository.GetByIdAsync(id);
+
+            if (driver == null || driver.IsDeleted)
+            {
+                return null!;
+            }
+
+            var model = new DriverEditInputModel
+            {
+                Id = driver.Id,
+                FirstName = driver.FirstName,
+                MiddleName = driver.MiddleName,
+                LastName = driver.LastName,
+                PhoneNumber = driver.PhoneNumber,
+                AdditionalPhoneNumber = driver.AdditionalPhoneNumber,
+                DrivingLicense = driver.DrivingLicense,
+                DrivingLicenseExpirationDate = driver.DrivingLicenseExpirationDate.ToString(DriverDateFormat),
+                IdentityCard = driver.IdentityCard,
+                IdentityCardExpirationDate = driver.IdentityCardExpirationDate.ToString(DriverDateFormat),
+                PersonalIdentificationNumber = driver.PersonalIdentificationNumber,
+                ProfessionalQualificationCard = driver.ProfessionalQualificationCard,
+                ProfessionalQualificationCardExpirationDate = driver.ProfessionalQualificationCardExpirationDate.ToString(DriverDateFormat),
+                DateOfBirth = driver.DateOfBirth.ToString(DriverDateFormat),
+                EmployedOn = driver.EmployedOn.ToString(DriverDateFormat),
+                MedicalInsurance = driver.MedicalInsurance,
+                MedicalInsuranceExpirationDate = driver.MedicalInsuranceExpirationDate?.ToString(DriverDateFormat) ?? string.Empty,
+            };
+
+            return model;
+        }
+
+        public async Task<bool> EditDriverAsync(DriverEditInputModel model)
+        {
+            var driver = await repository.GetByIdAsync(model.Id);
+
+            if (driver == null || driver.IsDeleted)
+            {
+                return false;
+            }
+
+            if (model.PersonalIdentificationNumber != driver.PersonalIdentificationNumber && await CheckForPersonalIdentification(model.PersonalIdentificationNumber))
+            {
+                return false;
+            }
+
+            driver.FirstName = model.FirstName;
+            driver.MiddleName = model.MiddleName;
+            driver.LastName = model.LastName;
+            driver.PhoneNumber = model.PhoneNumber;
+            driver.AdditionalPhoneNumber = model.AdditionalPhoneNumber;
+            driver.DrivingLicense = model.DrivingLicense;
+            driver.DrivingLicenseExpirationDate = CustomDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate));
+            driver.IdentityCard = model.IdentityCard;
+            driver.IdentityCardExpirationDate = CustomDateParseExact(model.IdentityCardExpirationDate, DriverDateFormat,
+                nameof(model.IdentityCardExpirationDate));
+            driver.PersonalIdentificationNumber = model.PersonalIdentificationNumber;
+            driver.ProfessionalQualificationCard = model.ProfessionalQualificationCard;
+            driver.ProfessionalQualificationCardExpirationDate = CustomDateParseExact(
+                model.ProfessionalQualificationCardExpirationDate, DriverDateFormat,
+                nameof(model.ProfessionalQualificationCardExpirationDate));
+            driver.DateOfBirth = CustomDateParseExact(model.DateOfBirth, DriverDateFormat, nameof(model.DateOfBirth));
+            driver.EmployedOn = CustomDateParseExact(model.EmployedOn, DriverDateFormat, nameof(model.EmployedOn));
+            driver.MedicalInsurance = model.MedicalInsurance;
+            driver.MedicalInsuranceExpirationDate = CustomNullableDateParseExact(model.MedicalInsuranceExpirationDate,
+                DriverDateFormat, nameof(model.MedicalInsuranceExpirationDate));
+
+            return await repository.UpdateAsync(driver);
+        }
+
         private async Task<bool> CheckForPersonalIdentification(string registrationNumber)
         {
             return await repository.GetAllAsIQueryable()

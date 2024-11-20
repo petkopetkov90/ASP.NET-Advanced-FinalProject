@@ -1,0 +1,125 @@
+﻿@using static FleetRouteManager.Common.Constants.DriverConstants
+
+@model DriverEditInputModel
+
+@{
+    ViewData["Title"] = "Edit Driver";
+}
+
+<h1 style="font-style: italic">@ViewData["Title"]</h1>
+
+<form asp-action="Assign" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.FirstName" style="font-style: italic; font-weight: 600">First Name</label>
+        <input asp-for="@Model.FirstName" class="form-control" />
+        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.MiddleName" style="font-style: italic; font-weight: 600">Middle Name</label>
+        <input asp-for="@Model.MiddleName" class="form-control" />
+        <span asp-validation-for="@Model.MiddleName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.LastName" style="font-style: italic; font-weight: 600">Last Name</label>
+        <input asp-for="@Model.LastName" class="form-control" />
+        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PhoneNumber" style="font-style: italic; font-weight: 600">Phone Number</label>
+        <input asp-for="@Model.PhoneNumber" class="form-control" />
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.AdditionalPhoneNumber" style="font-style: italic; font-weight: 600">Additional Phone Number</label>
+        <input asp-for="@Model.AdditionalPhoneNumber" class="form-control" />
+        <span asp-validation-for="@Model.AdditionalPhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.DrivingLicense" style="font-style: italic; font-weight: 600">Driving License</label>
+        <input asp-for="@Model.DrivingLicense" class="form-control" />
+        <span asp-validation-for="@Model.DrivingLicense" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.DrivingLicenseExpirationDate" style="font-style: italic; font-weight: 600">Driving License Expiration Date</label>
+        <input asp-for="@Model.DrivingLicenseExpirationDate" type="text" class="form-control"
+               value="@(DateTime.Now.ToString(DriverDateFormat))" />
+        <span asp-validation-for="@Model.DrivingLicenseExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.IdentityCard" style="font-style: italic; font-weight: 600">Identity Card</label>
+        <input asp-for="@Model.IdentityCard" class="form-control" />
+        <span asp-validation-for="@Model.IdentityCard" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.IdentityCardExpirationDate" style="font-style: italic; font-weight: 600">Identity Card Expiration Date</label>
+        <input asp-for="@Model.IdentityCardExpirationDate" type="text" class="form-control"
+               value="@(DateTime.Now.ToString(DriverDateFormat))" />
+        <span asp-validation-for="@Model.IdentityCardExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PersonalIdentificationNumber" style="font-style: italic; font-weight: 600">Personal Identification Number</label>
+        <input asp-for="@Model.PersonalIdentificationNumber" class="form-control" />
+        <span asp-validation-for="@Model.PersonalIdentificationNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.ProfessionalQualificationCard" style="font-style: italic; font-weight: 600">Professional Qualification Card</label>
+        <input asp-for="@Model.ProfessionalQualificationCard" class="form-control" />
+        <span asp-validation-for="@Model.ProfessionalQualificationCard" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.ProfessionalQualificationCardExpirationDate"
+               style="font-style: italic; font-weight: 600">Professional Qualification Card Expiration Date</label>
+        <input asp-for="@Model.ProfessionalQualificationCardExpirationDate" type="text" class="form-control"
+               value="@(DateTime.Now.ToString(DriverDateFormat))" />
+        <span asp-validation-for="@Model.ProfessionalQualificationCardExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.DateOfBirth" style="font-style: italic; font-weight: 600">Date Of Birth</label>
+        <input asp-for="@Model.DateOfBirth" type="text" class="form-control"
+               value="@(DateTime.Now.ToString(DriverDateFormat))" />
+        <span asp-validation-for="@Model.DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.EmployedOn" style="font-style: italic; font-weight: 600">Employed On</label>
+        <input asp-for="@Model.EmployedOn" type="text" class="form-control"
+               value="@(DateTime.Now.ToString(DriverDateFormat))" />
+        <span asp-validation-for="@Model.EmployedOn" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.MedicalInsurance" style="font-style: italic; font-weight: 600">Medical Insurance</label>
+        <input asp-for="@Model.MedicalInsurance" class="form-control" />
+        <span asp-validation-for="@Model.MedicalInsurance" class="text-danger"></span>
+    </div>
+
+    <div style="margin-top: 16px">
+        <label asp-for="@Model.MedicalInsuranceExpirationDate"
+               style="font-style: italic; font-weight: 600">Medical Insurance Expiration Date</label>
+        <input asp-for="@Model.MedicalInsuranceExpirationDate" type="text" class="form-control" />
+        <span asp-validation-for="@Model.MedicalInsuranceExpirationDate" class="text-danger"></span>
+    </div>
+
+    <div style="margin-top: 16px">
+        <button type="submit" asp-route-id="@Model.Id" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Assign</button>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -126,5 +126,45 @@ namespace FleetRouteManager.Web.Controllers
             }
 
         }
+
+        [HttpGet("Edit Driver")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = await driverService.GetDriverEditModelAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost("Edit Driver")]
+        public async Task<IActionResult> Edit(DriverEditInputModel model)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await driverService.EditDriverAsync(model);
+                return RedirectToAction("Details", new { model.Id });
+            }
+            catch (CustomDateFormatException e)
+            {
+                ModelState.AddModelError(e.PropertyName, e.Message);
+
+                return View(model);
+            }
+
+        }
     }
 }
