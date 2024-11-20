@@ -32,9 +32,9 @@
         </nav>
     </header>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="container-fluid" style="display: flex; padding: 1rem;">
+    <div class="container-fluid" style="display: flex; padding: 1rem;">
+        @if (User.Identity.IsAuthenticated)
+        {
             <style>
                 .nav-link:hover {
                     font-weight: bolder;
@@ -50,19 +50,12 @@
                     <a class="nav-link" asp-controller="Client" asp-action="Index">Clients</a>
                 </nav>
             </aside>
-            <main role="main-content" style="flex-grow: 1; margin-left: 16px; padding: 1rem;">
-                @RenderBody()
-            </main>
-        </div>
-    }
-    else
-    {
-        <div class="container-fluid" style="display: flex; padding: 1rem;">
-            <main role="main-content" style="flex-grow: 1; margin-left: 16px; padding: 1rem;">
-                @RenderBody()
-            </main>
-        </div>
-    }
+        }
+
+        <main role="main-content" style="flex-grow: 1; margin-left: 16px; padding: 1rem;">
+            @RenderBody()
+        </main>
+    </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">

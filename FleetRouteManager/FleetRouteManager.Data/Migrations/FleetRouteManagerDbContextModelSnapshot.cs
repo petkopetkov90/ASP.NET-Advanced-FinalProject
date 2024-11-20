@@ -126,7 +126,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("PersonalIdentificationNumber")
                         .IsUnique();
 
-                    b.ToTable("Drivers");
+                    b.ToTable("Drivers", (string)null);
 
                     b.HasData(
                         new
@@ -213,7 +213,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Manufacturers");
+                    b.ToTable("Manufacturers", (string)null);
 
                     b.HasData(
                         new
@@ -385,7 +385,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleTypeId");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", (string)null);
 
                     b.HasData(
                         new
@@ -491,7 +491,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VehicleTypes");
+                    b.ToTable("VehicleTypes", (string)null);
 
                     b.HasData(
                         new

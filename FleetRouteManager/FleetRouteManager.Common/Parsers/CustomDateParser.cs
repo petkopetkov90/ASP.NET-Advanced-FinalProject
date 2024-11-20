@@ -1,7 +1,7 @@
 ﻿using FleetRouteManager.Common.Exceptions;
 using System.Globalization;
 
-using static FleetRouteManager.Common.ErrorMessages.VehicleErrorMessages;
+using static FleetRouteManager.Common.ErrorMessages.ExceptionMessages;
 
 namespace FleetRouteManager.Common.Parsers
 {
@@ -15,7 +15,7 @@ namespace FleetRouteManager.Common.Parsers
             }
             catch (FormatException)
             {
-                throw new CustomDateFormatException(fieldName, string.Format(InvalidDateException, dateString, dateFormat));
+                throw new CustomDateFormatException(fieldName, string.Format(InvalidDateExceptionMsg, dateString, dateFormat));
             }
         }
         public static DateTime? CustomNullableDateParseExact(string? dateString, string dateFormat, string fieldName)

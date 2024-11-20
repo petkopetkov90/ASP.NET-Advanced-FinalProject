@@ -1,4 +1,5 @@
-﻿using FleetRouteManager.Web.Models.ViewModels;
+﻿using FleetRouteManager.Web.Models.InputModels;
+using FleetRouteManager.Web.Models.ViewModels;
 
 namespace FleetRouteManager.Services.Interfaces
 {
@@ -8,5 +9,6 @@ namespace FleetRouteManager.Services.Interfaces
         Task<DriverDetailsViewModel?> GetDriverDetailsAsync(int id);
         Task<DriverDeleteModel?> GetDriverDeleteModelAsync(int id);
         Task<bool> DeleteDriverAsync(int id);
+        Task<bool> AssignNewDriverAsync(DriverCreateInputModel model);
     }
 }

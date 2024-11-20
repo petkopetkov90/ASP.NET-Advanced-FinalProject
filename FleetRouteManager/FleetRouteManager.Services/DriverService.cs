@@ -1,9 +1,12 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using static FleetRouteManager.Common.Constants.DriverConstants;
+using static FleetRouteManager.Common.Parsers.CustomDateParser;
+
 
 namespace FleetRouteManager.Services
 {
@@ -94,6 +97,44 @@ namespace FleetRouteManager.Services
             driver.DeletedOn = DateTime.Now;
 
             return await repository.UpdateAsync(driver);
+        }
+
+        public async Task<bool> AssignNewDriverAsync(DriverCreateInputModel model)
+        {
+            if (await CheckForPersonalIdentification(model.PersonalIdentificationNumber))
+            {
+                return false;
+            }
+
+            var driver = new Driver()
+            {
+                FirstName = model.FirstName,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                AdditionalPhoneNumber = model.AdditionalPhoneNumber,
+                DrivingLicense = model.DrivingLicense,
+                DrivingLicenseExpirationDate = CustomDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate)),
+                IdentityCard = model.IdentityCard,
+                IdentityCardExpirationDate = CustomDateParseExact(model.IdentityCardExpirationDate, DriverDateFormat, nameof(model.IdentityCardExpirationDate)),
+                PersonalIdentificationNumber = model.PersonalIdentificationNumber,
+                ProfessionalQualificationCard = model.ProfessionalQualificationCard,
+                ProfessionalQualificationCardExpirationDate = CustomDateParseExact(model.ProfessionalQualificationCardExpirationDate, DriverDateFormat, nameof(model.ProfessionalQualificationCardExpirationDate)),
+                DateOfBirth = CustomDateParseExact(model.DateOfBirth, DriverDateFormat, nameof(model.DateOfBirth)),
+                EmployedOn = CustomDateParseExact(model.EmployedOn, DriverDateFormat, nameof(model.EmployedOn)),
+                MedicalInsurance = model.MedicalInsurance,
+                MedicalInsuranceExpirationDate = CustomNullableDateParseExact(model.MedicalInsuranceExpirationDate, DriverDateFormat, nameof(model.MedicalInsuranceExpirationDate))
+            };
+
+
+            return await repository.AddAsync(driver);
+        }
+
+        private async Task<bool> CheckForPersonalIdentification(string registrationNumber)
+        {
+            return await repository.GetAllAsIQueryable()
+                .Select(d => d.PersonalIdentificationNumber)
+                .FirstOrDefaultAsync(d => d == registrationNumber) != null;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using FleetRouteManager.Services.Interfaces;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -83,6 +85,46 @@ namespace FleetRouteManager.Web.Controllers
 
             await driverService.DeleteDriverAsync(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet("Assign New Driver")]
+        public IActionResult Assign()
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new DriverCreateInputModel();
+
+            return View(model);
+        }
+
+        [HttpPost("Assign New Driver")]
+        public async Task<IActionResult> Assign(DriverCreateInputModel model)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await driverService.AssignNewDriverAsync(model);
+                return RedirectToAction("Index");
+            }
+            catch (CustomDateFormatException e)
+            {
+                ModelState.AddModelError(e.PropertyName, e.Message);
+
+                return View(model);
+            }
+
         }
     }
 }

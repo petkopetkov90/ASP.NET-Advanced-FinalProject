@@ -9,54 +9,54 @@ namespace FleetRouteManager.Web.Models.InputModels
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = RegistrationNumberRequired)]
-        [StringLength(RegistrationNumberMaxLength, MinimumLength = RegistrationNumberMinLength, ErrorMessage = RegistrationNumberLength)]
+        [Required(ErrorMessage = RegistrationNumberRequiredMsg)]
+        [StringLength(RegistrationNumberMaxLength, MinimumLength = RegistrationNumberMinLength, ErrorMessage = RegistrationNumberLengthMsg)]
         public string RegistrationNumber { get; set; } = null!;
 
-        [Required(ErrorMessage = ManufacturerRequired)]
+        [Required(ErrorMessage = ManufacturerRequiredMsg)]
         public int ManufacturerId { get; set; }
 
-        [StringLength(ModelMaxLength, MinimumLength = ModelMinLength, ErrorMessage = ModelLength)]
+        [StringLength(ModelMaxLength, MinimumLength = ModelMinLength, ErrorMessage = ModelLengthMsg)]
         public string? VehicleModel { get; set; }
 
-        [Required(ErrorMessage = VinRequired)]
-        [StringLength(VinMaxLength, MinimumLength = VinMinLength, ErrorMessage = VinLength)]
+        [Required(ErrorMessage = VinRequiredMsg)]
+        [StringLength(VinMaxLength, MinimumLength = VinMinLength, ErrorMessage = VinLengthMsg)]
         public string Vin { get; set; } = null!;
 
-        [Required(ErrorMessage = DateRequired)]
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormat)]
+        [Required(ErrorMessage = DateRequiredMsg)]
+        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
         public string FirstRegistration { get; set; } = null!;
 
-        [Required(ErrorMessage = EuroClassRequired)]
+        [Required(ErrorMessage = EuroClassRequiredMsg)]
         public EuroClass EuroClass { get; set; }
 
-        [Required(ErrorMessage = TypeRequired)]
+        [Required(ErrorMessage = TypeRequiredMsg)]
         public int VehicleTypeId { get; set; }
 
-        [Required(ErrorMessage = BodyRequired)]
+        [Required(ErrorMessage = BodyRequiredMsg)]
         public BodyType BodyType { get; set; }
 
-        [Required(ErrorMessage = AxlesRequired)]
-        [Range(MinAxles, MaxAxles, ErrorMessage = AxlesRange)]
+        [Required(ErrorMessage = AxlesRequiredMsg)]
+        [Range(MinAxles, MaxAxles, ErrorMessage = AxlesRangeMsg)]
         public int Axles { get; set; }
 
-        [Required(ErrorMessage = WeightCapacityRequired)]
+        [Required(ErrorMessage = WeightCapacityRequiredMsg)]
         public double WeightCapacity { get; set; }
 
-        [Required(ErrorMessage = DateRequired)]
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormat)]
+        [Required(ErrorMessage = DateRequiredMsg)]
+        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
         public string AcquiredOn { get; set; } = null!;
 
-        [StringLength(LiabilityInsuranceMaxLength, MinimumLength = LiabilityInsuranceMinLength, ErrorMessage = LiabilityInsuranceLength)]
+        [StringLength(LiabilityInsuranceMaxLength, MinimumLength = LiabilityInsuranceMinLength, ErrorMessage = LiabilityInsuranceLengthMsg)]
         public string? LiabilityInsurance { get; set; }
 
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormat)]
+        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
         public string? LiabilityInsuranceExpirationDate { get; set; }
 
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormat)]
+        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
         public string? TechnicalReviewExpirationDate { get; set; }
 
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormat)]
+        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
         public string? TachographExpirationDate { get; set; }
     }
 }

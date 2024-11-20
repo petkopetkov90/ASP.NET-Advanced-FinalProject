@@ -12,31 +12,31 @@ namespace FleetRouteManager.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(DriverNameLength)]
+        [MaxLength(DriverNameMaxLength)]
         [Comment("Driver's First Name")]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [MaxLength(DriverNameLength)]
+        [MaxLength(DriverNameMaxLength)]
         [Comment("Driver's Middle Name")]
         public string MiddleName { get; set; } = null!;
 
         [Required]
-        [MaxLength(DriverNameLength)]
+        [MaxLength(DriverNameMaxLength)]
         [Comment("Driver's Last Name")]
         public string LastName { get; set; } = null!;
 
         [Required]
-        [MaxLength(DriverPhoneLength)]
+        [MaxLength(DriverPhoneMaxLength)]
         [Comment("Driver's main Phone Number")]
         public string PhoneNumber { get; set; } = null!;
 
-        [MaxLength(DriverPhoneLength)]
+        [MaxLength(DriverPhoneMaxLength)]
         [Comment("Driver's second Phone Number, if have")]
         public string? AdditionalPhoneNumber { get; set; }
 
         [Required]
-        [MaxLength(DriverDrivingLicenseLength)]
+        [MaxLength(DriverDrivingLicenseMaxLength)]
         [Comment("Driver's Driving License")]
         public string DrivingLicense { get; set; } = null!;
 
@@ -45,7 +45,7 @@ namespace FleetRouteManager.Data.Models
         public DateTime DrivingLicenseExpirationDate { get; set; }
 
         [Required]
-        [MaxLength(DriverIdentityCardLength)]
+        [MaxLength(DriverIdentityCardMaxLength)]
         [Comment("Driver's Identity Card")]
         public string IdentityCard { get; set; } = null!;
 
@@ -54,12 +54,12 @@ namespace FleetRouteManager.Data.Models
         public DateTime IdentityCardExpirationDate { get; set; }
 
         [Required]
-        [MaxLength(PersonalIdentificationNumberLength)]
+        [MaxLength(PersonalIdentificationMaxLength)]
         [Comment("Driver's Personal Identification Number")]
         public string PersonalIdentificationNumber { get; set; } = null!;
 
         [Required]
-        [MaxLength(DriverIdentityCardLength)]
+        [MaxLength(ProfessionalQualificationMaxLength)]
         [Comment("Driver's Professional Qualification Card")]
         public string ProfessionalQualificationCard { get; set; } = null!;
 
@@ -75,7 +75,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Driver's employing date")]
         public DateTime EmployedOn { get; set; }
 
-        [MaxLength(DriverMedicalInsuranceLength)]
+        [MaxLength(DriverMedicalInsuranceMaxLength)]
         [Comment("Driver's Medical Insurance")]
         public string? MedicalInsurance { get; set; }
 
