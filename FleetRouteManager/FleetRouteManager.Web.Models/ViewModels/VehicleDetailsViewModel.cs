@@ -28,6 +28,9 @@ namespace FleetRouteManager.Web.Models.ViewModels
 
         public required string AcquiredOn { get; set; }
 
+
+        public IEnumerable<string> Drivers = new List<string>();
+
         public required string? LiabilityInsurance { get; set; }
 
         public string? LiabilityInsuranceExpirationDate { get; set; }

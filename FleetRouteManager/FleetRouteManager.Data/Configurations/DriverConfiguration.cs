@@ -13,6 +13,12 @@ namespace FleetRouteManager.Data.Configurations
                 .IsUnique();
 
             builder
+                .HasOne(d => d.Vehicle)
+                .WithMany(v => v.Drivers)
+                .HasForeignKey(d => d.VehicleId)
+                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+
+            builder
                 .HasData
                 (
                     new Driver

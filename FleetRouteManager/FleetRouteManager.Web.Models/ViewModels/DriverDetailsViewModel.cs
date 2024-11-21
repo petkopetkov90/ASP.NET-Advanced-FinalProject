@@ -12,6 +12,8 @@
 
         public required string PhoneNumber { get; set; }
 
+        public string? Vehicle { get; set; }
+
         public string? AdditionalPhoneNumber { get; set; }
 
         public required string DrivingLicense { get; set; }

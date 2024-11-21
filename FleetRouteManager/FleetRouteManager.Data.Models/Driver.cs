@@ -1,6 +1,7 @@
 ﻿using FleetRouteManager.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static FleetRouteManager.Common.Constants.DriverConstants;
 
 namespace FleetRouteManager.Data.Models
@@ -81,6 +82,11 @@ namespace FleetRouteManager.Data.Models
 
         [Comment("Driver's Medical Insurance expiration date")]
         public DateTime? MedicalInsuranceExpirationDate { get; set; }
+
+        [Comment("Foreign key to Vehicle")]
+        public int? VehicleId { get; set; }
+        [ForeignKey(nameof(VehicleId))]
+        public virtual Vehicle? Vehicle { get; set; }
 
 
         [Comment("Indicates if the Driver was released")]

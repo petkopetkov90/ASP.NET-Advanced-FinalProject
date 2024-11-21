@@ -23,6 +23,7 @@ namespace FleetRouteManager.Services
         {
             return await repository.GetAllAsIQueryable()
                 .Where(d => d.IsDeleted == false)
+                .Include(d => d.Vehicle)
                 .AsNoTracking()
                 .Select(d => new DriverViewModel()
                 {
@@ -30,7 +31,8 @@ namespace FleetRouteManager.Services
                     FullName = $"{d.FirstName} {d.MiddleName} {d.LastName}",
                     PhoneNumber = d.PhoneNumber,
                     DrivingLicense = d.DrivingLicense,
-                    EmployedAt = d.EmployedOn.ToString(DriverDateFormat)
+                    EmployedAt = d.EmployedOn.ToString(DriverDateFormat),
+                    Vehicle = d.Vehicle != null ? d.Vehicle.RegistrationNumber : string.Empty
                 }
                 ).OrderBy(d => d.Id)
                 .ToListAsync();
@@ -39,6 +41,7 @@ namespace FleetRouteManager.Services
         public async Task<DriverDetailsViewModel?> GetDriverDetailsAsync(int id)
         {
             var driver = await repository.GetWhereAsIQueryable(d => !d.IsDeleted && d.Id == id)
+                .Include(d => d.Vehicle)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
@@ -54,6 +57,7 @@ namespace FleetRouteManager.Services
                 MiddleName = driver.MiddleName,
                 LastName = driver.LastName,
                 PhoneNumber = driver.PhoneNumber,
+                Vehicle = driver.Vehicle?.RegistrationNumber ?? string.Empty,
                 AdditionalPhoneNumber = driver.AdditionalPhoneNumber,
                 DrivingLicense = driver.DrivingLicense,
                 DrivingLicenseExpirationDate = driver.DrivingLicenseExpirationDate.ToString(DriverDateFormat),
@@ -112,6 +116,7 @@ namespace FleetRouteManager.Services
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
+                VehicleId = model.VehicleId,
                 AdditionalPhoneNumber = model.AdditionalPhoneNumber,
                 DrivingLicense = model.DrivingLicense,
                 DrivingLicenseExpirationDate = CustomDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate)),
@@ -146,6 +151,7 @@ namespace FleetRouteManager.Services
                 MiddleName = driver.MiddleName,
                 LastName = driver.LastName,
                 PhoneNumber = driver.PhoneNumber,
+                VehicleId = driver.VehicleId,
                 AdditionalPhoneNumber = driver.AdditionalPhoneNumber,
                 DrivingLicense = driver.DrivingLicense,
                 DrivingLicenseExpirationDate = driver.DrivingLicenseExpirationDate.ToString(DriverDateFormat),
@@ -181,6 +187,7 @@ namespace FleetRouteManager.Services
             driver.MiddleName = model.MiddleName;
             driver.LastName = model.LastName;
             driver.PhoneNumber = model.PhoneNumber;
+            driver.VehicleId = model.VehicleId;
             driver.AdditionalPhoneNumber = model.AdditionalPhoneNumber;
             driver.DrivingLicense = model.DrivingLicense;
             driver.DrivingLicenseExpirationDate = CustomDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate));

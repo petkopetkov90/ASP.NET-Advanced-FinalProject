@@ -3,6 +3,7 @@ using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FleetRouteManager.Web.Controllers
 {
@@ -10,10 +11,12 @@ namespace FleetRouteManager.Web.Controllers
     public class DriverController : Controller
     {
         private readonly IDriverService driverService;
+        private readonly IVehicleService vehicleService;
 
-        public DriverController(IDriverService driverService)
+        public DriverController(IDriverService driverService, IVehicleService vehicleService)
         {
             this.driverService = driverService;
+            this.vehicleService = vehicleService;
         }
 
         [HttpGet("Drivers")]
@@ -75,7 +78,7 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
-        [HttpPost("Delete Driver Confirmation")]
+        [HttpPost("Delete Driver")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -88,12 +91,14 @@ namespace FleetRouteManager.Web.Controllers
         }
 
         [HttpGet("Assign New Driver")]
-        public IActionResult Assign()
+        public async Task<IActionResult> Assign()
         {
             if (User.Identity?.IsAuthenticated != true)
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            await SetDriverViewDataSelectListsAsync();
 
             var model = new DriverCreateInputModel();
 
@@ -110,6 +115,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
+                await SetDriverViewDataSelectListsAsync();
                 return View(model);
             }
 
@@ -122,6 +128,7 @@ namespace FleetRouteManager.Web.Controllers
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
 
+                await SetDriverViewDataSelectListsAsync();
                 return View(model);
             }
 
@@ -134,6 +141,8 @@ namespace FleetRouteManager.Web.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            await SetDriverViewDataSelectListsAsync();
 
             var model = await driverService.GetDriverEditModelAsync(id);
 
@@ -150,6 +159,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
+                await SetDriverViewDataSelectListsAsync();
                 return View(model);
             }
 
@@ -162,9 +172,15 @@ namespace FleetRouteManager.Web.Controllers
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
 
+                await SetDriverViewDataSelectListsAsync();
                 return View(model);
             }
 
+        }
+
+        private async Task SetDriverViewDataSelectListsAsync()
+        {
+            ViewBag.Vehicles = new SelectList(await vehicleService.GetVehicleList(), "Id", "RegistrationNumber");
         }
     }
 }

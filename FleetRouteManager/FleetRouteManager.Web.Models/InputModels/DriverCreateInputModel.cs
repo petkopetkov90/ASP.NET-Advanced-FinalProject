@@ -26,6 +26,8 @@ namespace FleetRouteManager.Web.Models.InputModels
         [RegularExpression(PhoneFormatRegex, ErrorMessage = PhoneFormatMsg)]
         public string PhoneNumber { get; set; } = null!;
 
+        public int? VehicleId { get; set; }
+
         [StringLength(DriverPhoneMaxLength, MinimumLength = DriverPhoneMinLength, ErrorMessage = PhoneLengthMsg)]
         [RegularExpression(PhoneFormatRegex, ErrorMessage = PhoneFormatMsg)]
         public string? AdditionalPhoneNumber { get; set; }

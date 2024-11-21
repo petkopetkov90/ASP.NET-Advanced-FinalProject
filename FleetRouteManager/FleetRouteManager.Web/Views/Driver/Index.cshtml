@@ -11,6 +11,7 @@
                 <th style="padding: 15px" scope="col">Driver Phone</th>
                 <th style="padding: 15px" scope="col">Driver License</th>
                 <th style="padding: 15px" scope="col">Employed at</th>
+                <th style="padding: 15px" scope="col">Vehicle</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@
                     <td style="padding: 15px">@driver.PhoneNumber</td>
                     <td style="padding: 15px">@driver.DrivingLicense</td>
                     <td style="padding: 15px">@driver.EmployedAt</td>
+                    <td style="padding: 15px">@driver.Vehicle</td>
                     <td style="padding: 5px 0px">
                         <a asp-action="Details" asp-controller="Driver" asp-route-id="@driver.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
                         @*    @if (User.IsInRole("Admin"))s

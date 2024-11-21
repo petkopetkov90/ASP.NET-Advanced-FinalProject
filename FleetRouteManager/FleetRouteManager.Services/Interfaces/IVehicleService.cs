@@ -1,4 +1,5 @@
-﻿using FleetRouteManager.Web.Models.InputModels;
+﻿using FleetRouteManager.Web.Models.DTO;
+using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 
 namespace FleetRouteManager.Services.Interfaces
@@ -12,5 +13,6 @@ namespace FleetRouteManager.Services.Interfaces
         Task<bool> CreateNewVehicleAsync(VehicleCreateInputModel vehicle);
         Task<VehicleEditInputModel> GetVehicleEditModelAsync(int id);
         Task<bool> EditVehicleAsync(VehicleEditInputModel model);
+        Task<IEnumerable<VehicleListItemForDriver>> GetVehicleList();
     }
 }

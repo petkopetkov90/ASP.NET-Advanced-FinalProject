@@ -11,5 +11,7 @@
         public required string DrivingLicense { get; set; }
 
         public required string EmployedAt { get; set; }
+
+        public string? Vehicle { get; set; }
     }
 }

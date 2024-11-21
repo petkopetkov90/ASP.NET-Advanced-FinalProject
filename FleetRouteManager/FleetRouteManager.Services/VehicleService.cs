@@ -1,6 +1,7 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.DTO;
 using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ namespace FleetRouteManager.Services
             var vehicle = await repository.GetWhereAsIQueryable(v => v.Id == id && v.IsDeleted == false)
                 .Include(v => v.Manufacturer)
                 .Include(v => v.VehicleType)
+                .Include(v => v.Drivers)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
@@ -69,6 +71,7 @@ namespace FleetRouteManager.Services
                 Axles = vehicle.Axles,
                 WeightCapacity = vehicle.WeightCapacity,
                 AcquiredOn = vehicle.AcquiredOn.ToString(VehicleDateFormat),
+                Drivers = vehicle.Drivers.Select(d => $"{d.FirstName} {d.MiddleName} {d.LastName}"),
                 LiabilityInsurance = vehicle.LiabilityInsurance,
                 LiabilityInsuranceExpirationDate = vehicle.LiabilityInsuranceExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
                 TechnicalReviewExpirationDate = vehicle.TechnicalReviewExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
@@ -202,6 +205,21 @@ namespace FleetRouteManager.Services
                 VehicleDateFormat, nameof(model.TachographExpirationDate));
 
             return await repository.UpdateAsync(vehicle);
+        }
+
+        public async Task<IEnumerable<VehicleListItemForDriver>> GetVehicleList()
+        {
+            var vehicleList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
+                .Select(v => new VehicleListItemForDriver
+                {
+                    Id = v.Id,
+                    RegistrationNumber = v.RegistrationNumber
+                })
+                .ToListAsync();
+
+            vehicleList.Insert(0, new VehicleListItemForDriver());
+
+            return vehicleList;
         }
 
         private async Task<bool> CheckForRegistrationNumber(string registrationNumber)

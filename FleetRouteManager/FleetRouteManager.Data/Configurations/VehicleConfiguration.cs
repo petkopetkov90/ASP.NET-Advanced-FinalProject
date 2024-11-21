@@ -10,8 +10,15 @@ namespace FleetRouteManager.Data.Configurations
         public void Configure(EntityTypeBuilder<Vehicle> builder)
         {
             builder
-                .HasOne(e => e.Manufacturer)
+                .HasOne(v => v.Manufacturer)
                 .WithMany(m => m.Vehicles)
+                .HasForeignKey(v => v.ManufacturerId)
+                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(v => v.VehicleType)
+                .WithMany(t => t.Vehicles)
+                .HasForeignKey(v => v.VehicleTypeId)
                 .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
 
             builder
