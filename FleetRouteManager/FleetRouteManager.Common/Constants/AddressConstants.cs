@@ -6,6 +6,8 @@
         public const int StreetMaxLength = 58;
         public const int NumberMinLength = 2;
         public const int NumberMaxLength = 10;
+        public const int CodeMinLength = 2;
+        public const int CodeMaxLength = 10;
         public const int CityMinLength = 2;
         public const int CityMaxLength = 60;
     }

@@ -22,8 +22,9 @@ namespace FleetRouteManager.Data.Models
         public string? Number { get; set; }
 
         [Required]
+        [MaxLength(CodeMaxLength)]
         [Comment("Post code")]
-        public int PostCode { get; set; }
+        public string PostCode { get; set; } = null!;
 
         [Required]
         [MaxLength(CityMaxLength)]

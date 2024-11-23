@@ -54,8 +54,10 @@ namespace FleetRouteManager.Data.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasComment("Street number");
 
-                    b.Property<int>("PostCode")
-                        .HasColumnType("int")
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasComment("Post code");
 
                     b.Property<string>("Street")
@@ -78,7 +80,7 @@ namespace FleetRouteManager.Data.Migrations
                             CountryId = 207,
                             IsDeleted = false,
                             Number = "5",
-                            PostCode = 1540,
+                            PostCode = "1540",
                             Street = "Maria Atanasova"
                         },
                         new
@@ -88,8 +90,28 @@ namespace FleetRouteManager.Data.Migrations
                             CountryId = 207,
                             IsDeleted = false,
                             Number = "1A",
-                            PostCode = 1540,
+                            PostCode = "2227",
                             Street = "Europa"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            City = "Kufstein",
+                            CountryId = 203,
+                            IsDeleted = false,
+                            Number = "1",
+                            PostCode = "6330",
+                            Street = "Zeller Str."
+                        },
+                        new
+                        {
+                            Id = 4,
+                            City = "Munich",
+                            CountryId = 216,
+                            IsDeleted = false,
+                            Number = "2",
+                            PostCode = "81829",
+                            Street = "Am Messesee"
                         });
                 });
 
@@ -104,7 +126,8 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)")
                         .HasComment("Continent name");
 
                     b.HasKey("Id");

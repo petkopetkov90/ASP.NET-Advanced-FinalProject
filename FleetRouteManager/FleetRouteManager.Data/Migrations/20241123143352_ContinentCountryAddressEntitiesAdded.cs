@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,11 +8,66 @@
 namespace FleetRouteManager.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class CountryEntityAdded : Migration
+    public partial class ContinentCountryAddressEntitiesAdded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<bool>(
+                name: "IsDeleted",
+                table: "Vehicles",
+                type: "bit",
+                nullable: false,
+                comment: "Indicates if the Vehicle was deleted",
+                oldClrType: typeof(bool),
+                oldType: "bit",
+                oldComment: "Indicates if the vehicle was deleted");
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "DeletedOn",
+                table: "Vehicles",
+                type: "datetime2",
+                nullable: true,
+                comment: "Date and time when the Vehicle was marked as deleted",
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2",
+                oldNullable: true,
+                oldComment: "Date and time when the vehicle was marked as deleted");
+
+            migrationBuilder.AlterColumn<bool>(
+                name: "IsDeleted",
+                table: "Manufacturers",
+                type: "bit",
+                nullable: false,
+                comment: "Indicates if the Manufacturer was deleted",
+                oldClrType: typeof(bool),
+                oldType: "bit",
+                oldComment: "Soft Delete");
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "DeletedOn",
+                table: "Manufacturers",
+                type: "datetime2",
+                nullable: true,
+                comment: "Date and time when the Manufacturer was marked as deleted",
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2",
+                oldNullable: true,
+                oldComment: "Deletion date");
+
+            migrationBuilder.CreateTable(
+                name: "Continents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary key of Continent entity")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false, comment: "Continent name")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Continents", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
@@ -32,6 +88,45 @@ namespace FleetRouteManager.Data.Migrations
                         principalTable: "Continents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key of Address Entity")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Street = table.Column<string>(type: "nvarchar(58)", maxLength: 58, nullable: false, comment: "Street name"),
+                    Number = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true, comment: "Street number"),
+                    PostCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Post code"),
+                    City = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "City name"),
+                    CountryId = table.Column<int>(type: "int", nullable: false, comment: "Foreign key to Country"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, comment: "Indicates if the Address was deleted"),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true, comment: "Date and time when the Address was marked as deleted")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Continents",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Africa" },
+                    { 2, "Antarctica" },
+                    { 3, "Asia" },
+                    { 4, "Europe" },
+                    { 5, "North America" },
+                    { 6, "Australia" },
+                    { 7, "South America" }
                 });
 
             migrationBuilder.InsertData(
@@ -220,6 +315,22 @@ namespace FleetRouteManager.Data.Migrations
                     { 407, 6, null, false, "Palau" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "City", "CountryId", "DeletedOn", "IsDeleted", "Number", "PostCode", "Street" },
+                values: new object[,]
+                {
+                    { 1, "Sofia", 207, null, false, "5", "1540", "Maria Atanasova" },
+                    { 2, "Sofia", 207, null, false, "1A", "2227", "Europa" },
+                    { 3, "Kufstein", 203, null, false, "1", "6330", "Zeller Str." },
+                    { 4, "Munich", 216, null, false, "2", "81829", "Am Messesee" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_CountryId",
+                table: "Addresses",
+                column: "CountryId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Countries_ContinentId",
                 table: "Countries",
@@ -230,7 +341,55 @@ namespace FleetRouteManager.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Addresses");
+
+            migrationBuilder.DropTable(
                 name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "Continents");
+
+            migrationBuilder.AlterColumn<bool>(
+                name: "IsDeleted",
+                table: "Vehicles",
+                type: "bit",
+                nullable: false,
+                comment: "Indicates if the vehicle was deleted",
+                oldClrType: typeof(bool),
+                oldType: "bit",
+                oldComment: "Indicates if the Vehicle was deleted");
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "DeletedOn",
+                table: "Vehicles",
+                type: "datetime2",
+                nullable: true,
+                comment: "Date and time when the vehicle was marked as deleted",
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2",
+                oldNullable: true,
+                oldComment: "Date and time when the Vehicle was marked as deleted");
+
+            migrationBuilder.AlterColumn<bool>(
+                name: "IsDeleted",
+                table: "Manufacturers",
+                type: "bit",
+                nullable: false,
+                comment: "Soft Delete",
+                oldClrType: typeof(bool),
+                oldType: "bit",
+                oldComment: "Indicates if the Manufacturer was deleted");
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "DeletedOn",
+                table: "Manufacturers",
+                type: "datetime2",
+                nullable: true,
+                comment: "Deletion date",
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2",
+                oldNullable: true,
+                oldComment: "Date and time when the Manufacturer was marked as deleted");
         }
     }
 }

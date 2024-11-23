@@ -212,6 +212,7 @@ namespace FleetRouteManager.Services
         {
             return await repository.GetAllAsIQueryable()
                 .Select(d => d.PersonalIdentificationNumber)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(d => d == registrationNumber) != null;
         }
     }

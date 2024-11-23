@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using static FleetRouteManager.Common.Constants.ContinentConstants;
 
 namespace FleetRouteManager.Data.Models
 {
@@ -10,7 +11,7 @@ namespace FleetRouteManager.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength()]
+        [MaxLength(NameMaxLength)]
         [Comment("Continent name")]
         public string Name { get; set; } = null!;
     }
