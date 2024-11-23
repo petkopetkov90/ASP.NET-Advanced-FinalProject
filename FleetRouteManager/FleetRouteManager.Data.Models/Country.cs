@@ -21,12 +21,15 @@ namespace FleetRouteManager.Data.Models
         [Comment("Foreign key to Continent")]
         public int ContinentId { get; set; }
         [ForeignKey(nameof(ContinentId))]
-        public Continent Continent { get; set; } = null!;
+        public virtual Continent Continent { get; set; } = null!;
 
         [Comment("Indicates if the Country was deleted")]
         public bool IsDeleted { get; set; }
 
         [Comment("Date and time when the Country was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
+
     }
 }

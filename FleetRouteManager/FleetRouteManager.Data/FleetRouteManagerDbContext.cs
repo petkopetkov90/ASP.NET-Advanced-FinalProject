@@ -20,6 +20,7 @@ namespace FleetRouteManager.Data
         public virtual DbSet<Continent> Continents { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,6 +32,7 @@ namespace FleetRouteManager.Data
             builder.ApplyConfiguration(new ContinentConfiguration());
             builder.ApplyConfiguration(new CountryConfiguration());
             builder.ApplyConfiguration(new AddressConfiguration());
+            builder.ApplyConfiguration(new LocationConfiguration());
 
             base.OnModelCreating(builder);
         }

@@ -1,4 +1,4 @@
-﻿namespace FleetRouteManager.Web.Models.DTO
+﻿namespace FleetRouteManager.Web.Models.ViewModels
 {
     public class VehicleListItemForDriver
     {

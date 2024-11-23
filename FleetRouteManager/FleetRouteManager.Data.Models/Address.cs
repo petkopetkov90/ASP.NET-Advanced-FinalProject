@@ -35,12 +35,14 @@ namespace FleetRouteManager.Data.Models
         [Comment("Foreign key to Country")]
         public int CountryId { get; set; }
         [ForeignKey(nameof(CountryId))]
-        public Country Country { get; set; } = null!;
+        public virtual Country Country { get; set; } = null!;
 
         [Comment("Indicates if the Address was deleted")]
         public bool IsDeleted { get; set; } = false;
 
         [Comment("Date and time when the Address was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
     }
 }

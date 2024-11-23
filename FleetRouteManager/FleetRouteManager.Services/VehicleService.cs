@@ -1,7 +1,6 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
-using FleetRouteManager.Web.Models.DTO;
 using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;

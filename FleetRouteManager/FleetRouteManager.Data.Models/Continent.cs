@@ -14,5 +14,8 @@ namespace FleetRouteManager.Data.Models
         [MaxLength(NameMaxLength)]
         [Comment("Continent name")]
         public string Name { get; set; } = null!;
+
+        public virtual ICollection<Country> Countries { get; set; } = new List<Country>();
+
     }
 }

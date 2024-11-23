@@ -1,5 +1,4 @@
-﻿using FleetRouteManager.Web.Models.DTO;
-using FleetRouteManager.Web.Models.InputModels;
+﻿using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 
 namespace FleetRouteManager.Services.Interfaces

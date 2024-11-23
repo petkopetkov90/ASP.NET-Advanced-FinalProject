@@ -23,7 +23,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Foreign key to the Manufacturer")]
         public int ManufacturerId { get; set; }
         [ForeignKey(nameof(ManufacturerId))]
-        public Manufacturer Manufacturer { get; set; } = null!;
+        public virtual Manufacturer Manufacturer { get; set; } = null!;
 
         [MaxLength(ModelMaxLength)]
         [Comment("Vehicle Model")]
@@ -47,7 +47,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Vehicle type foreign key")]
         public int VehicleTypeId { get; set; }
         [ForeignKey(nameof(VehicleTypeId))]
-        public VehicleType VehicleType { get; set; } = null!;
+        public virtual VehicleType VehicleType { get; set; } = null!;
 
         [Required]
         [Comment("Body type")]
@@ -84,6 +84,6 @@ namespace FleetRouteManager.Data.Models
         [Comment("Date and time when the Vehicle was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
 
-        public ICollection<Driver> Drivers { get; set; } = new List<Driver>();
+        public virtual ICollection<Driver> Drivers { get; set; } = new List<Driver>();
     }
 }
