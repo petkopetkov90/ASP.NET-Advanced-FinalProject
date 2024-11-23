@@ -33,7 +33,7 @@
     </header>
 
     <div class="container-fluid" style="display: flex; padding: 1rem;">
-        @if (User.Identity.IsAuthenticated)
+        @if (User?.Identity?.IsAuthenticated ?? false)
         {
             <style>
                 .nav-link:hover {
@@ -48,6 +48,7 @@
                     <a class="nav-link" asp-controller="Driver" asp-action="Index">Drivers</a>
                     <a class="nav-link" asp-controller="Trip" asp-action="Index">Trips</a>
                     <a class="nav-link" asp-controller="Client" asp-action="Index">Clients</a>
+                    <a class="nav-link" asp-controller="Address" asp-action="Index">Visited Addresses</a>
                 </nav>
             </aside>
         }

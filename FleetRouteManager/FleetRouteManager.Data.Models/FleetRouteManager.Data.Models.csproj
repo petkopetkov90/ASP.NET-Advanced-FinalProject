@@ -15,8 +15,4 @@
     <ProjectReference Include="..\FleetRouteManager.Data.Common\FleetRouteManager.Data.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 </Project>

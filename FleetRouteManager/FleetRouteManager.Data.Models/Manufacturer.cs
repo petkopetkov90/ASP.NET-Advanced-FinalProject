@@ -16,10 +16,10 @@ namespace FleetRouteManager.Data.Models
         [Comment("Manufacturer Name")]
         public string Name { get; set; } = null!;
 
-        [Comment("Soft Delete")]
+        [Comment("Indicates if the Manufacturer was deleted")]
         public bool IsDeleted { get; set; } = false;
 
-        [Comment("Deletion date")]
+        [Comment("Date and time when the Manufacturer was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();

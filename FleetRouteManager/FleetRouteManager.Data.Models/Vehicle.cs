@@ -78,10 +78,10 @@ namespace FleetRouteManager.Data.Models
         [Comment("Vehicle Tachograph Certification expiration date")]
         public DateTime? TachographExpirationDate { get; set; }
 
-        [Comment("Indicates if the vehicle was deleted")]
+        [Comment("Indicates if the Vehicle was deleted")]
         public bool IsDeleted { get; set; } = false;
 
-        [Comment("Date and time when the vehicle was marked as deleted")]
+        [Comment("Date and time when the Vehicle was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
 
         public ICollection<Driver> Drivers { get; set; } = new List<Driver>();

@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241122180508_CountryEntityAdded")]
+    partial class CountryEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,77 +24,6 @@ namespace FleetRouteManager.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FleetRouteManager.Data.Models.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Primary Key of Address Entity");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)")
-                        .HasComment("City name");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int")
-                        .HasComment("Foreign key to Country");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date and time when the Address was marked as deleted");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasComment("Indicates if the Address was deleted");
-
-                    b.Property<string>("Number")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasComment("Street number");
-
-                    b.Property<int>("PostCode")
-                        .HasColumnType("int")
-                        .HasComment("Post code");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(58)
-                        .HasColumnType("nvarchar(58)")
-                        .HasComment("Street name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("Addresses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Sofia",
-                            CountryId = 207,
-                            IsDeleted = false,
-                            Number = "5",
-                            PostCode = 1540,
-                            Street = "Maria Atanasova"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Sofia",
-                            CountryId = 207,
-                            IsDeleted = false,
-                            Number = "1A",
-                            PostCode = 1540,
-                            Street = "Europa"
-                        });
-                });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Continent", b =>
                 {
@@ -2166,17 +2098,6 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("FleetRouteManager.Data.Models.Address", b =>
-                {
-                    b.HasOne("FleetRouteManager.Data.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Country", b =>
