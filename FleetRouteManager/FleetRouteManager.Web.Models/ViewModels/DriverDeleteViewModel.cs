@@ -1,6 +1,6 @@
 ﻿namespace FleetRouteManager.Web.Models.ViewModels
 {
-    public class DriverDeleteModel
+    public class DriverDeleteViewModel
     {
         public required int Id { get; set; }
 

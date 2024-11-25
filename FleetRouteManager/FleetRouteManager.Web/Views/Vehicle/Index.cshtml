@@ -14,7 +14,7 @@
                 <th style="padding: 15px" scope="col">First Registration</th>
                 <th style="padding: 15px" scope="col">Euro class</th>
                 <th style="padding: 15px" scope="col">Type</th>
-                <th style="padding: 15px" scope="col"></th>
+                <th style="padding: 15px" scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td style="padding: 10px 0px">
+                <td colspan="8" style="padding: 10px 0px">
                     @*     @if (User.IsInRole("Admin"))
                     { *@
                     <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>

@@ -1,6 +1,6 @@
 ﻿namespace FleetRouteManager.Web.Models.ViewModels
 {
-    public class VehicleDeleteModel
+    public class VehicleDeleteViewModel
     {
         public int Id { get; set; }
 

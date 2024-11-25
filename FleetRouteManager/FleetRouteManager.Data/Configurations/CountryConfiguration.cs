@@ -62,7 +62,9 @@ namespace FleetRouteManager.Data.Configurations
                 new Country { Id = 51, Name = "Uganda", ContinentId = 1 },
                 new Country { Id = 52, Name = "Zambia", ContinentId = 1 },
                 new Country { Id = 53, Name = "Zimbabwe", ContinentId = 1 },
+
                 new Country { Id = 100, Name = "Antarctica", ContinentId = 2 },
+
                 new Country { Id = 101, Name = "Afghanistan", ContinentId = 3 },
                 new Country { Id = 102, Name = "Armenia", ContinentId = 3 },
                 new Country { Id = 103, Name = "Azerbaijan", ContinentId = 3 },
@@ -112,6 +114,7 @@ namespace FleetRouteManager.Data.Configurations
                 new Country { Id = 147, Name = "Uzbekistan", ContinentId = 3 },
                 new Country { Id = 148, Name = "Vietnam", ContinentId = 3 },
                 new Country { Id = 149, Name = "Yemen", ContinentId = 3 },
+
                 new Country { Id = 201, Name = "Albania", ContinentId = 4 },
                 new Country { Id = 202, Name = "Andorra", ContinentId = 4 },
                 new Country { Id = 203, Name = "Austria", ContinentId = 4 },
@@ -157,6 +160,7 @@ namespace FleetRouteManager.Data.Configurations
                 new Country { Id = 243, Name = "Spain", ContinentId = 4 },
                 new Country { Id = 244, Name = "Sweden", ContinentId = 4 },
                 new Country { Id = 245, Name = "Switzerland", ContinentId = 4 },
+
                 new Country { Id = 301, Name = "Antigua and Barbuda", ContinentId = 5 },
                 new Country { Id = 302, Name = "Bahamas", ContinentId = 5 },
                 new Country { Id = 303, Name = "Barbados", ContinentId = 5 },
@@ -180,6 +184,7 @@ namespace FleetRouteManager.Data.Configurations
                 new Country { Id = 321, Name = "Saint Vincent and the Grenadines", ContinentId = 5 },
                 new Country { Id = 322, Name = "Trinidad and Tobago", ContinentId = 5 },
                 new Country { Id = 323, Name = "United States", ContinentId = 5 },
+
                 new Country { Id = 400, Name = "Australia", ContinentId = 6 },
                 new Country { Id = 401, Name = "Fiji", ContinentId = 6 },
                 new Country { Id = 402, Name = "Kiribati", ContinentId = 6 },

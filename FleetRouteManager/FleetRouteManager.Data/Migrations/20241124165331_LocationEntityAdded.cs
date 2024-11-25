@@ -42,7 +42,9 @@ namespace FleetRouteManager.Data.Migrations
                 values: new object[,]
                 {
                     { 1, 4, null, false, "Messe Munich", null },
-                    { 2, 2, null, false, "DB Schenker Bulgaria", null }
+                    { 2, 2, null, false, "DB Schenker Bulgaria", null },
+                    { 3, 3, null, false, "LKW Walter Kufstein", null },
+                    { 4, 1, null, false, "DHL Bulgaria", null }
                 });
 
             migrationBuilder.CreateIndex(

@@ -21,6 +21,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Location phone number")]
         public string? PhoneNumber { get; set; }
 
+        [Required]
         [Comment("Foreign key to Address")]
         public int AddressId { get; set; }
         [ForeignKey(nameof(AddressId))]

@@ -76,11 +76,11 @@ namespace FleetRouteManager.Services
             return model;
         }
 
-        public async Task<DriverDeleteModel?> GetDriverDeleteModelAsync(int id)
+        public async Task<DriverDeleteViewModel?> GetDriverDeleteModelAsync(int id)
         {
             return await repository.GetWhereAsIQueryable(d => d.Id == id && d.IsDeleted == false)
                 .AsNoTracking()
-                .Select(d => new DriverDeleteModel
+                .Select(d => new DriverDeleteViewModel
                 {
                     Id = d.Id,
                     Names = $"{d.FirstName} {d.MiddleName} {d.LastName}"

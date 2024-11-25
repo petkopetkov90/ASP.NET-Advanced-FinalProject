@@ -1682,6 +1682,20 @@ namespace FleetRouteManager.Data.Migrations
                             AddressId = 2,
                             IsDeleted = false,
                             Name = "DB Schenker Bulgaria"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AddressId = 3,
+                            IsDeleted = false,
+                            Name = "LKW Walter Kufstein"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AddressId = 1,
+                            IsDeleted = false,
+                            Name = "DHL Bulgaria"
                         });
                 });
 

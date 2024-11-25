@@ -12,6 +12,7 @@
                 <th style="padding: 15px" scope="col">Driver License</th>
                 <th style="padding: 15px" scope="col">Employed at</th>
                 <th style="padding: 15px" scope="col">Vehicle</th>
+                <th style="padding: 15px" scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +36,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td style="padding: 10px 0px">
+                <td colspan="6" style="padding: 10px 0px">
                     @*     @if (User.IsInRole("Admin"))
                     { *@
                     <a asp-action="Assign" asp-controller="Driver" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Assign New Driver</a>

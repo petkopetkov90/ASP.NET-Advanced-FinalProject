@@ -27,6 +27,18 @@ namespace FleetRouteManager.Data.Configurations
                     Id = 2,
                     Name = "DB Schenker Bulgaria",
                     AddressId = 2
+                },
+                new Location
+                {
+                    Id = 3,
+                    Name = "LKW Walter Kufstein",
+                    AddressId = 3
+                },
+                new Location
+                {
+                    Id = 4,
+                    Name = "DHL Bulgaria",
+                    AddressId = 1
                 });
         }
     }

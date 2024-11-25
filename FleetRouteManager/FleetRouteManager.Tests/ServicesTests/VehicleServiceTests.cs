@@ -104,7 +104,7 @@ namespace FleetRouteManager.Tests.ServicesTests
             var result = await vehicleService.GetVehicleDeleteModelAsync(id);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<VehicleDeleteModel>());
+            Assert.That(result, Is.InstanceOf<VehicleDeleteViewModel>());
         }
 
         [TestCase(0)]

@@ -80,11 +80,11 @@ namespace FleetRouteManager.Services
             return model;
         }
 
-        public async Task<VehicleDeleteModel?> GetVehicleDeleteModelAsync(int id)
+        public async Task<VehicleDeleteViewModel?> GetVehicleDeleteModelAsync(int id)
         {
             return await repository.GetWhereAsIQueryable(v => v.Id == id && v.IsDeleted == false)
                 .AsNoTracking()
-                .Select(v => new VehicleDeleteModel
+                .Select(v => new VehicleDeleteViewModel
                 {
                     Id = v.Id,
                     RegistrationNumber = v.RegistrationNumber
@@ -206,17 +206,17 @@ namespace FleetRouteManager.Services
             return await repository.UpdateAsync(vehicle);
         }
 
-        public async Task<IEnumerable<VehicleListItemForDriver>> GetVehicleList()
+        public async Task<IEnumerable<VehicleListItemViewModel>> GetVehicleList()
         {
             var vehicleList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
-                .Select(v => new VehicleListItemForDriver
+                .Select(v => new VehicleListItemViewModel
                 {
                     Id = v.Id,
                     RegistrationNumber = v.RegistrationNumber
                 })
                 .ToListAsync();
 
-            vehicleList.Insert(0, new VehicleListItemForDriver());
+            vehicleList.Insert(0, new VehicleListItemViewModel());
 
             return vehicleList;
         }
