@@ -35,15 +35,9 @@
     <div class="container-fluid" style="display: flex; padding: 1rem;">
         @if (User.Identity?.IsAuthenticated ?? false)
         {
-            <style>
-                .nav-link:hover {
-                    font-weight: bolder;
-                    font-size: 20px;
-                }
-            </style>
-            <aside class="sidebar" style="width: 200px; background-color: #f8f9fa; padding: 1rem;">
+            <aside class="sidebar" style="width: auto; flex-grow">
                 <h4 class="sidebar-title">Navigation</h4>
-                <nav class="flex-column" style="font-weight: bold;">
+                <nav class="flex-grow-1; nav-tabs" style="font-weight: bold;">
                     <a class="nav-link" asp-controller="Vehicle" asp-action="Index">Vehicles</a>
                     <a class="nav-link" asp-controller="Driver" asp-action="Index">Drivers</a>
                     <a class="nav-link" asp-controller="Trip" asp-action="Index">Trips</a>

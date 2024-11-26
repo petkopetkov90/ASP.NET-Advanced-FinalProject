@@ -32,5 +32,62 @@ namespace FleetRouteManager.Services
                 }
                 ).ToListAsync();
         }
+
+
+        public async Task<LocationDetailsViewModel?> GetLocationDetailsAsync(int id)
+        {
+            var location = await repository.GetWhereAsIQueryable(l => !l.IsDeleted && l.Id == id)
+                .Include(l => l.Address)
+                .ThenInclude(a => a.Country)
+                .AsNoTracking().
+                FirstOrDefaultAsync();
+
+            if (location == null)
+            {
+                return null;
+            }
+
+            var model = new LocationDetailsViewModel
+            {
+                Id = location.Id,
+                Name = location.Name,
+                PhoneNumber = location.PhoneNumber,
+                Street = location.Address.Street,
+                StreetNumber = location.Address.Number,
+                PostCode = location.Address.PostCode,
+                City = location.Address.City,
+                Country = location.Address.Country.Name
+            };
+
+            return model;
+        }
+
+        public async Task<LocationDeleteViewModel?> GetLocationDeleteModelAsync(int id)
+        {
+            return await repository.GetWhereAsIQueryable(d => d.Id == id && d.IsDeleted == false)
+                .Include(d => d.Address)
+                .AsNoTracking()
+                .Select(l => new LocationDeleteViewModel
+                {
+                    Id = l.Id,
+                    Location = $"{l.Name} {l.Address.PostCode} {l.Address.City}"
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> DeleteLocationAsync(int id)
+        {
+            var location = await repository.GetByIdAsync(id);
+
+            if (location == null || location.IsDeleted)
+            {
+                return false;
+            }
+
+            location.IsDeleted = true;
+            location.DeletedOn = DateTime.Now;
+
+            return await repository.UpdateAsync(location);
+        }
     }
 }
