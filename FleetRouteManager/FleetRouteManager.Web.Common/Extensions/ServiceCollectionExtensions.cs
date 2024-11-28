@@ -18,7 +18,6 @@ namespace FleetRouteManager.Web.Common.Extensions
             services.AddScoped<IRepository<Driver, int>, Repository<Driver, int>>();
             services.AddScoped<IRepository<Continent, int>, Repository<Continent, int>>();
             services.AddScoped<IRepository<Country, int>, Repository<Country, int>>();
-            services.AddScoped<IRepository<Address, int>, Repository<Address, int>>();
             services.AddScoped<IRepository<Location, int>, Repository<Location, int>>();
         }
 

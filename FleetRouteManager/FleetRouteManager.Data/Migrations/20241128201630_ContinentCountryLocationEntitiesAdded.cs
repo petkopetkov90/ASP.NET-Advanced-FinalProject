@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FleetRouteManager.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ContinentCountryAddressEntitiesAdded : Migration
+    public partial class ContinentCountryLocationEntitiesAdded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -91,24 +91,26 @@ namespace FleetRouteManager.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Addresses",
+                name: "Locations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key of Address Entity")
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary key of Location entity")
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false, comment: "Location name"),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "Location phone number"),
                     Street = table.Column<string>(type: "nvarchar(58)", maxLength: 58, nullable: false, comment: "Street name"),
                     Number = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true, comment: "Street number"),
                     PostCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Post code"),
                     City = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "City name"),
                     CountryId = table.Column<int>(type: "int", nullable: false, comment: "Foreign key to Country"),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, comment: "Indicates if the Address was deleted"),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true, comment: "Date and time when the Address was marked as deleted")
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, comment: "Indicates if the Location was deleted"),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true, comment: "Date and time when the Location was marked as deleted")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Addresses_Countries_CountryId",
+                        name: "FK_Locations_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
@@ -316,32 +318,32 @@ namespace FleetRouteManager.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Addresses",
-                columns: new[] { "Id", "City", "CountryId", "DeletedOn", "IsDeleted", "Number", "PostCode", "Street" },
+                table: "Locations",
+                columns: new[] { "Id", "City", "CountryId", "DeletedOn", "IsDeleted", "Name", "Number", "PhoneNumber", "PostCode", "Street" },
                 values: new object[,]
                 {
-                    { 1, "Sofia", 207, null, false, "5", "1540", "Maria Atanasova" },
-                    { 2, "Sofia", 207, null, false, "1A", "2227", "Europa" },
-                    { 3, "Kufstein", 203, null, false, "1", "6330", "Zeller Str." },
-                    { 4, "Munich", 216, null, false, "2", "81829", "Am Messesee" }
+                    { 1, "Munich", 216, null, false, "Messe Munich", "2", null, "81829", "Am Messesee" },
+                    { 2, "Sofia", 207, null, false, "DB Schenker Bulgaria", "5", null, "1540", "Maria Atanasova" },
+                    { 3, "Kufstein", 203, null, false, "LKW Walter Kufstein", "1", null, "6330", "Zeller Str." },
+                    { 4, "Sofia", 207, null, false, "DHL Bulgaria", "1A", null, "2227", "Europa" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_CountryId",
-                table: "Addresses",
-                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Countries_ContinentId",
                 table: "Countries",
                 column: "ContinentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Locations_CountryId",
+                table: "Locations",
+                column: "CountryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Countries");

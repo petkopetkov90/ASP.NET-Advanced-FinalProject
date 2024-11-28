@@ -72,7 +72,7 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
-        [HttpPost("Delete Driver")]
+        [HttpPost("Delete Location")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             if (User.Identity?.IsAuthenticated != true)

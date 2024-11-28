@@ -9,36 +9,47 @@ namespace FleetRouteManager.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Location> builder)
         {
-            builder
-                .HasOne(l => l.Address)
-                .WithMany(a => a.Locations)
-                .HasForeignKey(l => l.AddressId)
-                .OnDelete(deleteBehavior: DeleteBehavior.Restrict);
 
             builder.HasData(
                 new Location
                 {
                     Id = 1,
                     Name = "Messe Munich",
-                    AddressId = 4
+                    Street = "Am Messesee",
+                    Number = "2",
+                    PostCode = "81829",
+                    City = "Munich",
+                    CountryId = 216,
                 },
                 new Location
                 {
                     Id = 2,
                     Name = "DB Schenker Bulgaria",
-                    AddressId = 2
+                    Street = "Maria Atanasova",
+                    Number = "5",
+                    PostCode = "1540",
+                    City = "Sofia",
+                    CountryId = 207,
                 },
                 new Location
                 {
                     Id = 3,
                     Name = "LKW Walter Kufstein",
-                    AddressId = 3
+                    Street = "Zeller Str.",
+                    Number = "1",
+                    PostCode = "6330",
+                    City = "Kufstein",
+                    CountryId = 203,
                 },
                 new Location
                 {
                     Id = 4,
                     Name = "DHL Bulgaria",
-                    AddressId = 1
+                    Street = "Europa",
+                    Number = "1A",
+                    PostCode = "2227",
+                    City = "Sofia",
+                    CountryId = 207,
                 });
         }
     }

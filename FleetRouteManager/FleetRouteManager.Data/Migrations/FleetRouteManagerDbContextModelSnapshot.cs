@@ -22,99 +22,6 @@ namespace FleetRouteManager.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FleetRouteManager.Data.Models.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Primary Key of Address Entity");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)")
-                        .HasComment("City name");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int")
-                        .HasComment("Foreign key to Country");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date and time when the Address was marked as deleted");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasComment("Indicates if the Address was deleted");
-
-                    b.Property<string>("Number")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasComment("Street number");
-
-                    b.Property<string>("PostCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasComment("Post code");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(58)
-                        .HasColumnType("nvarchar(58)")
-                        .HasComment("Street name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("Addresses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Sofia",
-                            CountryId = 207,
-                            IsDeleted = false,
-                            Number = "5",
-                            PostCode = "1540",
-                            Street = "Maria Atanasova"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Sofia",
-                            CountryId = 207,
-                            IsDeleted = false,
-                            Number = "1A",
-                            PostCode = "2227",
-                            Street = "Europa"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Kufstein",
-                            CountryId = 203,
-                            IsDeleted = false,
-                            Number = "1",
-                            PostCode = "6330",
-                            Street = "Zeller Str."
-                        },
-                        new
-                        {
-                            Id = 4,
-                            City = "Munich",
-                            CountryId = 216,
-                            IsDeleted = false,
-                            Number = "2",
-                            PostCode = "81829",
-                            Street = "Am Messesee"
-                        });
-                });
-
             modelBuilder.Entity("FleetRouteManager.Data.Models.Continent", b =>
                 {
                     b.Property<int>("Id")
@@ -1639,9 +1546,15 @@ namespace FleetRouteManager.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AddressId")
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)")
+                        .HasComment("City name");
+
+                    b.Property<int>("CountryId")
                         .HasColumnType("int")
-                        .HasComment("Foreign key to Address");
+                        .HasComment("Foreign key to Country");
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2")
@@ -1657,14 +1570,31 @@ namespace FleetRouteManager.Data.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasComment("Location name");
 
+                    b.Property<string>("Number")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasComment("Street number");
+
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasComment("Location phone number");
 
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasComment("Post code");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(58)
+                        .HasColumnType("nvarchar(58)")
+                        .HasComment("Street name");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Locations");
 
@@ -1672,30 +1602,46 @@ namespace FleetRouteManager.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AddressId = 4,
+                            City = "Munich",
+                            CountryId = 216,
                             IsDeleted = false,
-                            Name = "Messe Munich"
+                            Name = "Messe Munich",
+                            Number = "2",
+                            PostCode = "81829",
+                            Street = "Am Messesee"
                         },
                         new
                         {
                             Id = 2,
-                            AddressId = 2,
+                            City = "Sofia",
+                            CountryId = 207,
                             IsDeleted = false,
-                            Name = "DB Schenker Bulgaria"
+                            Name = "DB Schenker Bulgaria",
+                            Number = "5",
+                            PostCode = "1540",
+                            Street = "Maria Atanasova"
                         },
                         new
                         {
                             Id = 3,
-                            AddressId = 3,
+                            City = "Kufstein",
+                            CountryId = 203,
                             IsDeleted = false,
-                            Name = "LKW Walter Kufstein"
+                            Name = "LKW Walter Kufstein",
+                            Number = "1",
+                            PostCode = "6330",
+                            Street = "Zeller Str."
                         },
                         new
                         {
                             Id = 4,
-                            AddressId = 1,
+                            City = "Sofia",
+                            CountryId = 207,
                             IsDeleted = false,
-                            Name = "DHL Bulgaria"
+                            Name = "DHL Bulgaria",
+                            Number = "1A",
+                            PostCode = "2227",
+                            Street = "Europa"
                         });
                 });
 
@@ -2260,17 +2206,6 @@ namespace FleetRouteManager.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FleetRouteManager.Data.Models.Address", b =>
-                {
-                    b.HasOne("FleetRouteManager.Data.Models.Country", "Country")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-                });
-
             modelBuilder.Entity("FleetRouteManager.Data.Models.Country", b =>
                 {
                     b.HasOne("FleetRouteManager.Data.Models.Continent", "Continent")
@@ -2294,13 +2229,13 @@ namespace FleetRouteManager.Data.Migrations
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Location", b =>
                 {
-                    b.HasOne("FleetRouteManager.Data.Models.Address", "Address")
+                    b.HasOne("FleetRouteManager.Data.Models.Country", "Country")
                         .WithMany("Locations")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Vehicle", b =>
@@ -2373,11 +2308,6 @@ namespace FleetRouteManager.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FleetRouteManager.Data.Models.Address", b =>
-                {
-                    b.Navigation("Locations");
-                });
-
             modelBuilder.Entity("FleetRouteManager.Data.Models.Continent", b =>
                 {
                     b.Navigation("Countries");
@@ -2385,7 +2315,7 @@ namespace FleetRouteManager.Data.Migrations
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Country", b =>
                 {
-                    b.Navigation("Addresses");
+                    b.Navigation("Locations");
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Manufacturer", b =>
