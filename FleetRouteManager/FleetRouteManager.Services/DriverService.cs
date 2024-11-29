@@ -33,8 +33,7 @@ namespace FleetRouteManager.Services
                     DrivingLicense = d.DrivingLicense,
                     EmployedAt = d.EmployedOn.ToString(DriverDateFormat),
                     Vehicle = d.Vehicle != null ? d.Vehicle.RegistrationNumber : string.Empty
-                }
-                ).OrderBy(d => d.Id)
+                })
                 .ToListAsync();
         }
 

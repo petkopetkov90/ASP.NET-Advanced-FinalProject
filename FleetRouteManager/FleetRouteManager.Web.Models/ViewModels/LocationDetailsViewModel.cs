@@ -8,7 +8,7 @@
 
         public string? PhoneNumber { get; set; }
 
-        public required string Street { get; set; }
+        public required string StreetName { get; set; }
 
         public string? StreetNumber { get; set; }
 

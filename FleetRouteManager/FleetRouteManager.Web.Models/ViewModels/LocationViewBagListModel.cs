@@ -1,9 +1,9 @@
 ﻿namespace FleetRouteManager.Web.Models.ViewModels
 {
-    public class LocationDeleteViewModel
+    public class LocationViewBagListModel
     {
         public required int Id { get; set; }
 
-        public required string LocationDetail { get; set; }
+        public required string Name { get; set; }
     }
 }

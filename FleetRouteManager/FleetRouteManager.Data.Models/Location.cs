@@ -22,16 +22,16 @@ namespace FleetRouteManager.Data.Models
         public string? PhoneNumber { get; set; }
 
         [Required]
-        [MaxLength(StreetMaxLength)]
+        [MaxLength(StreetNameMaxLength)]
         [Comment("Street name")]
         public string Street { get; set; } = null!;
 
-        [MaxLength(NumberMaxLength)]
+        [MaxLength(StreetNumberMaxLength)]
         [Comment("Street number")]
         public string? Number { get; set; }
 
         [Required]
-        [MaxLength(CodeMaxLength)]
+        [MaxLength(PostCodeMaxLength)]
         [Comment("Post code")]
         public string PostCode { get; set; } = null!;
 

@@ -98,7 +98,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await SetDriverViewDataSelectListsAsync();
+            await SetViewBagSelectListsAsync();
 
             var model = new DriverCreateInputModel();
 
@@ -115,7 +115,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                await SetDriverViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
@@ -128,7 +128,7 @@ namespace FleetRouteManager.Web.Controllers
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
 
-                await SetDriverViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
@@ -142,7 +142,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await SetDriverViewDataSelectListsAsync();
+            await SetViewBagSelectListsAsync();
 
             var model = await driverService.GetDriverEditModelAsync(id);
 
@@ -159,7 +159,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                await SetDriverViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
@@ -172,15 +172,15 @@ namespace FleetRouteManager.Web.Controllers
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
 
-                await SetDriverViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
         }
 
-        private async Task SetDriverViewDataSelectListsAsync()
+        private async Task SetViewBagSelectListsAsync()
         {
-            ViewBag.Vehicles = new SelectList(await vehicleService.GetVehicleList(), "Id", "RegistrationNumber");
+            ViewBag.Vehicles = new SelectList(await vehicleService.GetVehicleViewBagList(), "Id", "RegistrationNumber");
         }
     }
 }

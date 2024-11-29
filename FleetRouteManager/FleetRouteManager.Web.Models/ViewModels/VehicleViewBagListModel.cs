@@ -1,6 +1,6 @@
 ﻿namespace FleetRouteManager.Web.Models.ViewModels
 {
-    public class VehicleListItemViewModel
+    public class VehicleViewBagListModel
     {
         public int? Id { get; set; }
 

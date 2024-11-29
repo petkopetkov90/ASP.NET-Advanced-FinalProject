@@ -1,6 +1,7 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.InputModels;
 using FleetRouteManager.Web.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,8 +29,8 @@ namespace FleetRouteManager.Services
                     PostCode = l.PostCode,
                     City = l.City,
                     Country = l.Country.Name
-                }
-                ).ToListAsync();
+                })
+                .ToListAsync();
         }
 
 
@@ -50,7 +51,7 @@ namespace FleetRouteManager.Services
                 Id = location.Id,
                 Name = location.Name,
                 PhoneNumber = location.PhoneNumber,
-                Street = location.Street,
+                StreetName = location.Street,
                 StreetNumber = location.Number,
                 PostCode = location.PostCode,
                 City = location.City,
@@ -67,7 +68,7 @@ namespace FleetRouteManager.Services
                 .Select(l => new LocationDeleteViewModel
                 {
                     Id = l.Id,
-                    Location = $"{l.Name} {l.PostCode} {l.City}"
+                    LocationDetail = $"{l.Name} {l.PostCode} {l.City}"
                 })
                 .FirstOrDefaultAsync();
         }
@@ -85,6 +86,22 @@ namespace FleetRouteManager.Services
             location.DeletedOn = DateTime.Now;
 
             return await repository.UpdateAsync(location);
+        }
+
+        public async Task<bool> CreateNewLocationAsync(LocationCreateInputModel model)
+        {
+            var location = new Location
+            {
+                Name = model.Name,
+                PhoneNumber = model.PhoneNumber,
+                Street = model.StreetName,
+                Number = model.StreetNumber,
+                PostCode = model.PostCode,
+                City = model.City,
+                CountryId = model.CountryId,
+            };
+
+            return await repository.AddAsync(location);
         }
     }
 }

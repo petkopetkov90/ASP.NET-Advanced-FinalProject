@@ -38,7 +38,6 @@ namespace FleetRouteManager.Services
                     Type = v.VehicleType.Type
 
                 })
-                .OrderBy(v => v.Id)
                 .ToListAsync();
         }
 
@@ -206,17 +205,17 @@ namespace FleetRouteManager.Services
             return await repository.UpdateAsync(vehicle);
         }
 
-        public async Task<IEnumerable<VehicleListItemViewModel>> GetVehicleList()
+        public async Task<IEnumerable<VehicleViewBagListModel>> GetVehicleViewBagList()
         {
             var vehicleList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
-                .Select(v => new VehicleListItemViewModel
+                .Select(v => new VehicleViewBagListModel
                 {
                     Id = v.Id,
                     RegistrationNumber = v.RegistrationNumber
                 })
                 .ToListAsync();
 
-            vehicleList.Insert(0, new VehicleListItemViewModel());
+            vehicleList.Insert(0, new VehicleViewBagListModel());
 
             return vehicleList;
         }

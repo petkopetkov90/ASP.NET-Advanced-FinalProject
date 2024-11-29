@@ -28,6 +28,7 @@ namespace FleetRouteManager.Web.Common.Extensions
             services.AddScoped<IVehicleTypeService, VehicleTypeService>();
             services.AddScoped<IDriverService, DriverService>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<ICountryService, CountryService>();
         }
     }
 }

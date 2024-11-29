@@ -15,15 +15,12 @@ namespace FleetRouteManager.Web.Controllers
         private readonly IVehicleService vehicleService;
         private readonly IManufacturerService manufacturerService;
         private readonly IVehicleTypeService vehicleTypeService;
-        private readonly UserManager<IdentityUser> userManager;
 
         public VehicleController(IVehicleService vehicleService, IManufacturerService manufacturerService, IVehicleTypeService vehicleTypeService, UserManager<IdentityUser> userManager)
         {
             this.vehicleService = vehicleService;
             this.manufacturerService = manufacturerService;
             this.vehicleTypeService = vehicleTypeService;
-            this.userManager = userManager;
-
         }
 
         [HttpGet("Vehicles")]
@@ -105,7 +102,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await SetVehicleViewDataSelectListsAsync();
+            await SetViewBagSelectListsAsync();
             var model = new VehicleCreateInputModel();
             return View(model);
         }
@@ -120,7 +117,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                await SetVehicleViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
@@ -133,7 +130,7 @@ namespace FleetRouteManager.Web.Controllers
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
 
-                await SetVehicleViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
@@ -147,7 +144,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await SetVehicleViewDataSelectListsAsync();
+            await SetViewBagSelectListsAsync();
 
             var model = await vehicleService.GetVehicleEditModelAsync(id);
 
@@ -164,7 +161,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                await SetVehicleViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
@@ -177,13 +174,13 @@ namespace FleetRouteManager.Web.Controllers
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
 
-                await SetVehicleViewDataSelectListsAsync();
+                await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
         }
 
-        private async Task SetVehicleViewDataSelectListsAsync()
+        private async Task SetViewBagSelectListsAsync()
         {
             ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
             ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");

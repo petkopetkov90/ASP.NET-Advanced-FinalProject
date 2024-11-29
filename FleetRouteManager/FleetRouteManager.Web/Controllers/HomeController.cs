@@ -19,7 +19,7 @@ namespace FleetRouteManager.Web.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("Privacy")]
         public IActionResult Privacy()
         {
             return View();

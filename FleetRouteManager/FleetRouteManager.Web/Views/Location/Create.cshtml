@@ -1,0 +1,62 @@
+﻿@model LocationCreateInputModel
+
+@{
+    ViewData["Title"] = "Add New Location";
+}
+
+<h1 style="font-style: italic">@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Name" style="font-style: italic; font-weight: 600">Location Name</label>
+        <input asp-for="@Model.Name" class="form-control" />
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PhoneNumber" style="font-style: italic; font-weight: 600">Phone Number</label>
+        <input asp-for="@Model.PhoneNumber" class="form-control" />
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.StreetName" style="font-style: italic; font-weight: 600">Street Name</label>
+        <input asp-for="@Model.StreetName" class="form-control" />
+        <span asp-validation-for="@Model.StreetName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.StreetNumber" style="font-style: italic; font-weight: 600">Street Number</label>
+        <input asp-for="@Model.StreetNumber" class="form-control" />
+        <span asp-validation-for="@Model.StreetNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PostCode" style="font-style: italic; font-weight: 600">Post Code</label>
+        <input asp-for="@Model.PostCode" class="form-control"></input>
+        <span asp-validation-for="@Model.PostCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.City" style="font-style: italic; font-weight: 600">City Name</label>
+        <input asp-for="@Model.City" class="form-control" />
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.CountryId" style="font-style: italic; font-weight: 600">Country</label>
+        <select asp-for="@Model.CountryId" asp-items="ViewBag.Countries" class="form-control"></select>
+        <span asp-validation-for="@Model.CountryId" class="text-danger"></span>
+    </div>
+
+    <div style="margin-top: 16px">
+        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
+        <a asp-action="Index" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
