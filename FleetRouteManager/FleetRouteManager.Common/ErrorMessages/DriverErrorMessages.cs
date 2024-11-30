@@ -8,7 +8,7 @@
 
         public const string DriverPhoneRequiredMsg = "Phone number is required.";
         public const string DriverPhoneLengthMsg = "Phone number must be between 9 and 20 digits.";
-        public const string DriverPhoneFormatMsg = "Phone number must contain only digits (0-9) and may optionaly start with a \"+\".<br>It may optionally contain spaces ( ) between groups of digits, but only one space is allowed in a row.";
+        public const string DriverPhoneFormatMsg = "Phone number must contain only digits (0-9) and may optionally start with a '+'.<br>It may contain spaces ( ), hyphens (-) or perionds (.) between groups of digits, but only one symbol is allowed in a row.";
 
         public const string DriverDrivingLicenseRequiredMsg = "Driving license is required.";
         public const string DriverDrivingLicenseLengthMsg = "Driving license must be between 8 and 15 characters.";

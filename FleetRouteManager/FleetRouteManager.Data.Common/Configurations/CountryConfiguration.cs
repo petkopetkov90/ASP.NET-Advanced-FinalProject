@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FleetRouteManager.Data.Configurations
+namespace FleetRouteManager.Data.Common.Configurations
 {
     public class CountryConfiguration : IEntityTypeConfiguration<Country>
     {

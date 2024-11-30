@@ -1,9 +1,8 @@
-﻿
-using FleetRouteManager.Data.Models;
+﻿using FleetRouteManager.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FleetRouteManager.Data.Configurations
+namespace FleetRouteManager.Data.Common.Configurations
 {
     public class LocationConfiguration : IEntityTypeConfiguration<Location>
     {
@@ -50,6 +49,16 @@ namespace FleetRouteManager.Data.Configurations
                     PostCode = "2227",
                     City = "Sofia",
                     CountryId = 207,
+                },
+                new Location
+                {
+                    Id = 5,
+                    Name = "LKW Walter Wiener Neudorf",
+                    Street = "IZ No-Sud Strasse 14",
+                    Number = "1",
+                    PostCode = "2355",
+                    City = "Wiener Neudorf",
+                    CountryId = 203,
                 });
         }
     }

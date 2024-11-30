@@ -1,4 +1,4 @@
-﻿using FleetRouteManager.Data.Configurations;
+﻿using FleetRouteManager.Data.Common.Configurations;
 using FleetRouteManager.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -20,6 +20,7 @@ namespace FleetRouteManager.Data
         public virtual DbSet<Continent> Continents { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,6 +32,7 @@ namespace FleetRouteManager.Data
             builder.ApplyConfiguration(new ContinentConfiguration());
             builder.ApplyConfiguration(new CountryConfiguration());
             builder.ApplyConfiguration(new LocationConfiguration());
+            builder.ApplyConfiguration(new ClientConfiguration());
 
             base.OnModelCreating(builder);
         }

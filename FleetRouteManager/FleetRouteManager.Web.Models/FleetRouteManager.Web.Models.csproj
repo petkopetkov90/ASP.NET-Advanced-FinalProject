@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FleetRouteManager.Common\FleetRouteManager.Common.csproj" />
-    <ProjectReference Include="..\FleetRouteManager.Data.Common\FleetRouteManager.Data.Common.csproj" />
   </ItemGroup>
 
 </Project>

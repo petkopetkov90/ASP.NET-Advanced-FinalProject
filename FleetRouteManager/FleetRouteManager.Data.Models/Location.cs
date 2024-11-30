@@ -51,5 +51,6 @@ namespace FleetRouteManager.Data.Models
 
         [Comment("Date and time when the Location was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
+
     }
 }

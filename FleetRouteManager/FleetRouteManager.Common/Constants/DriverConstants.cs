@@ -8,7 +8,7 @@
 
         public const int DriverPhoneMinLength = 9;
         public const int DriverPhoneMaxLength = 20;
-        public const string DriverPhoneFormatRegex = @"^\+?[0-9]+(?:\s?[0-9]+)*$";
+        public const string DriverPhoneFormatRegex = @"^\+?[0-9]{1,4}?[-.\s]?[0-9]+([-.\s]?[0-9]+)*$";
 
         public const int DriverDrivingLicenseMinLength = 8;
         public const int DriverDrivingLicenseMaxLength = 15;
