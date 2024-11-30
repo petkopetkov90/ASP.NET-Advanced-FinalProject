@@ -1,6 +1,6 @@
 ﻿using FleetRouteManager.Common.Enums;
 
-namespace FleetRouteManager.Web.Models.ViewModels
+namespace FleetRouteManager.Web.Models.ViewModels.VehicleViewModels
 {
     public class VehicleDetailsViewModel
     {

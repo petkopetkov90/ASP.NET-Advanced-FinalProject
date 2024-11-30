@@ -1,4 +1,4 @@
-﻿namespace FleetRouteManager.Web.Models.ViewModels
+﻿namespace FleetRouteManager.Web.Models.ViewModels.LocationViewModels
 {
     public class LocationDeleteViewModel
     {

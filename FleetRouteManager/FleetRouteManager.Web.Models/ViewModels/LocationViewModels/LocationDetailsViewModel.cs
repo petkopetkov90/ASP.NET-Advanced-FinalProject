@@ -1,10 +1,16 @@
-﻿namespace FleetRouteManager.Web.Models.ViewModels
+﻿namespace FleetRouteManager.Web.Models.ViewModels.LocationViewModels
 {
-    public class LocationViewModel
+    public class LocationDetailsViewModel
     {
         public required int Id { get; set; }
 
         public required string Name { get; set; }
+
+        public string? PhoneNumber { get; set; }
+
+        public required string StreetName { get; set; }
+
+        public string? StreetNumber { get; set; }
 
         public required string PostCode { get; set; }
 

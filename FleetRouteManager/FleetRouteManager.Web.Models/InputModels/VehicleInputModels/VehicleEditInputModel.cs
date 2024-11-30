@@ -1,13 +1,14 @@
-﻿using FleetRouteManager.Common.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using FleetRouteManager.Common.Enums;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
 using static FleetRouteManager.Common.ErrorMessages.VehicleErrorMessages;
 
-
-namespace FleetRouteManager.Web.Models.InputModels
+namespace FleetRouteManager.Web.Models.InputModels.VehicleInputModels
 {
-    public class VehicleCreateInputModel
+    public class VehicleEditInputModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = VehicleRegistrationNumberRequiredMsg)]
         [StringLength(VehicleRegistrationNumberMaxLength, MinimumLength = VehicleRegistrationNumberMinLength, ErrorMessage = VehicleRegistrationNumberLengthMsg)]
         [RegularExpression(VehicleRegistrationNumberFormatRegex, ErrorMessage = VehicleRegistrationNumberFormatMsg)]
@@ -63,5 +64,4 @@ namespace FleetRouteManager.Web.Models.InputModels
         [RegularExpression(VehicleDateFormatRegex, ErrorMessage = VehicleDateValidFormatMsg)]
         public string? TachographExpirationDate { get; set; }
     }
-
 }

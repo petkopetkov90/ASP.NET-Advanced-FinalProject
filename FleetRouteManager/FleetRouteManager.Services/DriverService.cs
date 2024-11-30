@@ -1,8 +1,8 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
-using FleetRouteManager.Web.Models.InputModels;
-using FleetRouteManager.Web.Models.ViewModels;
+using FleetRouteManager.Web.Models.InputModels.DriverInputModels;
+using FleetRouteManager.Web.Models.ViewModels.DriverViewModels;
 using Microsoft.EntityFrameworkCore;
 using static FleetRouteManager.Common.Constants.DriverConstants;
 using static FleetRouteManager.Common.Parsers.CustomDateParser;

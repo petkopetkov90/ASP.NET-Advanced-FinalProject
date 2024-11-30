@@ -2,7 +2,7 @@
 using static FleetRouteManager.Common.Constants.LocationConstants;
 using static FleetRouteManager.Common.ErrorMessages.LocationErrorMessages;
 
-namespace FleetRouteManager.Web.Models.InputModels
+namespace FleetRouteManager.Web.Models.InputModels.LocationInputModels
 {
     public class LocationCreateInputModel
     {

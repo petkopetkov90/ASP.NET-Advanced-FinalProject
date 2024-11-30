@@ -20,7 +20,7 @@
         public const int VehicleMinAxles = 2;
         public const int VehicleMaxAxles = 5;
 
-        public const double VehicleMinWeightCapacity = 0.1;
+        public const double VehicleMinWeightCapacity = 0;
         public const double VehicleMaxWeightCapacity = 40.0;
 
         public const int VehicleLiabilityInsuranceMaxLength = 50;

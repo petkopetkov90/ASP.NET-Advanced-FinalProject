@@ -2,7 +2,7 @@
 using static FleetRouteManager.Common.Constants.DriverConstants;
 using static FleetRouteManager.Common.ErrorMessages.DriverErrorMessages;
 
-namespace FleetRouteManager.Web.Models.InputModels
+namespace FleetRouteManager.Web.Models.InputModels.DriverInputModels
 {
     public class DriverCreateInputModel
     {

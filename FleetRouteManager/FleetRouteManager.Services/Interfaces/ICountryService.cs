@@ -1,9 +1,9 @@
-﻿using FleetRouteManager.Web.Models.ViewModels;
+﻿using FleetRouteManager.Web.Models.ViewModels.CountryViewModels;
 
 namespace FleetRouteManager.Services.Interfaces
 {
     public interface ICountryService
     {
-        Task<IEnumerable<LocationViewBagListModel>> GetCountryViewBagList();
+        Task<IEnumerable<CountryViewBagListModel>> GetCountryViewBagListAsync();
     }
 }

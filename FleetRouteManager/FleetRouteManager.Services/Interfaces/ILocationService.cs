@@ -1,5 +1,5 @@
-﻿using FleetRouteManager.Web.Models.InputModels;
-using FleetRouteManager.Web.Models.ViewModels;
+﻿using FleetRouteManager.Web.Models.InputModels.LocationInputModels;
+using FleetRouteManager.Web.Models.ViewModels.LocationViewModels;
 
 namespace FleetRouteManager.Services.Interfaces
 {
@@ -10,5 +10,7 @@ namespace FleetRouteManager.Services.Interfaces
         Task<LocationDeleteViewModel?> GetLocationDeleteModelAsync(int id);
         Task<bool> DeleteLocationAsync(int id);
         Task<bool> CreateNewLocationAsync(LocationCreateInputModel model);
+        Task<LocationEditInputModel> GetLocationEditModelAsync(int id);
+        Task<bool> EditLocationAsync(LocationEditInputModel model);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.ViewModels.ManufacturerViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace FleetRouteManager.Services
 {
@@ -13,9 +15,18 @@ namespace FleetRouteManager.Services
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<Manufacturer>> GetAllManufacturersAsync()
+        public async Task<IEnumerable<ManufacturerViewBagListModel>> GetManufacturersViewBagListAsync()
         {
-            return await repository.GetAllAsync();
+            var manufacturerList = await repository.GetWhereAsIQueryable(m => !m.IsDeleted)
+                .Select(m => new ManufacturerViewBagListModel
+                {
+                    Id = m.Id,
+                    Name = m.Name
+
+                })
+                .ToListAsync();
+
+            return manufacturerList;
         }
     }
 }

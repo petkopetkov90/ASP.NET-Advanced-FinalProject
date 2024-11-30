@@ -1,12 +1,12 @@
-﻿@model FleetRouteManager.Web.Models.InputModels.LocationInputModels.LocationCreateInputModel
+﻿@model FleetRouteManager.Web.Models.InputModels.LocationInputModels.LocationEditInputModel
 
 @{
-    ViewData["Title"] = "Add New Location";
+    ViewData["Title"] = "Edit Location";
 }
 
 <h1 style="font-style: italic">@ViewData["Title"]</h1>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
     <div class="form-group">
         <label asp-for="@Model.Name" style="font-style: italic; font-weight: 600">Location Name</label>
         <input asp-for="@Model.Name" class="form-control" />

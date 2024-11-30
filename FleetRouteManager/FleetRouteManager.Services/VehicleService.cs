@@ -1,8 +1,8 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
-using FleetRouteManager.Web.Models.InputModels;
-using FleetRouteManager.Web.Models.ViewModels;
+using FleetRouteManager.Web.Models.InputModels.VehicleInputModels;
+using FleetRouteManager.Web.Models.ViewModels.VehicleViewModels;
 using Microsoft.EntityFrameworkCore;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
 using static FleetRouteManager.Common.Parsers.CustomDateParser;
@@ -205,7 +205,7 @@ namespace FleetRouteManager.Services
             return await repository.UpdateAsync(vehicle);
         }
 
-        public async Task<IEnumerable<VehicleViewBagListModel>> GetVehicleViewBagList()
+        public async Task<IEnumerable<VehicleViewBagListModel>> GetVehicleViewBagListAsync()
         {
             var vehicleList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
                 .Select(v => new VehicleViewBagListModel

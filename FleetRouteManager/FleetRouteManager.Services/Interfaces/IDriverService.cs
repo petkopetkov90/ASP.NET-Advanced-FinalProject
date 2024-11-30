@@ -1,5 +1,5 @@
-﻿using FleetRouteManager.Web.Models.InputModels;
-using FleetRouteManager.Web.Models.ViewModels;
+﻿using FleetRouteManager.Web.Models.InputModels.DriverInputModels;
+using FleetRouteManager.Web.Models.ViewModels.DriverViewModels;
 
 namespace FleetRouteManager.Services.Interfaces
 {

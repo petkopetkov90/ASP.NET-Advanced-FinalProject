@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241130143030_VinMaxLengthUpdate")]
+    partial class VinMaxLengthUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Continents", (string)null);
+                    b.ToTable("Continents");
 
                     b.HasData(
                         new
@@ -110,7 +113,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("ContinentId");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
 
                     b.HasData(
                         new
@@ -1478,7 +1481,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Drivers");
 
                     b.HasData(
                         new
@@ -1596,7 +1599,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
 
                     b.HasData(
                         new
@@ -1673,7 +1676,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Manufacturers", (string)null);
+                    b.ToTable("Manufacturers");
 
                     b.HasData(
                         new
@@ -1845,7 +1848,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleTypeId");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.ToTable("Vehicles");
 
                     b.HasData(
                         new
@@ -1951,7 +1954,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VehicleTypes", (string)null);
+                    b.ToTable("VehicleTypes");
 
                     b.HasData(
                         new

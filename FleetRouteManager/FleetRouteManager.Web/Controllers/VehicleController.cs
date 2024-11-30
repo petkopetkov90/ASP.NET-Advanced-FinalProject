@@ -1,6 +1,6 @@
 ﻿using FleetRouteManager.Common.Exceptions;
 using FleetRouteManager.Services.Interfaces;
-using FleetRouteManager.Web.Models.InputModels;
+using FleetRouteManager.Web.Models.InputModels.VehicleInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -182,8 +182,8 @@ namespace FleetRouteManager.Web.Controllers
 
         private async Task SetViewBagSelectListsAsync()
         {
-            ViewBag.Manufacturers = new SelectList(await manufacturerService.GetAllManufacturersAsync(), "Id", "Name");
-            ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetAllTypesAsync(), "Id", "Type");
+            ViewBag.Manufacturers = new SelectList(await manufacturerService.GetManufacturersViewBagListAsync(), "Id", "Name");
+            ViewBag.VehicleTypes = new SelectList(await vehicleTypeService.GetVehicleTypeViewBagListAsync(), "Id", "Type");
         }
     }
 }

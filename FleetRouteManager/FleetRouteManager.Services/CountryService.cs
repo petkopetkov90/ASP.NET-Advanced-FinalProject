@@ -1,7 +1,7 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
-using FleetRouteManager.Web.Models.ViewModels;
+using FleetRouteManager.Web.Models.ViewModels.CountryViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace FleetRouteManager.Services
@@ -15,10 +15,10 @@ namespace FleetRouteManager.Services
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<LocationViewBagListModel>> GetCountryViewBagList()
+        public async Task<IEnumerable<CountryViewBagListModel>> GetCountryViewBagListAsync()
         {
             return await repository.GetAllAsIQueryable()
-                .Select(c => new LocationViewBagListModel
+                .Select(c => new CountryViewBagListModel
                 {
                     Id = c.Id,
                     Name = c.Name,

@@ -1,6 +1,6 @@
-﻿namespace FleetRouteManager.Web.Models.ViewModels
+﻿namespace FleetRouteManager.Web.Models.ViewModels.CountryViewModels
 {
-    public class LocationViewBagListModel
+    public class CountryViewBagListModel
     {
         public required int Id { get; set; }
 

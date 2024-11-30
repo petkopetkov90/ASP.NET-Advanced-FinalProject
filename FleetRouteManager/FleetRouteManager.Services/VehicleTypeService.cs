@@ -1,6 +1,8 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.ViewModels.VehicleTypeViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace FleetRouteManager.Services
 {
@@ -13,9 +15,18 @@ namespace FleetRouteManager.Services
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<VehicleType>> GetAllTypesAsync()
+        public async Task<IEnumerable<VehicleTypeViewBagListModel>> GetVehicleTypeViewBagListAsync()
         {
-            return await repository.GetAllAsync();
+            var vehicleTypeList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
+                .Select(v => new VehicleTypeViewBagListModel()
+                {
+                    Id = v.Id,
+                    Type = v.Type
+
+                })
+                .ToListAsync();
+
+            return vehicleTypeList;
         }
     }
 }

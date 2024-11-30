@@ -1,8 +1,8 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
-using FleetRouteManager.Web.Models.InputModels;
-using FleetRouteManager.Web.Models.ViewModels;
+using FleetRouteManager.Web.Models.InputModels.LocationInputModels;
+using FleetRouteManager.Web.Models.ViewModels.LocationViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace FleetRouteManager.Services
@@ -102,6 +102,51 @@ namespace FleetRouteManager.Services
             };
 
             return await repository.AddAsync(location);
+        }
+
+        public async Task<LocationEditInputModel> GetLocationEditModelAsync(int id)
+        {
+            var location = await repository.GetByIdAsync(id);
+
+            if (location == null || location.IsDeleted)
+            {
+                return null!;
+            }
+
+            var model = new LocationEditInputModel()
+            {
+                Id = location.Id,
+                Name = location.Name,
+                PhoneNumber = location.PhoneNumber,
+                StreetName = location.Street,
+                StreetNumber = location.Number,
+                PostCode = location.PostCode,
+                City = location.City,
+                CountryId = location.CountryId,
+            };
+
+            return model;
+        }
+
+        public async Task<bool> EditLocationAsync(LocationEditInputModel model)
+        {
+            var location = await repository.GetByIdAsync(model.Id);
+
+            if (location == null || location.IsDeleted)
+            {
+                return false;
+            }
+
+            location.Id = location.Id;
+            location.Name = location.Name;
+            location.PhoneNumber = location.PhoneNumber;
+            location.Street = location.Street;
+            location.Number = location.Number;
+            location.PostCode = location.PostCode;
+            location.City = location.City;
+            location.CountryId = location.CountryId;
+
+            return await repository.UpdateAsync(location);
         }
     }
 }

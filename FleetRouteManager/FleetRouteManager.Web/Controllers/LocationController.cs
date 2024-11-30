@@ -1,5 +1,5 @@
 ﻿using FleetRouteManager.Services.Interfaces;
-using FleetRouteManager.Web.Models.InputModels;
+using FleetRouteManager.Web.Models.InputModels.LocationInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -120,10 +120,43 @@ namespace FleetRouteManager.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("Edit Location")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            await SetViewBagSelectListsAsync();
+
+            var model = await locationService.GetLocationEditModelAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost("Edit Location")]
+        public async Task<IActionResult> Edit(LocationEditInputModel model)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await SetViewBagSelectListsAsync();
+                return View(model);
+            }
+
+            await locationService.EditLocationAsync(model);
+            return RedirectToAction("Details", new { model.Id });
+        }
+
 
         private async Task SetViewBagSelectListsAsync()
         {
-            ViewBag.Countries = new SelectList(await countryService.GetCountryViewBagList(), "Id", "Name");
+            ViewBag.Countries = new SelectList(await countryService.GetCountryViewBagListAsync(), "Id", "Name");
         }
     }
 }
