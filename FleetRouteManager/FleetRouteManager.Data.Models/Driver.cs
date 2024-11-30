@@ -55,12 +55,12 @@ namespace FleetRouteManager.Data.Models
         public DateTime IdentityCardExpirationDate { get; set; }
 
         [Required]
-        [MaxLength(PersonalIdentificationMaxLength)]
+        [MaxLength(DriverPersonalIdentificationMaxLength)]
         [Comment("Driver's Personal Identification Number")]
         public string PersonalIdentificationNumber { get; set; } = null!;
 
         [Required]
-        [MaxLength(ProfessionalQualificationMaxLength)]
+        [MaxLength(DriverProfessionalQualificationMaxLength)]
         [Comment("Driver's Professional Qualification Card")]
         public string ProfessionalQualificationCard { get; set; } = null!;
 

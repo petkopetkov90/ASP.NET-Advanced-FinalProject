@@ -6,35 +6,35 @@ namespace FleetRouteManager.Web.Models.InputModels
 {
     public class LocationCreateInputModel
     {
-        [Required(ErrorMessage = NameRequiredMsg)]
-        [StringLength(NameMaxLength, MinimumLength = NameMinLength, ErrorMessage = NameLengthMsg)]
-        [RegularExpression(NameFormatRegex, ErrorMessage = NameFormatMsg)]
+        [Required(ErrorMessage = LocationNameRequiredMsg)]
+        [StringLength(LocationNameMaxLength, MinimumLength = LocationNameMinLength, ErrorMessage = LocationNameLengthMsg)]
+        [RegularExpression(LocationNameFormatRegex, ErrorMessage = LocationNameFormatMsg)]
         public string Name { get; set; } = null!;
 
-        [StringLength(PhoneMaxLength, MinimumLength = PhoneMinLength, ErrorMessage = PhoneLengthMsg)]
-        [RegularExpression(PhoneFormatRegex, ErrorMessage = PhoneFormatMsg)]
+        [StringLength(LocationPhoneMaxLength, MinimumLength = LocationPhoneMinLength, ErrorMessage = LocationPhoneNumberLengthMsg)]
+        [RegularExpression(LocationPhoneFormatRegex, ErrorMessage = LocationPhoneNumberFormatMsg)]
         public string? PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = StreetRequiredMsg)]
-        [StringLength(StreetNameMaxLength, MinimumLength = StreetNameMinLength, ErrorMessage = StreetNameLengthMsg)]
-        [RegularExpression(StreetNameFormatRegex, ErrorMessage = StreetNameFormatMsg)]
+        [Required(ErrorMessage = LocationStreetNameRequiredMsg)]
+        [StringLength(LocationStreetNameMaxLength, MinimumLength = LocationStreetNameMinLength, ErrorMessage = LocationStreetNameLengthMsg)]
+        [RegularExpression(LocationStreetNameFormatRegex, ErrorMessage = LocationStreetNameFormatMsg)]
         public string StreetName { get; set; } = null!;
 
-        [StringLength(StreetNumberMaxLength, MinimumLength = StreetNumberMinLength, ErrorMessage = StreetNumberLengthMsg)]
-        [RegularExpression(StreetNumberFormatRegex, ErrorMessage = StreetNumberFormatMsg)]
+        [StringLength(LocationStreetNumberMaxLength, MinimumLength = LocationStreetNumberMinLength, ErrorMessage = LocationStreetNumberLengthMsg)]
+        [RegularExpression(LocationStreetNumberFormatRegex, ErrorMessage = LocationStreetNumberFormatMsg)]
         public string? StreetNumber { get; set; }
 
-        [Required(ErrorMessage = PostCodeRequiredMsg)]
-        [StringLength(PostCodeMaxLength, MinimumLength = PostCodeMinLength, ErrorMessage = PostCodeLengthMsg)]
-        [RegularExpression(PostCodeFormatRegex, ErrorMessage = PostCodeFormatMsg)]
+        [Required(ErrorMessage = LocationPostCodeRequiredMsg)]
+        [StringLength(LocationPostCodeMaxLength, MinimumLength = LocationPostCodeMinLength, ErrorMessage = LocationPostCodeLengthMsg)]
+        [RegularExpression(LocationPostCodeFormatRegex, ErrorMessage = LocationPostCodeFormatMsg)]
         public string PostCode { get; set; } = null!;
 
-        [Required(ErrorMessage = CityRequiredMsg)]
-        [StringLength(CityMaxLength, MinimumLength = CityMinLength, ErrorMessage = CityLengthMsg)]
-        [RegularExpression(CityFormatRegex, ErrorMessage = CityFormatMsg)]
+        [Required(ErrorMessage = LocationCityNameRequiredMsg)]
+        [StringLength(LocationCityMaxLength, MinimumLength = LocationCityMinLength, ErrorMessage = LocationCityNameLengthMsg)]
+        [RegularExpression(LocationCityFormatRegex, ErrorMessage = LocationCityNameFormatMsg)]
         public string City { get; set; } = null!;
 
-        [Required(ErrorMessage = CountryRequiredMsg)]
+        [Required(ErrorMessage = LocationCountryRequiredMsg)]
         public int CountryId { get; set; }
     }
 }

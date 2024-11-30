@@ -15,7 +15,7 @@ namespace FleetRouteManager.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(RegistrationNumberMaxLength)]
+        [MaxLength(VehicleRegistrationNumberMaxLength)]
         [Comment("Vehicle Registration Number")]
         public string RegistrationNumber { get; set; } = null!;
 
@@ -25,12 +25,12 @@ namespace FleetRouteManager.Data.Models
         [ForeignKey(nameof(ManufacturerId))]
         public virtual Manufacturer Manufacturer { get; set; } = null!;
 
-        [MaxLength(ModelMaxLength)]
+        [MaxLength(VehicleModelMaxLength)]
         [Comment("Vehicle Model")]
         public string? Model { get; set; }
 
         [Required]
-        [MaxLength(VinMaxLength)]
+        [MaxLength(VehicleVinMaxLength)]
         [Column("VIN")]
         [Comment("Vehicle VIN/Frame number")]
         public string Vin { get; set; } = null!;
@@ -65,7 +65,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Vehicle Date of Purchase")]
         public DateTime AcquiredOn { get; set; }
 
-        [MaxLength(LiabilityInsuranceMaxLength)]
+        [MaxLength(VehicleLiabilityInsuranceMaxLength)]
         [Comment("Vehicle Liability Insurance policy number")]
         public string? LiabilityInsurance { get; set; }
 

@@ -6,72 +6,77 @@ namespace FleetRouteManager.Web.Models.InputModels
 {
     public class DriverCreateInputModel
     {
-        [Required(ErrorMessage = NameRequiredMsg)]
-        [StringLength(DriverNameMaxLength, MinimumLength = DriverNameMinLength, ErrorMessage = NameLengthMsg)]
-        [RegularExpression(NameFormatRegex, ErrorMessage = NameFormatMsg)]
+        [Required(ErrorMessage = DriverNameRequiredMsg)]
+        [StringLength(DriverNameMaxLength, MinimumLength = DriverNameMinLength, ErrorMessage = DriverNameLengthMsg)]
+        [RegularExpression(DriverNameFormatRegex, ErrorMessage = DriverNameFormatMsg)]
         public string FirstName { get; set; } = null!;
 
-        [Required(ErrorMessage = NameRequiredMsg)]
-        [StringLength(DriverNameMaxLength, MinimumLength = DriverNameMinLength, ErrorMessage = NameLengthMsg)]
-        [RegularExpression(NameFormatRegex, ErrorMessage = NameFormatMsg)]
+        [Required(ErrorMessage = DriverNameRequiredMsg)]
+        [StringLength(DriverNameMaxLength, MinimumLength = DriverNameMinLength, ErrorMessage = DriverNameLengthMsg)]
+        [RegularExpression(DriverNameFormatRegex, ErrorMessage = DriverNameFormatMsg)]
         public string MiddleName { get; set; } = null!;
 
-        [Required(ErrorMessage = NameRequiredMsg)]
-        [StringLength(DriverNameMaxLength, MinimumLength = DriverNameMinLength, ErrorMessage = NameLengthMsg)]
-        [RegularExpression(NameFormatRegex, ErrorMessage = NameFormatMsg)]
+        [Required(ErrorMessage = DriverNameRequiredMsg)]
+        [StringLength(DriverNameMaxLength, MinimumLength = DriverNameMinLength, ErrorMessage = DriverNameLengthMsg)]
+        [RegularExpression(DriverNameFormatRegex, ErrorMessage = DriverNameFormatMsg)]
         public string LastName { get; set; } = null!;
 
-        [Required(ErrorMessage = PhoneRequiredMsg)]
-        [StringLength(DriverPhoneMaxLength, MinimumLength = DriverPhoneMinLength, ErrorMessage = PhoneLengthMsg)]
-        [RegularExpression(PhoneFormatRegex, ErrorMessage = PhoneFormatMsg)]
+        [Required(ErrorMessage = DriverPhoneRequiredMsg)]
+        [StringLength(DriverPhoneMaxLength, MinimumLength = DriverPhoneMinLength, ErrorMessage = DriverPhoneLengthMsg)]
+        [RegularExpression(DriverPhoneFormatRegex, ErrorMessage = DriverPhoneFormatMsg)]
         public string PhoneNumber { get; set; } = null!;
 
         public int? VehicleId { get; set; }
 
-        [StringLength(DriverPhoneMaxLength, MinimumLength = DriverPhoneMinLength, ErrorMessage = PhoneLengthMsg)]
-        [RegularExpression(PhoneFormatRegex, ErrorMessage = PhoneFormatMsg)]
+        [StringLength(DriverPhoneMaxLength, MinimumLength = DriverPhoneMinLength, ErrorMessage = DriverPhoneLengthMsg)]
+        [RegularExpression(DriverPhoneFormatRegex, ErrorMessage = DriverPhoneFormatMsg)]
         public string? AdditionalPhoneNumber { get; set; }
 
-        [Required(ErrorMessage = DrivingLicenseRequiredMsg)]
-        [StringLength(DriverDrivingLicenseMaxLength, MinimumLength = DriverDrivingLicenseMinLength, ErrorMessage = DrivingLicenseLengthMsg)]
+        [Required(ErrorMessage = DriverDrivingLicenseRequiredMsg)]
+        [StringLength(DriverDrivingLicenseMaxLength, MinimumLength = DriverDrivingLicenseMinLength, ErrorMessage = DriverDrivingLicenseLengthMsg)]
+        [RegularExpression(DriverDrivingLicenseFormatRegex, ErrorMessage = DriverDrivingLicenseFormatMsg)]
         public string DrivingLicense { get; set; } = null!;
 
-        [Required(ErrorMessage = DateRequiredMsg)]
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
+        [Required(ErrorMessage = DriverDateRequiredMsg)]
+        [RegularExpression(DriverDateFormatRegex, ErrorMessage = DriverDateFormatMsg)]
         public string DrivingLicenseExpirationDate { get; set; } = null!;
 
-        [Required(ErrorMessage = IdentityCardRequiredMsg)]
-        [StringLength(DriverIdentityCardMaxLength, MinimumLength = DriverIdentityCardMinLength, ErrorMessage = IdentityCardLengthMsg)]
+        [Required(ErrorMessage = DriverIdentityCardRequiredMsg)]
+        [StringLength(DriverIdentityCardMaxLength, MinimumLength = DriverIdentityCardMinLength, ErrorMessage = DriverIdentityCardLengthMsg)]
+        [RegularExpression(DriverIdentityCardFormatRegex, ErrorMessage = DriverIdentityCardFormatMsg)]
         public string IdentityCard { get; set; } = null!;
 
-        [Required(ErrorMessage = DateRequiredMsg)]
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
+        [Required(ErrorMessage = DriverDateRequiredMsg)]
+        [RegularExpression(DriverDateFormatRegex, ErrorMessage = DriverDateFormatMsg)]
         public string IdentityCardExpirationDate { get; set; } = null!;
 
-        [Required(ErrorMessage = PersonalIdentificationRequiredMsg)]
-        [StringLength(PersonalIdentificationMaxLength, MinimumLength = PersonalIdentificationMinLength, ErrorMessage = PersonalIdentificationLengthMsg)]
+        [Required(ErrorMessage = DriverPersonalIdentificationRequiredMsg)]
+        [StringLength(DriverPersonalIdentificationMaxLength, MinimumLength = DriverPersonalIdentificationMinLength, ErrorMessage = DriverPersonalIdentificationLengthMsg)]
+        [RegularExpression(DriverPersonalIdentificationFormatRegex, ErrorMessage = DriverPersonalIdentificationFormatMsg)]
         public string PersonalIdentificationNumber { get; set; } = null!;
 
-        [Required(ErrorMessage = ProfessionalQualificationRequiredMsg)]
-        [StringLength(ProfessionalQualificationMaxLength, MinimumLength = ProfessionalQualificationMinLength, ErrorMessage = ProfessionalQualificationLengthMsg)]
+        [Required(ErrorMessage = DriverProfessionalQualificationRequiredMsg)]
+        [StringLength(DriverProfessionalQualificationMaxLength, MinimumLength = DriverProfessionalQualificationMinLength, ErrorMessage = DriverProfessionalQualificationLengthMsg)]
+        [RegularExpression(DriverProfessionalQualificationFormatRegex, ErrorMessage = DriverProfessionalQualificationFormatMsg)]
         public string ProfessionalQualificationCard { get; set; } = null!;
 
-        [Required(ErrorMessage = DateRequiredMsg)]
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
+        [Required(ErrorMessage = DriverDateRequiredMsg)]
+        [RegularExpression(DriverDateFormatRegex, ErrorMessage = DriverDateFormatMsg)]
         public string ProfessionalQualificationCardExpirationDate { get; set; } = null!;
 
-        [Required(ErrorMessage = DateRequiredMsg)]
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
+        [Required(ErrorMessage = DriverDateRequiredMsg)]
+        [RegularExpression(DriverDateFormatRegex, ErrorMessage = DriverDateFormatMsg)]
         public string DateOfBirth { get; set; } = null!;
 
-        [Required(ErrorMessage = DateRequiredMsg)]
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
+        [Required(ErrorMessage = DriverDateRequiredMsg)]
+        [RegularExpression(DriverDateFormatRegex, ErrorMessage = DriverDateFormatMsg)]
         public string EmployedOn { get; set; } = null!;
 
-        [StringLength(DriverMedicalInsuranceMaxLength, MinimumLength = DriverMedicalInsuranceMinLength, ErrorMessage = MedicalInsuranceLengthMsg)]
+        [StringLength(DriverMedicalInsuranceMaxLength, MinimumLength = DriverMedicalInsuranceMinLength, ErrorMessage = DriverMedicalInsuranceLengthMsg)]
+        [RegularExpression(DriverMedicalInsuranceFormatRegex, ErrorMessage = DriverMedicalInsuranceFormatMsg)]
         public string? MedicalInsurance { get; set; }
 
-        [RegularExpression(DateFormatRegex, ErrorMessage = DateValidFormatMsg)]
+        [RegularExpression(DriverDateFormatRegex, ErrorMessage = DriverDateFormatMsg)]
         public string? MedicalInsuranceExpirationDate { get; set; }
     }
 }

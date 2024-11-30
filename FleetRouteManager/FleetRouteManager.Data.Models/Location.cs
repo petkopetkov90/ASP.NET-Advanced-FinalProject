@@ -13,30 +13,30 @@ namespace FleetRouteManager.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
+        [MaxLength(LocationNameMaxLength)]
         [Comment("Location name")]
         public string Name { get; set; } = null!;
 
-        [MaxLength(PhoneMaxLength)]
+        [MaxLength(LocationPhoneMaxLength)]
         [Comment("Location phone number")]
         public string? PhoneNumber { get; set; }
 
         [Required]
-        [MaxLength(StreetNameMaxLength)]
+        [MaxLength(LocationStreetNameMaxLength)]
         [Comment("Street name")]
         public string Street { get; set; } = null!;
 
-        [MaxLength(StreetNumberMaxLength)]
+        [MaxLength(LocationStreetNumberMaxLength)]
         [Comment("Street number")]
         public string? Number { get; set; }
 
         [Required]
-        [MaxLength(PostCodeMaxLength)]
+        [MaxLength(LocationPostCodeMaxLength)]
         [Comment("Post code")]
         public string PostCode { get; set; } = null!;
 
         [Required]
-        [MaxLength(CityMaxLength)]
+        [MaxLength(LocationCityMaxLength)]
         [Comment("City name")]
         public string City { get; set; } = null!;
 
