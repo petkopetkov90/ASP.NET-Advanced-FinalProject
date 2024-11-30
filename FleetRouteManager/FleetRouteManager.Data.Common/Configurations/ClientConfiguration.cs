@@ -10,25 +10,25 @@ namespace FleetRouteManager.Data.Common.Configurations
         {
 
             builder.HasData(
-                new Client()
+                new Client
                 {
                     Id = 1,
                     Name = "DHL Bulgaria",
                     TaxNumber = "BG11111111",
-                    LegalAddressId = 4,
-                    PostalAddressId = 4,
+                    LegalAddressId = 2,
+                    PostalAddressId = 2,
                     PodEmail = "pod@dhl.bg",
                     InvoicingEmail = "invoices@dhl.bg",
                 },
-                new Client()
+                new Client
                 {
                     Id = 2,
                     Name = "Schenker Bulgaria",
                     TaxNumber = "BG22222222",
-                    LegalAddressId = 2,
+                    LegalAddressId = 4,
                     PodEmail = "pod@schenker.bg",
                 },
-                new Client()
+                new Client
                 {
                     Id = 3,
                     Name = "LKW Walter",

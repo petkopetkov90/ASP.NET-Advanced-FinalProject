@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static FleetRouteManager.Common.Constants.AddressConstants;
 using static FleetRouteManager.Common.Constants.LocationConstants;
+using static FleetRouteManager.Common.ErrorMessages.AddressErrorMessages;
 using static FleetRouteManager.Common.ErrorMessages.LocationErrorMessages;
 
 namespace FleetRouteManager.Web.Models.InputModels.LocationInputModels
@@ -15,26 +17,26 @@ namespace FleetRouteManager.Web.Models.InputModels.LocationInputModels
         [RegularExpression(LocationPhoneFormatRegex, ErrorMessage = LocationPhoneNumberFormatMsg)]
         public string? PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = LocationStreetNameRequiredMsg)]
-        [StringLength(LocationStreetNameMaxLength, MinimumLength = LocationStreetNameMinLength, ErrorMessage = LocationStreetNameLengthMsg)]
-        [RegularExpression(LocationStreetNameFormatRegex, ErrorMessage = LocationStreetNameFormatMsg)]
+        [Required(ErrorMessage = AddressStreetNameRequiredMsg)]
+        [StringLength(AddressStreetNameMaxLength, MinimumLength = AddressStreetNameMinLength, ErrorMessage = AddressStreetNameLengthMsg)]
+        [RegularExpression(AddressStreetNameFormatRegex, ErrorMessage = AddressStreetNameFormatMsg)]
         public string StreetName { get; set; } = null!;
 
-        [StringLength(LocationStreetNumberMaxLength, MinimumLength = LocationStreetNumberMinLength, ErrorMessage = LocationStreetNumberLengthMsg)]
-        [RegularExpression(LocationStreetNumberFormatRegex, ErrorMessage = LocationStreetNumberFormatMsg)]
+        [StringLength(AddressStreetNumberMaxLength, MinimumLength = AddressStreetNumberMinLength, ErrorMessage = AddressStreetNumberLengthMsg)]
+        [RegularExpression(AddressStreetNameFormatRegex, ErrorMessage = AddressStreetNameFormatMsg)]
         public string? StreetNumber { get; set; }
 
-        [Required(ErrorMessage = LocationPostCodeRequiredMsg)]
-        [StringLength(LocationPostCodeMaxLength, MinimumLength = LocationPostCodeMinLength, ErrorMessage = LocationPostCodeLengthMsg)]
-        [RegularExpression(LocationPostCodeFormatRegex, ErrorMessage = LocationPostCodeFormatMsg)]
+        [Required(ErrorMessage = AddressPostCodeRequiredMsg)]
+        [StringLength(AddressPostCodeMaxLength, MinimumLength = AddressStreetNameMinLength, ErrorMessage = AddressStreetNameLengthMsg)]
+        [RegularExpression(AddressStreetNameFormatRegex, ErrorMessage = AddressStreetNameFormatMsg)]
         public string PostCode { get; set; } = null!;
 
-        [Required(ErrorMessage = LocationCityNameRequiredMsg)]
-        [StringLength(LocationCityMaxLength, MinimumLength = LocationCityMinLength, ErrorMessage = LocationCityNameLengthMsg)]
-        [RegularExpression(LocationCityFormatRegex, ErrorMessage = LocationCityNameFormatMsg)]
+        [Required(ErrorMessage = AddressCityNameRequiredMsg)]
+        [StringLength(AddressStreetNumberMaxLength, MinimumLength = AddressStreetNumberMinLength, ErrorMessage = AddressStreetNameLengthMsg)]
+        [RegularExpression(AddressStreetNameFormatRegex, ErrorMessage = AddressStreetNameFormatMsg)]
         public string City { get; set; } = null!;
 
-        [Required(ErrorMessage = LocationCountryRequiredMsg)]
+        [Required(ErrorMessage = AddressCountryRequiredMsg)]
         public int CountryId { get; set; }
     }
 }

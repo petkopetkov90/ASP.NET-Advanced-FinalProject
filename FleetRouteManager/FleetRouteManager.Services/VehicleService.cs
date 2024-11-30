@@ -21,24 +21,26 @@ namespace FleetRouteManager.Services
 
         public async Task<IEnumerable<VehicleViewModel>> GetAllVehiclesAsync()
         {
-            return await repository.GetAllAsIQueryable()
+            var vehicles = await repository.GetAllAsIQueryable()
                 .Where(e => e.IsDeleted == false)
                 .Include(v => v.Manufacturer)
                 .Include(v => v.VehicleType)
                 .AsNoTracking()
-                .Select(v => new VehicleViewModel
-                {
-                    Id = v.Id,
-                    RegistrationNumber = v.RegistrationNumber,
-                    Vin = v.Vin,
-                    Manufacturer = v.Manufacturer.Name,
-                    Model = v.Model,
-                    FirstRegistrationDate = v.FirstRegistration.ToString(VehicleDateFormat),
-                    EuroClass = v.EuroClass,
-                    Type = v.VehicleType.Type
-
-                })
                 .ToListAsync();
+
+            var model = vehicles.Select(v => new VehicleViewModel
+            {
+                Id = v.Id,
+                RegistrationNumber = v.RegistrationNumber,
+                Vin = v.Vin,
+                Manufacturer = v.Manufacturer.Name,
+                Model = v.Model,
+                FirstRegistrationDate = v.FirstRegistration.ToString(VehicleDateFormat),
+                EuroClass = v.EuroClass,
+                Type = v.VehicleType.Type
+            });
+
+            return model;
         }
 
         public async Task<VehicleDetailsViewModel?> GetVehicleDetailsModelAsync(int id)

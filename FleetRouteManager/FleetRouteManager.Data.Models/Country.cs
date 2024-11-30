@@ -29,7 +29,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Date and time when the Country was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
+        public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     }
 }

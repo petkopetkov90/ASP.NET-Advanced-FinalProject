@@ -10,34 +10,41 @@ namespace FleetRouteManager.Services
     public class LocationService : ILocationService
     {
         private readonly IRepository<Location, int> repository;
-
-        public LocationService(IRepository<Location, int> repository)
+        private readonly IAddressService addressService;
+        public LocationService(IRepository<Location, int> repository, IAddressService addressService)
         {
             this.repository = repository;
+            this.addressService = addressService;
         }
 
         public async Task<IEnumerable<LocationViewModel>> GetAllLocationsAsync()
         {
-            return await repository.GetAllAsIQueryable()
+            var locations = await repository.GetAllAsIQueryable()
                 .Where(l => !l.IsDeleted)
-                .Include(a => a.Country)
+                .Include(l => l.Address)
+                .ThenInclude(a => a.Country)
                 .AsNoTracking()
-                .Select(l => new LocationViewModel
-                {
-                    Id = l.Id,
-                    Name = l.Name,
-                    PostCode = l.PostCode,
-                    City = l.City,
-                    Country = l.Country.Name
-                })
                 .ToListAsync();
+
+
+            var model = locations.Select(l => new LocationViewModel
+            {
+                Id = l.Id,
+                Name = l.Name,
+                PostCode = l.Address.PostCode,
+                City = l.Address.City,
+                Country = l.Address.Country.Name
+            });
+
+            return model;
         }
 
 
         public async Task<LocationDetailsViewModel?> GetLocationDetailsAsync(int id)
         {
             var location = await repository.GetWhereAsIQueryable(l => !l.IsDeleted && l.Id == id)
-                .Include(a => a.Country)
+                .Include(l => l.Address)
+                .ThenInclude(a => a.Country)
                 .AsNoTracking().
                 FirstOrDefaultAsync();
 
@@ -51,11 +58,11 @@ namespace FleetRouteManager.Services
                 Id = location.Id,
                 Name = location.Name,
                 PhoneNumber = location.PhoneNumber,
-                StreetName = location.Street,
-                StreetNumber = location.Number,
-                PostCode = location.PostCode,
-                City = location.City,
-                Country = location.Country.Name
+                StreetName = location.Address.Street,
+                StreetNumber = location.Address.Number,
+                PostCode = location.Address.PostCode,
+                City = location.Address.City,
+                Country = location.Address.Country.Name
             };
 
             return model;
@@ -63,12 +70,13 @@ namespace FleetRouteManager.Services
 
         public async Task<LocationDeleteViewModel?> GetLocationDeleteModelAsync(int id)
         {
-            return await repository.GetWhereAsIQueryable(d => d.Id == id && d.IsDeleted == false)
+            return await repository.GetWhereAsIQueryable(d => d.Id == id && !d.IsDeleted)
+                .Include(d => d.Address)
                 .AsNoTracking()
                 .Select(l => new LocationDeleteViewModel
                 {
                     Id = l.Id,
-                    LocationDetail = $"{l.Name} {l.PostCode} {l.City}"
+                    LocationName = $"{l.Name} {l.Address.PostCode} {l.Address.City}"
                 })
                 .FirstOrDefaultAsync();
         }
@@ -90,15 +98,22 @@ namespace FleetRouteManager.Services
 
         public async Task<bool> CreateNewLocationAsync(LocationCreateInputModel model)
         {
-            var location = new Location
+            var address = new Address
             {
-                Name = model.Name,
-                PhoneNumber = model.PhoneNumber,
                 Street = model.StreetName,
                 Number = model.StreetNumber,
                 PostCode = model.PostCode,
                 City = model.City,
-                CountryId = model.CountryId,
+                CountryId = model.CountryId
+            };
+
+            var addressId = await addressService.GetAddressIdAsync(address);
+
+            var location = new Location
+            {
+                Name = model.Name,
+                PhoneNumber = model.PhoneNumber,
+                AddressId = addressId
             };
 
             return await repository.AddAsync(location);
@@ -106,9 +121,12 @@ namespace FleetRouteManager.Services
 
         public async Task<LocationEditInputModel> GetLocationEditModelAsync(int id)
         {
-            var location = await repository.GetByIdAsync(id);
+            var location = await repository.GetWhereAsIQueryable(l => l.Id == id && !l.IsDeleted)
+                .Include(l => l.Address)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
 
-            if (location == null || location.IsDeleted)
+            if (location == null)
             {
                 return null!;
             }
@@ -118,11 +136,11 @@ namespace FleetRouteManager.Services
                 Id = location.Id,
                 Name = location.Name,
                 PhoneNumber = location.PhoneNumber,
-                StreetName = location.Street,
-                StreetNumber = location.Number,
-                PostCode = location.PostCode,
-                City = location.City,
-                CountryId = location.CountryId,
+                StreetName = location.Address.Street,
+                StreetNumber = location.Address.Number,
+                PostCode = location.Address.PostCode,
+                City = location.Address.City,
+                CountryId = location.Address.CountryId,
             };
 
             return model;
@@ -130,21 +148,23 @@ namespace FleetRouteManager.Services
 
         public async Task<bool> EditLocationAsync(LocationEditInputModel model)
         {
-            var location = await repository.GetByIdAsync(model.Id);
+            var location = await repository.GetWhereAsIQueryable(l => l.Id == model.Id)
+                .Include(l => l.Address)
+                .FirstOrDefaultAsync();
 
             if (location == null || location.IsDeleted)
             {
                 return false;
             }
 
-            location.Id = location.Id;
-            location.Name = location.Name;
-            location.PhoneNumber = location.PhoneNumber;
-            location.Street = location.Street;
-            location.Number = location.Number;
-            location.PostCode = location.PostCode;
-            location.City = location.City;
-            location.CountryId = location.CountryId;
+            location.Id = model.Id;
+            location.Name = model.Name;
+            location.PhoneNumber = model.PhoneNumber;
+            location.Address.Street = model.StreetName;
+            location.Address.Number = model.StreetNumber;
+            location.Address.PostCode = model.PostCode;
+            location.Address.City = model.City;
+            location.Address.CountryId = model.CountryId;
 
             return await repository.UpdateAsync(location);
         }

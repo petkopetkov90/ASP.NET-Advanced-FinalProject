@@ -22,29 +22,10 @@ namespace FleetRouteManager.Data.Models
         public string? PhoneNumber { get; set; }
 
         [Required]
-        [MaxLength(LocationStreetNameMaxLength)]
-        [Comment("Street name")]
-        public string Street { get; set; } = null!;
-
-        [MaxLength(LocationStreetNumberMaxLength)]
-        [Comment("Street number")]
-        public string? Number { get; set; }
-
-        [Required]
-        [MaxLength(LocationPostCodeMaxLength)]
-        [Comment("Post code")]
-        public string PostCode { get; set; } = null!;
-
-        [Required]
-        [MaxLength(LocationCityMaxLength)]
-        [Comment("City name")]
-        public string City { get; set; } = null!;
-
-        [Required]
-        [Comment("Foreign key to Country")]
-        public int CountryId { get; set; }
-        [ForeignKey(nameof(CountryId))]
-        public virtual Country Country { get; set; } = null!;
+        [Comment("Foreign key to Address")]
+        public int AddressId { get; set; }
+        [ForeignKey(nameof(AddressId))]
+        public virtual Address Address { get; set; } = null!;
 
         [Comment("Indicates if the Location was deleted")]
         public bool IsDeleted { get; set; } = false;

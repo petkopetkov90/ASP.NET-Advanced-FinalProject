@@ -18,6 +18,7 @@ namespace FleetRouteManager.Web.Controllers
             this.countryService = countryService;
         }
 
+        [HttpGet("Locations")]
         public async Task<IActionResult> Index()
         {
             if (User.Identity?.IsAuthenticated != true)

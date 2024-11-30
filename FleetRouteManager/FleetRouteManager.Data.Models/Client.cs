@@ -23,15 +23,15 @@ namespace FleetRouteManager.Data.Models
         public string TaxNumber { get; set; } = null!;
 
         [Required]
-        [Comment("Foreign key to location")]
+        [Comment("Foreign key to address")]
         public int LegalAddressId { get; set; }
         [ForeignKey(nameof(LegalAddressId))]
-        public Location LegalAddress { get; set; } = null!;
+        public Address LegalAddress { get; set; } = null!;
 
-        [Comment("Foreign key to location")]
+        [Comment("Foreign key to address")]
         public int? PostalAddressId { get; set; }
         [ForeignKey(nameof(PostalAddressId))]
-        public Location? PostalAddress { get; set; }
+        public Address? PostalAddress { get; set; }
 
         [MaxLength(EmailMaxLength)]
         [Comment("Email address used for sending proofs of deliveries")]
