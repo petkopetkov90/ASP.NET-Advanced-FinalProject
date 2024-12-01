@@ -5,7 +5,7 @@ using FleetRouteManager.Web.Models.InputModels.VehicleInputModels;
 using FleetRouteManager.Web.Models.ViewModels.VehicleViewModels;
 using Microsoft.EntityFrameworkCore;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
-using static FleetRouteManager.Common.Parsers.CustomDateParser;
+using static FleetRouteManager.Common.Parsers.CustomDateParsers;
 
 
 namespace FleetRouteManager.Services
@@ -26,21 +26,20 @@ namespace FleetRouteManager.Services
                 .Include(v => v.Manufacturer)
                 .Include(v => v.VehicleType)
                 .AsNoTracking()
+                .Select(v => new VehicleViewModel()
+                {
+                    Id = v.Id,
+                    RegistrationNumber = v.RegistrationNumber,
+                    Vin = v.Vin,
+                    Manufacturer = v.Manufacturer.Name,
+                    Model = v.Model,
+                    FirstRegistrationDate = v.FirstRegistration.ToString(VehicleDateFormat),
+                    EuroClass = v.EuroClass,
+                    Type = v.VehicleType.Type
+                })
                 .ToListAsync();
 
-            var model = vehicles.Select(v => new VehicleViewModel
-            {
-                Id = v.Id,
-                RegistrationNumber = v.RegistrationNumber,
-                Vin = v.Vin,
-                Manufacturer = v.Manufacturer.Name,
-                Model = v.Model,
-                FirstRegistrationDate = v.FirstRegistration.ToString(VehicleDateFormat),
-                EuroClass = v.EuroClass,
-                Type = v.VehicleType.Type
-            });
-
-            return model;
+            return vehicles;
         }
 
         public async Task<VehicleDetailsViewModel?> GetVehicleDetailsModelAsync(int id)
@@ -50,35 +49,30 @@ namespace FleetRouteManager.Services
                 .Include(v => v.VehicleType)
                 .Include(v => v.Drivers)
                 .AsNoTracking()
+                .Select(v => new VehicleDetailsViewModel()
+                {
+                    Id = v.Id,
+                    RegistrationNumber = v.RegistrationNumber,
+                    Vin = v.Vin,
+                    Manufacturer = v.Manufacturer.Name,
+                    Model = v.Model,
+                    FirstRegistrationDate = v.FirstRegistration.ToString(VehicleDateFormat),
+                    EuroClass = v.EuroClass,
+                    Type = v.VehicleType.Type,
+                    BodyType = v.BodyType,
+                    Axles = v.Axles,
+                    WeightCapacity = v.WeightCapacity,
+                    AcquiredOn = v.AcquiredOn.ToString(VehicleDateFormat),
+                    Drivers = v.Drivers.Select(d => $"{d.FirstName} {d.MiddleName} {d.LastName}"),
+                    LiabilityInsurance = v.LiabilityInsurance,
+                    LiabilityInsuranceExpirationDate = CustomNullableDateToStringParseExact(v.LiabilityInsuranceExpirationDate, VehicleDateFormat),
+                    TechnicalReviewExpirationDate = CustomNullableDateToStringParseExact(v.TechnicalReviewExpirationDate, VehicleDateFormat),
+                    TachographExpirationDate = CustomNullableDateToStringParseExact(v.TachographExpirationDate, VehicleDateFormat)
+                })
                 .FirstOrDefaultAsync();
 
-            if (vehicle == null)
-            {
-                return null;
-            }
 
-            var model = new VehicleDetailsViewModel()
-            {
-                Id = vehicle.Id,
-                RegistrationNumber = vehicle.RegistrationNumber,
-                Vin = vehicle.Vin,
-                Manufacturer = vehicle.Manufacturer.Name,
-                Model = vehicle.Model,
-                FirstRegistrationDate = vehicle.FirstRegistration.ToString(VehicleDateFormat),
-                EuroClass = vehicle.EuroClass,
-                Type = vehicle.VehicleType.Type,
-                BodyType = vehicle.BodyType,
-                Axles = vehicle.Axles,
-                WeightCapacity = vehicle.WeightCapacity,
-                AcquiredOn = vehicle.AcquiredOn.ToString(VehicleDateFormat),
-                Drivers = vehicle.Drivers.Select(d => $"{d.FirstName} {d.MiddleName} {d.LastName}"),
-                LiabilityInsurance = vehicle.LiabilityInsurance,
-                LiabilityInsuranceExpirationDate = vehicle.LiabilityInsuranceExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
-                TechnicalReviewExpirationDate = vehicle.TechnicalReviewExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
-                TachographExpirationDate = vehicle.TachographExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty
-            };
-
-            return model;
+            return vehicle;
         }
 
         public async Task<VehicleDeleteViewModel?> GetVehicleDeleteModelAsync(int id)
@@ -122,17 +116,17 @@ namespace FleetRouteManager.Services
                 ManufacturerId = model.ManufacturerId,
                 Model = model.VehicleModel,
                 Vin = model.Vin,
-                FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, nameof(model.FirstRegistration)),
+                FirstRegistration = CustomStringToDateParseExact(model.FirstRegistration, VehicleDateFormat, nameof(model.FirstRegistration)),
                 EuroClass = model.EuroClass,
                 VehicleTypeId = model.VehicleTypeId,
                 BodyType = model.BodyType,
                 Axles = model.Axles,
                 WeightCapacity = model.WeightCapacity,
-                AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, nameof(model.AcquiredOn)),
+                AcquiredOn = CustomStringToDateParseExact(model.AcquiredOn, VehicleDateFormat, nameof(model.AcquiredOn)),
                 LiabilityInsurance = model.LiabilityInsurance,
-                LiabilityInsuranceExpirationDate = CustomNullableDateParseExact(model.LiabilityInsuranceExpirationDate, VehicleDateFormat, nameof(model.LiabilityInsuranceExpirationDate)),
-                TechnicalReviewExpirationDate = CustomNullableDateParseExact(model.TechnicalReviewExpirationDate, VehicleDateFormat, nameof(model.TechnicalReviewExpirationDate)),
-                TachographExpirationDate = CustomNullableDateParseExact(model.TachographExpirationDate, VehicleDateFormat, nameof(model.TachographExpirationDate))
+                LiabilityInsuranceExpirationDate = CustomNullableStringToDateParseExact(model.LiabilityInsuranceExpirationDate, VehicleDateFormat, nameof(model.LiabilityInsuranceExpirationDate)),
+                TechnicalReviewExpirationDate = CustomNullableStringToDateParseExact(model.TechnicalReviewExpirationDate, VehicleDateFormat, nameof(model.TechnicalReviewExpirationDate)),
+                TachographExpirationDate = CustomNullableStringToDateParseExact(model.TachographExpirationDate, VehicleDateFormat, nameof(model.TachographExpirationDate))
             };
 
 
@@ -189,19 +183,19 @@ namespace FleetRouteManager.Services
             vehicle.ManufacturerId = model.ManufacturerId;
             vehicle.Model = model.VehicleModel;
             vehicle.Vin = model.Vin;
-            vehicle.FirstRegistration = CustomDateParseExact(model.FirstRegistration, VehicleDateFormat, nameof(model.FirstRegistration));
+            vehicle.FirstRegistration = CustomStringToDateParseExact(model.FirstRegistration, VehicleDateFormat, nameof(model.FirstRegistration));
             vehicle.EuroClass = model.EuroClass;
             vehicle.VehicleTypeId = model.VehicleTypeId;
             vehicle.BodyType = model.BodyType;
             vehicle.Axles = model.Axles;
             vehicle.WeightCapacity = model.WeightCapacity;
-            vehicle.AcquiredOn = CustomDateParseExact(model.AcquiredOn, VehicleDateFormat, nameof(model.AcquiredOn));
+            vehicle.AcquiredOn = CustomStringToDateParseExact(model.AcquiredOn, VehicleDateFormat, nameof(model.AcquiredOn));
             vehicle.LiabilityInsurance = model.LiabilityInsurance;
-            vehicle.LiabilityInsuranceExpirationDate = CustomNullableDateParseExact(
+            vehicle.LiabilityInsuranceExpirationDate = CustomNullableStringToDateParseExact(
                 model.LiabilityInsuranceExpirationDate, VehicleDateFormat, nameof(model.LiabilityInsuranceExpirationDate));
-            vehicle.TechnicalReviewExpirationDate = CustomNullableDateParseExact(model.TechnicalReviewExpirationDate,
+            vehicle.TechnicalReviewExpirationDate = CustomNullableStringToDateParseExact(model.TechnicalReviewExpirationDate,
                 VehicleDateFormat, nameof(model.TechnicalReviewExpirationDate));
-            vehicle.TachographExpirationDate = CustomNullableDateParseExact(model.TachographExpirationDate,
+            vehicle.TachographExpirationDate = CustomNullableStringToDateParseExact(model.TachographExpirationDate,
                 VehicleDateFormat, nameof(model.TachographExpirationDate));
 
             return await repository.UpdateAsync(vehicle);
@@ -215,9 +209,13 @@ namespace FleetRouteManager.Services
                     Id = v.Id,
                     RegistrationNumber = v.RegistrationNumber
                 })
+                .OrderBy(v => v.RegistrationNumber)
                 .ToListAsync();
 
-            vehicleList.Insert(0, new VehicleViewBagListModel());
+            vehicleList.Insert(0, new VehicleViewBagListModel()
+            {
+                RegistrationNumber = "You can choose a vehicle to assign the driver on"
+            });
 
             return vehicleList;
         }

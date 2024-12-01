@@ -1,0 +1,41 @@
+﻿@model AddressCreateInputModel
+
+@{
+    ViewData["Title"] = "Add New Address";
+}
+
+<h1 style="font-style: italic">@ViewData["Title"]</h1>
+
+<form asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="StreetName" class="form-label">Street Name</label>
+        <input asp-for="StreetName" class="form-control" />
+        <span asp-validation-for="StreetName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StreetNumber" class="form-label">Street Number</label>
+        <input asp-for="StreetNumber" class="form-control" />
+        <span asp-validation-for="StreetNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PostCode" class="form-label">Post Code</label>
+        <input asp-for="PostCode" class="form-control" />
+        <span asp-validation-for="PostCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="City" class="form-label">City</label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <div style="margin-top: 16px">
+        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
+        <a asp-action="Index" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

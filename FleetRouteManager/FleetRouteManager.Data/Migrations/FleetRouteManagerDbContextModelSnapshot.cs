@@ -70,7 +70,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
 
                     b.HasData(
                         new
@@ -183,7 +183,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("PostalAddressId");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
 
                     b.HasData(
                         new
@@ -236,7 +236,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Continents");
+                    b.ToTable("Continents", (string)null);
 
                     b.HasData(
                         new
@@ -307,7 +307,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("ContinentId");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
 
                     b.HasData(
                         new
@@ -1675,7 +1675,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Drivers");
+                    b.ToTable("Drivers", (string)null);
 
                     b.HasData(
                         new
@@ -1770,7 +1770,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
 
                     b.HasData(
                         new
@@ -1838,7 +1838,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Manufacturers");
+                    b.ToTable("Manufacturers", (string)null);
 
                     b.HasData(
                         new
@@ -2010,7 +2010,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleTypeId");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", (string)null);
 
                     b.HasData(
                         new
@@ -2116,7 +2116,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VehicleTypes");
+                    b.ToTable("VehicleTypes", (string)null);
 
                     b.HasData(
                         new

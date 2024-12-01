@@ -1,6 +1,8 @@
 ﻿using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
+using FleetRouteManager.Web.Models.InputModels.AddressInputModels;
+using FleetRouteManager.Web.Models.ViewModels.AddressViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace FleetRouteManager.Services
@@ -14,29 +16,42 @@ namespace FleetRouteManager.Services
             this.repository = repository;
         }
 
-        public async Task<int> GetAddressIdAsync(Address model)
+        public async Task<IEnumerable<AddressViewBagListModel>> GetAddressViewBagListAsync()
         {
-            var address = await repository.GetWhereAsIQueryable(a => a.Street == model.Street
-                                                   && a.Number == model.Number
-                                                   && a.PostCode == model.PostCode
-                                                   && a.City == model.City
-                                                   && a.CountryId == model.CountryId
-            )
-            .FirstOrDefaultAsync();
+            var addressList = await repository.GetWhereAsIQueryable(a => !a.IsDeleted)
+                .Include(a => a.Country)
+                .AsNoTracking()
+                .OrderBy(a => a.Country.Name)
+                .ThenBy(a => a.PostCode)
+                .ThenBy(a => a.Street)
+                .Select(a => new AddressViewBagListModel
+                {
+                    Id = a.Id,
+                    Name = $"{a.Street} {a.Number}, {a.PostCode} {a.Country.Name}",
+                })
+                .ToListAsync();
 
-            if (address == null)
+            addressList.Insert(0, new AddressViewBagListModel()
             {
-                await repository.AddAsync(model);
-                return model.Id;
-            }
+                Name = "Please select an address"
+            });
 
-            if (address.IsDeleted)
+            return addressList;
+
+        }
+
+        public async Task<bool> AddNewAddressAsync(AddressCreateInputModel model)
+        {
+            var address = new Address()
             {
-                address.IsDeleted = false;
-                await repository.UpdateAsync(address);
-            }
+                Street = model.StreetName,
+                Number = model.StreetNumber,
+                PostCode = model.PostCode,
+                City = model.City,
+                CountryId = model.CountryId
+            };
 
-            return address.Id;
+            return await repository.AddAsync(address);
         }
     }
 }

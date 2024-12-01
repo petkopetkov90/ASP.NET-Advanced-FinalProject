@@ -11,11 +11,13 @@ namespace FleetRouteManager.Web.Controllers
     {
         private readonly ILocationService locationService;
         private readonly ICountryService countryService;
+        private readonly IAddressService addressService;
 
-        public LocationController(ILocationService locationService, ICountryService countryService)
+        public LocationController(ILocationService locationService, ICountryService countryService, IAddressService addressService)
         {
             this.locationService = locationService;
             this.countryService = countryService;
+            this.addressService = addressService;
         }
 
         [HttpGet("Locations")]
@@ -89,7 +91,7 @@ namespace FleetRouteManager.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("Add New Location")]
+        [HttpGet("Create New Location")]
         public async Task<IActionResult> Create()
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -103,7 +105,7 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
-        [HttpPost("Add New Location")]
+        [HttpPost("Create New Location")]
         public async Task<IActionResult> Create(LocationCreateInputModel model)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -158,6 +160,7 @@ namespace FleetRouteManager.Web.Controllers
         private async Task SetViewBagSelectListsAsync()
         {
             ViewBag.Countries = new SelectList(await countryService.GetCountryViewBagListAsync(), "Id", "Name");
+            ViewBag.Addresses = new SelectList(await addressService.GetAddressViewBagListAsync(), "Id", "Name");
         }
     }
 }

@@ -24,7 +24,13 @@ namespace FleetRouteManager.Services
                     Type = v.Type
 
                 })
+                .OrderBy(v => v.Type)
                 .ToListAsync();
+
+            vehicleTypeList.Insert(0, new VehicleTypeViewBagListModel()
+            {
+                Type = "Please select a Type"
+            });
 
             return vehicleTypeList;
         }

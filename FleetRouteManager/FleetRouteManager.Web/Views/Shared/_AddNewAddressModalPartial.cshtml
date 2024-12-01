@@ -1,0 +1,40 @@
+﻿@model AddressCreateInputModel
+
+<form asp-action="_AddNewAddressModalPartial" asp-controller="Address" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.StreetName" class="form-label">Street Name</label>
+        <input asp-for="@Model.StreetName" class="form-control" />
+        <span asp-validation-for="@Model.StreetName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.StreetNumber" class="form-label">Street Number</label>
+        <input asp-for="@Model.StreetNumber" class="form-control" />
+        <span asp-validation-for="@Model.StreetNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PostCode" class="form-label">Post Code</label>
+        <input asp-for="@Model.PostCode" class="form-control" />
+        <span asp-validation-for="@Model.PostCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.City" class="form-label">City</label>
+        <input asp-for="@Model.City" class="form-control" />
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.CountryId">Country</label>
+        <select asp-for="@Model.CountryId" asp-items="ViewBag.Countries" class="form-control"></select>
+        <span asp-validation-for="@Model.CountryId" class="text-danger"></span>
+    </div>
+
+    <div style="margin-top: 16px">
+        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

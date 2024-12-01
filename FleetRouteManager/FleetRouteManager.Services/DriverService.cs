@@ -5,7 +5,7 @@ using FleetRouteManager.Web.Models.InputModels.DriverInputModels;
 using FleetRouteManager.Web.Models.ViewModels.DriverViewModels;
 using Microsoft.EntityFrameworkCore;
 using static FleetRouteManager.Common.Constants.DriverConstants;
-using static FleetRouteManager.Common.Parsers.CustomDateParser;
+using static FleetRouteManager.Common.Parsers.CustomDateParsers;
 
 
 namespace FleetRouteManager.Services
@@ -25,19 +25,18 @@ namespace FleetRouteManager.Services
                 .Where(d => d.IsDeleted == false)
                 .Include(d => d.Vehicle)
                 .AsNoTracking()
+                .Select(d => new DriverViewModel()
+                {
+                    Id = d.Id,
+                    FullName = $"{d.FirstName} {d.MiddleName} {d.LastName}",
+                    PhoneNumber = d.PhoneNumber,
+                    DrivingLicense = d.DrivingLicense,
+                    EmployedAt = d.EmployedOn.ToString(DriverDateFormat),
+                    Vehicle = d.Vehicle!.RegistrationNumber
+                })
                 .ToListAsync();
 
-            var model = drivers.Select(d => new DriverViewModel()
-            {
-                Id = d.Id,
-                FullName = $"{d.FirstName} {d.MiddleName} {d.LastName}",
-                PhoneNumber = d.PhoneNumber,
-                DrivingLicense = d.DrivingLicense,
-                EmployedAt = d.EmployedOn.ToString(DriverDateFormat),
-                Vehicle = d.Vehicle != null ? d.Vehicle.RegistrationNumber : string.Empty
-            });
-
-            return model;
+            return drivers;
         }
 
         public async Task<DriverDetailsViewModel?> GetDriverDetailsAsync(int id)
@@ -45,37 +44,31 @@ namespace FleetRouteManager.Services
             var driver = await repository.GetWhereAsIQueryable(d => !d.IsDeleted && d.Id == id)
                 .Include(d => d.Vehicle)
                 .AsNoTracking()
+                .Select(d => new DriverDetailsViewModel()
+                {
+                    Id = d.Id,
+                    FirstName = d.FirstName,
+                    MiddleName = d.MiddleName,
+                    LastName = d.LastName,
+                    PhoneNumber = d.PhoneNumber,
+                    Vehicle = d.Vehicle!.RegistrationNumber,
+                    AdditionalPhoneNumber = d.AdditionalPhoneNumber,
+                    DrivingLicense = d.DrivingLicense,
+                    DrivingLicenseExpirationDate = d.DrivingLicenseExpirationDate.ToString(DriverDateFormat),
+                    IdentityCard = d.IdentityCard,
+                    IdentityCardExpirationDate = d.IdentityCardExpirationDate.ToString(DriverDateFormat),
+                    PersonalIdentificationNumber = d.PersonalIdentificationNumber,
+                    ProfessionalQualificationCard = d.ProfessionalQualificationCard,
+                    ProfessionalQualificationCardExpirationDate =
+                        d.ProfessionalQualificationCardExpirationDate.ToString(DriverDateFormat),
+                    DateOfBirth = d.DateOfBirth.ToString(DriverDateFormat),
+                    EmployedOn = d.EmployedOn.ToString(DriverDateFormat),
+                    MedicalInsurance = d.MedicalInsurance,
+                    MedicalInsuranceExpirationDate = CustomNullableDateToStringParseExact(d.MedicalInsuranceExpirationDate, DriverDateFormat)
+                })
                 .FirstOrDefaultAsync();
 
-            if (driver == null)
-            {
-                return null;
-            }
-
-            var model = new DriverDetailsViewModel()
-            {
-                Id = driver.Id,
-                FirstName = driver.FirstName,
-                MiddleName = driver.MiddleName,
-                LastName = driver.LastName,
-                PhoneNumber = driver.PhoneNumber,
-                Vehicle = driver.Vehicle?.RegistrationNumber ?? string.Empty,
-                AdditionalPhoneNumber = driver.AdditionalPhoneNumber,
-                DrivingLicense = driver.DrivingLicense,
-                DrivingLicenseExpirationDate = driver.DrivingLicenseExpirationDate.ToString(DriverDateFormat),
-                IdentityCard = driver.IdentityCard,
-                IdentityCardExpirationDate = driver.IdentityCardExpirationDate.ToString(DriverDateFormat),
-                PersonalIdentificationNumber = driver.PersonalIdentificationNumber,
-                ProfessionalQualificationCard = driver.ProfessionalQualificationCard,
-                ProfessionalQualificationCardExpirationDate =
-                    driver.ProfessionalQualificationCardExpirationDate.ToString(DriverDateFormat),
-                DateOfBirth = driver.DateOfBirth.ToString(DriverDateFormat),
-                EmployedOn = driver.EmployedOn.ToString(DriverDateFormat),
-                MedicalInsurance = driver.MedicalInsurance,
-                MedicalInsuranceExpirationDate = driver.MedicalInsuranceExpirationDate?.ToString(DriverDateFormat) ?? string.Empty
-            };
-
-            return model;
+            return driver;
         }
 
         public async Task<DriverDeleteViewModel?> GetDriverDeleteModelAsync(int id)
@@ -121,16 +114,16 @@ namespace FleetRouteManager.Services
                 VehicleId = model.VehicleId,
                 AdditionalPhoneNumber = model.AdditionalPhoneNumber,
                 DrivingLicense = model.DrivingLicense,
-                DrivingLicenseExpirationDate = CustomDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate)),
+                DrivingLicenseExpirationDate = CustomStringToDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate)),
                 IdentityCard = model.IdentityCard,
-                IdentityCardExpirationDate = CustomDateParseExact(model.IdentityCardExpirationDate, DriverDateFormat, nameof(model.IdentityCardExpirationDate)),
+                IdentityCardExpirationDate = CustomStringToDateParseExact(model.IdentityCardExpirationDate, DriverDateFormat, nameof(model.IdentityCardExpirationDate)),
                 PersonalIdentificationNumber = model.PersonalIdentificationNumber,
                 ProfessionalQualificationCard = model.ProfessionalQualificationCard,
-                ProfessionalQualificationCardExpirationDate = CustomDateParseExact(model.ProfessionalQualificationCardExpirationDate, DriverDateFormat, nameof(model.ProfessionalQualificationCardExpirationDate)),
-                DateOfBirth = CustomDateParseExact(model.DateOfBirth, DriverDateFormat, nameof(model.DateOfBirth)),
-                EmployedOn = CustomDateParseExact(model.EmployedOn, DriverDateFormat, nameof(model.EmployedOn)),
+                ProfessionalQualificationCardExpirationDate = CustomStringToDateParseExact(model.ProfessionalQualificationCardExpirationDate, DriverDateFormat, nameof(model.ProfessionalQualificationCardExpirationDate)),
+                DateOfBirth = CustomStringToDateParseExact(model.DateOfBirth, DriverDateFormat, nameof(model.DateOfBirth)),
+                EmployedOn = CustomStringToDateParseExact(model.EmployedOn, DriverDateFormat, nameof(model.EmployedOn)),
                 MedicalInsurance = model.MedicalInsurance,
-                MedicalInsuranceExpirationDate = CustomNullableDateParseExact(model.MedicalInsuranceExpirationDate, DriverDateFormat, nameof(model.MedicalInsuranceExpirationDate))
+                MedicalInsuranceExpirationDate = CustomNullableStringToDateParseExact(model.MedicalInsuranceExpirationDate, DriverDateFormat, nameof(model.MedicalInsuranceExpirationDate))
             };
 
 
@@ -192,19 +185,19 @@ namespace FleetRouteManager.Services
             driver.VehicleId = model.VehicleId;
             driver.AdditionalPhoneNumber = model.AdditionalPhoneNumber;
             driver.DrivingLicense = model.DrivingLicense;
-            driver.DrivingLicenseExpirationDate = CustomDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate));
+            driver.DrivingLicenseExpirationDate = CustomStringToDateParseExact(model.DrivingLicenseExpirationDate, DriverDateFormat, nameof(model.DrivingLicenseExpirationDate));
             driver.IdentityCard = model.IdentityCard;
-            driver.IdentityCardExpirationDate = CustomDateParseExact(model.IdentityCardExpirationDate, DriverDateFormat,
+            driver.IdentityCardExpirationDate = CustomStringToDateParseExact(model.IdentityCardExpirationDate, DriverDateFormat,
                 nameof(model.IdentityCardExpirationDate));
             driver.PersonalIdentificationNumber = model.PersonalIdentificationNumber;
             driver.ProfessionalQualificationCard = model.ProfessionalQualificationCard;
-            driver.ProfessionalQualificationCardExpirationDate = CustomDateParseExact(
+            driver.ProfessionalQualificationCardExpirationDate = CustomStringToDateParseExact(
                 model.ProfessionalQualificationCardExpirationDate, DriverDateFormat,
                 nameof(model.ProfessionalQualificationCardExpirationDate));
-            driver.DateOfBirth = CustomDateParseExact(model.DateOfBirth, DriverDateFormat, nameof(model.DateOfBirth));
-            driver.EmployedOn = CustomDateParseExact(model.EmployedOn, DriverDateFormat, nameof(model.EmployedOn));
+            driver.DateOfBirth = CustomStringToDateParseExact(model.DateOfBirth, DriverDateFormat, nameof(model.DateOfBirth));
+            driver.EmployedOn = CustomStringToDateParseExact(model.EmployedOn, DriverDateFormat, nameof(model.EmployedOn));
             driver.MedicalInsurance = model.MedicalInsurance;
-            driver.MedicalInsuranceExpirationDate = CustomNullableDateParseExact(model.MedicalInsuranceExpirationDate,
+            driver.MedicalInsuranceExpirationDate = CustomNullableStringToDateParseExact(model.MedicalInsuranceExpirationDate,
                 DriverDateFormat, nameof(model.MedicalInsuranceExpirationDate));
 
             return await repository.UpdateAsync(driver);

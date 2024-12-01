@@ -2,7 +2,6 @@
 using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.VehicleInputModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -16,7 +15,7 @@ namespace FleetRouteManager.Web.Controllers
         private readonly IManufacturerService manufacturerService;
         private readonly IVehicleTypeService vehicleTypeService;
 
-        public VehicleController(IVehicleService vehicleService, IManufacturerService manufacturerService, IVehicleTypeService vehicleTypeService, UserManager<IdentityUser> userManager)
+        public VehicleController(IVehicleService vehicleService, IManufacturerService manufacturerService, IVehicleTypeService vehicleTypeService)
         {
             this.vehicleService = vehicleService;
             this.manufacturerService = manufacturerService;
@@ -79,6 +78,7 @@ namespace FleetRouteManager.Web.Controllers
             }
 
             ViewData["ReturnUrl"] = returnUrl;
+
             return View("DeleteConfirmation", model);
         }
 

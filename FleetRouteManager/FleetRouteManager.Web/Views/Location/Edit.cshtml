@@ -20,34 +20,14 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="@Model.StreetName" style="font-style: italic; font-weight: 600">Street Name</label>
-        <input asp-for="@Model.StreetName" class="form-control" />
-        <span asp-validation-for="@Model.StreetName" class="text-danger"></span>
+        <label asp-for="@Model.AddressId" style="font-style: italic; font-weight: 600">Address</label>
+        <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control"></select>
+        <span asp-validation-for="@Model.AddressId" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="@Model.StreetNumber" style="font-style: italic; font-weight: 600">Street Number</label>
-        <input asp-for="@Model.StreetNumber" class="form-control" />
-        <span asp-validation-for="@Model.StreetNumber" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.PostCode" style="font-style: italic; font-weight: 600">Post Code</label>
-        <input asp-for="@Model.PostCode" class="form-control">
-        <span asp-validation-for="@Model.PostCode" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.City" style="font-style: italic; font-weight: 600">City Name</label>
-        <input asp-for="@Model.City" class="form-control" />
-        <span asp-validation-for="@Model.City" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.CountryId" style="font-style: italic; font-weight: 600">Country</label>
-        <select asp-for="@Model.CountryId" asp-items="ViewBag.Countries" class="form-control"></select>
-        <span asp-validation-for="@Model.CountryId" class="text-danger"></span>
-    </div>
+    <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
+        Add New Address
+    </button>
 
     <div style="margin-top: 16px">
         <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
@@ -55,8 +35,23 @@
     </div>
 </form>
 
+<div class="modal fade" id="AddNewAddressModal" tabindex="-1" aria-labelledby="AddNewAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="AddNewAddressModalLabel">Add New Address</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("_AddNewAddressModalPartial", new AddressCreateInputModel())
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+

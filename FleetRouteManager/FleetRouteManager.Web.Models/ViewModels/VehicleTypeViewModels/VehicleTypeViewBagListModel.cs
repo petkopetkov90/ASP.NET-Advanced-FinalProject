@@ -2,8 +2,8 @@
 {
     public class VehicleTypeViewBagListModel
     {
-        public required int Id { get; set; }
+        public int? Id { get; set; }
 
-        public required string Type { get; set; }
+        public string? Type { get; set; }
     }
 }
