@@ -72,7 +72,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (string.IsNullOrEmpty(returnUrl))
             {
-                returnUrl = Url.Action("Index", "Location");
+                returnUrl = Url.Action("Index");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -99,6 +99,11 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            TempData["ReturnToAction"] = "Create";
+            TempData["ReturnToController"] = "Location";
+            TempData["ReturnToValue"] = null;
+
+
             await SetViewBagSelectListsAsync();
             var model = new LocationCreateInputModel();
 
@@ -115,6 +120,10 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
+                TempData["ReturnToAction"] = "Create";
+                TempData["ReturnToController"] = "Location";
+                TempData["ReturnToValue"] = null;
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
@@ -131,9 +140,18 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            TempData["ReturnToAction"] = "Edit";
+            TempData["ReturnToController"] = "Location";
+            TempData["ReturnToValue"] = id;
+
             await SetViewBagSelectListsAsync();
 
             var model = await locationService.GetLocationEditModelAsync(id);
+
+            if (model is null)
+            {
+                return RedirectToAction("Index");
+            }
 
             return View(model);
         }
@@ -148,11 +166,19 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
+                TempData["ReturnToAction"] = "Edit";
+                TempData["ReturnToController"] = "Location";
+                TempData["ReturnToValue"] = model.Id;
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
-            await locationService.EditLocationAsync(model);
+            if (!await locationService.EditLocationAsync(model))
+            {
+                return RedirectToAction("Index");
+            }
+
             return RedirectToAction("Details", new { model.Id });
         }
 

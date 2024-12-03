@@ -1,7 +1,6 @@
 ﻿using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.AddressInputModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FleetRouteManager.Web.Controllers
 {
@@ -50,7 +49,7 @@ namespace FleetRouteManager.Web.Controllers
         //}
 
         [HttpPost("Add New Address")]
-        public async Task<IActionResult> _AddNewAddressModalPartial(AddressCreateInputModel model)
+        public async Task<IActionResult> _AddNewAddressPartial(AddressCreateInputModel model)
         {
             if (User.Identity?.IsAuthenticated != true)
             {
@@ -59,25 +58,28 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                await SetViewBagSelectListsAsync();
-                return View(model);
+                TempData["AddressFormError"] = "There were validation errors";
+
             }
 
-            await addressService.AddNewAddressAsync(model);
+            TempData["NewAddressId"] = await addressService.AddNewAddressAsync(model);
 
-            var returnUrl = Request.Headers["Referer"].ToString();
+            var action = TempData["ReturnToAction"]?.ToString() ?? "Index";
+            var controller = TempData["ReturnToController"]?.ToString() ?? "Home";
+            var value = TempData["ReturnToValue"];
 
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (value != null)
             {
-                return Redirect(returnUrl);
+                return RedirectToAction(action, controller, new { id = value });
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(action, controller);
         }
 
-        private async Task SetViewBagSelectListsAsync()
-        {
-            ViewBag.Countries = new SelectList(await countryService.GetCountryViewBagListAsync(), "Id", "Name");
-        }
+        //private async Task SetViewBagSelectListsAsync()
+        //{
+        //    ViewBag.Countries = new SelectList(await countryService.GetCountryViewBagListAsync(), "Id", "Name");
+        //}
+
     }
 }

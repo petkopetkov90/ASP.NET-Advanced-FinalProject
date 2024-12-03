@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit Location";
+    var newAddressId = TempData["NewAddressId"] != null ? (int)TempData["NewAddressId"] : 0;
+
 }
 
 <h1 style="font-style: italic">@ViewData["Title"]</h1>
@@ -21,13 +23,32 @@
 
     <div class="form-group">
         <label asp-for="@Model.AddressId" style="font-style: italic; font-weight: 600">Address</label>
-        <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control"></select>
+        <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control">
+            @if (newAddressId > 0 && ViewBag.Addresses != null)
+            {
+                @foreach (var item in ViewBag.Addresses as SelectList)
+                {
+                    if (item.Value == newAddressId.ToString())
+                    {
+                        <option value="@item.Value" selected>@item.Text</option>
+                    }
+                }
+            }
+        </select>
         <span asp-validation-for="@Model.AddressId" class="text-danger"></span>
     </div>
 
-    <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
-        Add New Address
-    </button>
+    <div>
+        @if (TempData["AddressFormError"] != null)
+        {
+            <div id="addressErrorContainer" class="text-danger">
+                @TempData["AddressFormError"]
+            </div>
+        }
+        <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
+            Add New Address
+        </button>
+    </div>
 
     <div style="margin-top: 16px">
         <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
@@ -43,13 +64,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @await Html.PartialAsync("_AddNewAddressModalPartial", new AddressCreateInputModel())
+                @await Html.PartialAsync("_AddNewAddressPartial", new AddressCreateInputModel())
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
+    @if (TempData["AddressFormError"] != null)
+    {
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('AddNewAddressModal'));
+                modal.show();
+                            });
+        </script>
+    }
+
+    <script>
+        document.getElementById('AddNewAddressModal').addEventListener('hidden.bs.modal', function () {
+
+                            document.querySelector('#AddNewAddressModal form').reset();
+                            document.getElementById('addressErrorContainer').innerText = '';
+                        });
+    </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

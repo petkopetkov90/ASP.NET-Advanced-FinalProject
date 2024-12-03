@@ -9,7 +9,7 @@ namespace FleetRouteManager.Services.Interfaces
         Task<DriverDetailsViewModel?> GetDriverDetailsAsync(int id);
         Task<DriverDeleteViewModel?> GetDriverDeleteModelAsync(int id);
         Task<bool> DeleteDriverAsync(int id);
-        Task<bool> AssignNewDriverAsync(DriverCreateInputModel model);
+        Task<int> AssignNewDriverAsync(DriverCreateInputModel model);
         Task<DriverEditInputModel> GetDriverEditModelAsync(int id);
         Task<bool> EditDriverAsync(DriverEditInputModel model);
     }

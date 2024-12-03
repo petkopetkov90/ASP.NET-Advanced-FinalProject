@@ -98,11 +98,11 @@ namespace FleetRouteManager.Services
             return await repository.UpdateAsync(driver);
         }
 
-        public async Task<bool> AssignNewDriverAsync(DriverCreateInputModel model)
+        public async Task<int> AssignNewDriverAsync(DriverCreateInputModel model)
         {
             if (await CheckForPersonalIdentification(model.PersonalIdentificationNumber))
             {
-                return false;
+                return 0;
             }
 
             var driver = new Driver()
@@ -127,7 +127,12 @@ namespace FleetRouteManager.Services
             };
 
 
-            return await repository.AddAsync(driver);
+            if (await repository.AddAsync(driver))
+            {
+                return driver.Id;
+            }
+
+            return 0;
         }
 
         public async Task<DriverEditInputModel> GetDriverEditModelAsync(int id)
@@ -158,7 +163,7 @@ namespace FleetRouteManager.Services
                 DateOfBirth = driver.DateOfBirth.ToString(DriverDateFormat),
                 EmployedOn = driver.EmployedOn.ToString(DriverDateFormat),
                 MedicalInsurance = driver.MedicalInsurance,
-                MedicalInsuranceExpirationDate = driver.MedicalInsuranceExpirationDate?.ToString(DriverDateFormat) ?? string.Empty,
+                MedicalInsuranceExpirationDate = CustomNullableDateToStringParseExact(driver.MedicalInsuranceExpirationDate, DriverDateFormat)
             };
 
             return model;

@@ -44,6 +44,7 @@ namespace FleetRouteManager.Data.Models
         public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
+        public virtual ICollection<Client> LegalClients { get; set; } = new List<Client>();
 
     }
 }

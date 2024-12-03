@@ -53,6 +53,15 @@ namespace FleetRouteManager.Data.Common.Configurations
                     PostCode = "2355",
                     City = "Wiener Neudorf",
                     CountryId = 203,
+                },
+                new Address
+                {
+                    Id = 6,
+                    Street = "Nedelcho Bonchev",
+                    Number = "2B",
+                    PostCode = "1528",
+                    City = "Sofia",
+                    CountryId = 207,
                 });
         }
     }

@@ -1,6 +1,6 @@
 ﻿@model AddressCreateInputModel
 
-<form asp-action="_AddNewAddressModalPartial" asp-controller="Address" method="post">
+<form asp-action="_AddNewAddressPartial" asp-controller="Address" method="post">
     <div class="form-group">
         <label asp-for="@Model.StreetName" class="form-label">Street Name</label>
         <input asp-for="@Model.StreetName" class="form-control" />
@@ -32,6 +32,13 @@
         <button class="btn btn-secondary" data-bs-dismiss="modal" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</button>
     </div>
 </form>
+
+@if (TempData["AddressFormError"] != null)
+{
+    <div id="addressErrorContainer" class="text-danger">
+        @TempData["AddressFormError"]
+    </div>
+}
 
 @section Scripts {
     @{

@@ -63,7 +63,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Vehicle not found!
+                //TODO: Driver not found!
                 return RedirectToAction("Index");
             }
 
@@ -75,6 +75,7 @@ namespace FleetRouteManager.Web.Controllers
             }
 
             ViewData["ReturnUrl"] = returnUrl;
+
             return View("DeleteConfirmation", model);
         }
 
@@ -99,7 +100,6 @@ namespace FleetRouteManager.Web.Controllers
             }
 
             await SetViewBagSelectListsAsync();
-
             var model = new DriverCreateInputModel();
 
             return View(model);
@@ -146,6 +146,11 @@ namespace FleetRouteManager.Web.Controllers
 
             var model = await driverService.GetDriverEditModelAsync(id);
 
+            if (model is null)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(model);
         }
 
@@ -165,7 +170,11 @@ namespace FleetRouteManager.Web.Controllers
 
             try
             {
-                await driverService.EditDriverAsync(model);
+                if (!await driverService.EditDriverAsync(model))
+                {
+                    return RedirectToAction("Index");
+                }
+
                 return RedirectToAction("Details", new { model.Id });
             }
             catch (CustomDateFormatException e)

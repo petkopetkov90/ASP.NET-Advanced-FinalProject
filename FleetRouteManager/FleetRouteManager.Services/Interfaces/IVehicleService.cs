@@ -9,8 +9,8 @@ namespace FleetRouteManager.Services.Interfaces
         Task<VehicleDetailsViewModel?> GetVehicleDetailsModelAsync(int id);
         Task<VehicleDeleteViewModel?> GetVehicleDeleteModelAsync(int id);
         Task<bool> DeleteVehicleAsync(int id);
-        Task<bool> CreateNewVehicleAsync(VehicleCreateInputModel vehicle);
-        Task<VehicleEditInputModel> GetVehicleEditModelAsync(int id);
+        Task<int> CreateNewVehicleAsync(VehicleCreateInputModel vehicle);
+        Task<VehicleEditInputModel?> GetVehicleEditModelAsync(int id);
         Task<bool> EditVehicleAsync(VehicleEditInputModel model);
         Task<IEnumerable<VehicleViewBagListModel>> GetVehicleViewBagListAsync();
     }

@@ -6,6 +6,6 @@ namespace FleetRouteManager.Services.Interfaces
     public interface IAddressService
     {
         Task<IEnumerable<AddressViewBagListModel>> GetAddressViewBagListAsync();
-        Task<bool> AddNewAddressAsync(AddressCreateInputModel model);
+        Task<int> AddNewAddressAsync(AddressCreateInputModel model);
     }
 }

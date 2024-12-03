@@ -8,24 +8,29 @@
 
 <form asp-action="Add" method="post">
     <div class="form-group">
-        <label asp-for="StreetName" class="form-label">Street Name</label>
-        <input asp-for="StreetName" class="form-control" />
-        <span asp-validation-for="StreetName" class="text-danger"></span>
+        <label asp-for="@Model.StreetName" class="form-label">Street Name</label>
+        <input asp-for="@Model.StreetName" class="form-control" />
+        <span asp-validation-for="@Model.StreetName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="StreetNumber" class="form-label">Street Number</label>
-        <input asp-for="StreetNumber" class="form-control" />
-        <span asp-validation-for="StreetNumber" class="text-danger"></span>
+        <label asp-for="@Model.StreetNumber" class="form-label">Street Number</label>
+        <input asp-for="@Model.StreetNumber" class="form-control" />
+        <span asp-validation-for="@Model.StreetNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PostCode" class="form-label">Post Code</label>
-        <input asp-for="PostCode" class="form-control" />
-        <span asp-validation-for="PostCode" class="text-danger"></span>
+        <label asp-for="@Model.PostCode" class="form-label">Post Code</label>
+        <input asp-for="@Model.PostCode" class="form-control" />
+        <span asp-validation-for="@Model.PostCode" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="City" class="form-label">City</label>
-        <input asp-for="City" class="form-control" />
-        <span asp-validation-for="City" class="text-danger"></span>
+        <label asp-for="@Model.City" class="form-label">City</label>
+        <input asp-for="@Model.City" class="form-control" />
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.CountryId">Country</label>
+        <select asp-for="@Model.CountryId" asp-items="ViewBag.Countries" class="form-control"></select>
+        <span asp-validation-for="@Model.CountryId" class="text-danger"></span>
     </div>
 
     <div style="margin-top: 16px">

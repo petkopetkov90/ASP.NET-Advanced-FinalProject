@@ -77,7 +77,7 @@ namespace FleetRouteManager.Services
 
         public async Task<VehicleDeleteViewModel?> GetVehicleDeleteModelAsync(int id)
         {
-            return await repository.GetWhereAsIQueryable(v => v.Id == id && v.IsDeleted == false)
+            return await repository.GetWhereAsIQueryable(v => v.Id == id && !v.IsDeleted)
                 .AsNoTracking()
                 .Select(v => new VehicleDeleteViewModel
                 {
@@ -103,11 +103,11 @@ namespace FleetRouteManager.Services
             return await repository.UpdateAsync(vehicle);
         }
 
-        public async Task<bool> CreateNewVehicleAsync(VehicleCreateInputModel model)
+        public async Task<int> CreateNewVehicleAsync(VehicleCreateInputModel model)
         {
             if (await CheckForRegistrationNumber(model.RegistrationNumber))
             {
-                return false;
+                return 0;
             }
 
             var vehicle = new Vehicle
@@ -130,16 +130,21 @@ namespace FleetRouteManager.Services
             };
 
 
-            return await repository.AddAsync(vehicle);
+            if (await repository.AddAsync(vehicle))
+            {
+                return vehicle.Id;
+            }
+
+            return 0;
         }
 
-        public async Task<VehicleEditInputModel> GetVehicleEditModelAsync(int id)
+        public async Task<VehicleEditInputModel?> GetVehicleEditModelAsync(int id)
         {
             var vehicle = await repository.GetByIdAsync(id);
 
             if (vehicle == null || vehicle.IsDeleted)
             {
-                return null!;
+                return null;
             }
 
             var model = new VehicleEditInputModel
@@ -214,7 +219,7 @@ namespace FleetRouteManager.Services
 
             vehicleList.Insert(0, new VehicleViewBagListModel()
             {
-                RegistrationNumber = "You can choose a vehicle to assign the driver on"
+                RegistrationNumber = "You can assign the driver to a vehicle"
             });
 
             return vehicleList;

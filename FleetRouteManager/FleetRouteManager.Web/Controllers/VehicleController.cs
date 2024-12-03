@@ -31,6 +31,7 @@ namespace FleetRouteManager.Web.Controllers
             }
 
             var vehicles = await vehicleService.GetAllVehiclesAsync();
+
             return View(vehicles);
         }
 
@@ -82,7 +83,7 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
-        [HttpPost("Delete Vehicle Confirmation")]
+        [HttpPost("Delete Vehicle")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -104,6 +105,7 @@ namespace FleetRouteManager.Web.Controllers
 
             await SetViewBagSelectListsAsync();
             var model = new VehicleCreateInputModel();
+
             return View(model);
         }
 
@@ -148,6 +150,11 @@ namespace FleetRouteManager.Web.Controllers
 
             var model = await vehicleService.GetVehicleEditModelAsync(id);
 
+            if (model is null)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(model);
         }
 
@@ -167,7 +174,11 @@ namespace FleetRouteManager.Web.Controllers
 
             try
             {
-                await vehicleService.EditVehicleAsync(model);
+                if (!await vehicleService.EditVehicleAsync(model))
+                {
+                    return RedirectToAction("Index");
+                }
+
                 return RedirectToAction("Details", new { model.Id });
             }
             catch (CustomDateFormatException e)

@@ -90,7 +90,7 @@ namespace FleetRouteManager.Services
             return await repository.UpdateAsync(location);
         }
 
-        public async Task<bool> CreateNewLocationAsync(LocationCreateInputModel model)
+        public async Task<int> CreateNewLocationAsync(LocationCreateInputModel model)
         {
             var location = new Location
             {
@@ -99,7 +99,12 @@ namespace FleetRouteManager.Services
                 AddressId = model.AddressId
             };
 
-            return await repository.AddAsync(location);
+            if (await repository.AddAsync(location))
+            {
+                return location.Id;
+            }
+
+            return 0;
         }
 
         public async Task<LocationEditInputModel?> GetLocationEditModelAsync(int id)

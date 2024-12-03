@@ -9,7 +9,7 @@ namespace FleetRouteManager.Services.Interfaces
         Task<LocationDetailsViewModel?> GetLocationDetailsAsync(int id);
         Task<LocationDeleteViewModel?> GetLocationDeleteModelAsync(int id);
         Task<bool> DeleteLocationAsync(int id);
-        Task<bool> CreateNewLocationAsync(LocationCreateInputModel model);
+        Task<int> CreateNewLocationAsync(LocationCreateInputModel model);
         Task<LocationEditInputModel?> GetLocationEditModelAsync(int id);
         Task<bool> EditLocationAsync(LocationEditInputModel model);
     }

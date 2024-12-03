@@ -40,7 +40,7 @@ namespace FleetRouteManager.Services
 
         }
 
-        public async Task<bool> AddNewAddressAsync(AddressCreateInputModel model)
+        public async Task<int> AddNewAddressAsync(AddressCreateInputModel model)
         {
             var address = new Address()
             {
@@ -51,7 +51,12 @@ namespace FleetRouteManager.Services
                 CountryId = model.CountryId
             };
 
-            return await repository.AddAsync(address);
+            if (await repository.AddAsync(address))
+            {
+                return address.Id;
+            }
+
+            return 0;
         }
     }
 }
