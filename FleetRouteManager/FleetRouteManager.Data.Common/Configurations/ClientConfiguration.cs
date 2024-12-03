@@ -33,6 +33,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     LegalName = "DHL Express Bulgaria EOOD",
                     LegalAddressId = 2,
                     PostalAddressId = 2,
+                    ContactEmail = "contact@dhl.bg",
                     PodEmail = "pod@dhl.bg",
                     InvoicingEmail = "invoices@dhl.bg",
                     PaymentEmail = "payments@dhl.bg",
@@ -45,6 +46,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     TaxNumber = "BG22222222",
                     LegalAddressId = 5,
                     PostalAddressId = 4,
+                    ContactEmail = "contact@schenker.bg",
                     PodEmail = "pod@schenker.bg",
                 },
                 new Client
@@ -55,6 +57,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     LegalName = "LKW WALTER Internationale Transportorganisation AG",
                     LegalAddressId = 5,
                     PostalAddressId = 3,
+                    ContactEmail = "contact@lkw-walter.at",
                     PodEmail = "pod@lkw-walter.at",
                     InvoicingEmail = "invoicing@lkw-walter.at",
                 });

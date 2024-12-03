@@ -141,7 +141,7 @@ namespace FleetRouteManager.Tests.ServicesTests
         }
 
         [Test]
-        public async Task CreateNewVehicleAsyncShouldReturnTrueAndAddNewEntity()
+        public async Task CreateNewVehicleAsyncShouldReturnIdAndAddNewEntity()
         {
             var model = new VehicleCreateInputModel
             {
@@ -161,7 +161,7 @@ namespace FleetRouteManager.Tests.ServicesTests
 
             var result = await vehicleService.CreateNewVehicleAsync(model);
 
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.Not.EqualTo(0));
 
             var totalVehicles = await context.Vehicles.CountAsync();
 
@@ -169,7 +169,7 @@ namespace FleetRouteManager.Tests.ServicesTests
         }
 
         [Test]
-        public async Task CreateNewVehicleAsyncShouldReturnFalseIfEntityWithSameRegistrationNumberExists()
+        public async Task CreateNewVehicleAsyncShouldReturnNullOrDefaultIfEntityWithSameRegistrationNumberExists()
         {
             var model = new VehicleCreateInputModel
             {
@@ -189,7 +189,7 @@ namespace FleetRouteManager.Tests.ServicesTests
 
             var result = await vehicleService.CreateNewVehicleAsync(model);
 
-            Assert.That(result, Is.False);
+            Assert.That(result, Is.EqualTo(0));
 
             var totalVehicles = await context.Vehicles.CountAsync();
 

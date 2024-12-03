@@ -13,5 +13,9 @@
         public const int EmailMinLength = 6;
         public const int EmailMaxLength = 254;
         public const string EmailFormatRegex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+        public const int ClientPhoneMinLength = 6;
+        public const int ClientPhoneMaxLength = 20;
+        public const string ClientPhoneFormatRegex = @"^\+?[0-9]{1,4}?[-.\s]?[0-9]+([-.\s]?[0-9]+)*$";
     }
 }

@@ -38,6 +38,15 @@ namespace FleetRouteManager.Data.Models
         [ForeignKey(nameof(PostalAddressId))]
         public Location? PostalLocation { get; set; }
 
+        [MaxLength(ClientPhoneMaxLength)]
+        [Comment("Client phone number")]
+        public string? PhoneNumber { get; set; }
+
+        [Required]
+        [MaxLength(EmailMaxLength)]
+        [Comment("Email address for contact with client")]
+        public string ContactEmail { get; set; } = null!;
+
         [MaxLength(EmailMaxLength)]
         [Comment("Email address used for sending proofs of deliveries")]
         public string? PodEmail { get; set; }

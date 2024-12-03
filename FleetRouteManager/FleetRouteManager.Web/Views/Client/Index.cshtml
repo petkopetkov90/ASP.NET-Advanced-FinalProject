@@ -1,0 +1,62 @@
+﻿@* @model IEnumerable<ClientViewModel>
+ *@
+@{
+    ViewData["Title"] = "Clients";
+}
+
+
+<div class="text center" style="width: 100%; margin: 0">
+    @if (Model.Any())
+    {
+        <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+            <thead style="font-style: italic; text-decoration: underline;">
+                <tr>
+                    <th style="padding: 15px" scope="col">Name</th>
+                    <th style="padding: 15px" scope="col">Post Code</th>
+                    <th style="padding: 15px" scope="col">City</th>
+                    <th style="padding: 15px" scope="col">Country</th>
+                    <th style="padding: 15px" scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var clientViewModel in Model)
+                {
+                    <tr>
+                        <th style="padding: 15px">@clientViewModel.Name</th>
+                        <td style="padding: 15px">@clientViewModel.PostCode</td>
+                        <td style="padding: 15px">@clientViewModel.City</td>
+                        <td style="padding: 15px">@clientViewModel.Country</td>
+                        <td style="padding: 5px 0px">
+                            <a asp-action="Details" asp-controller="Client" asp-route-id="@clientViewModel.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
+                            @*    @if (User.IsInRole("Admin"))s
+                    { *@
+                            <a asp-action="Delete" asp-controller="Client" asp-route-id="@clientViewModel.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                            @* } *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="8" style="padding: 10px 0px">
+                        @*     @if (User.IsInRole("Admin"))
+                    { *@
+                        <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
+                        @* } *@
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No locations were found</p>
+            @* If User in role??*@
+            <div style="margin: 1rem">
+                <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
+            </div>
+        </div>
+    }
+
+</div>}
