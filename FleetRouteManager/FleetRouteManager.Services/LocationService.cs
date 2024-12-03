@@ -33,6 +33,7 @@ namespace FleetRouteManager.Services
                     City = l.Address.City,
                     Country = l.Address.Country.Name
                 })
+                .OrderBy(l => l.Name)
                 .ToListAsync();
 
             return model;

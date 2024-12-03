@@ -37,6 +37,7 @@ namespace FleetRouteManager.Services
                     EuroClass = v.EuroClass,
                     Type = v.VehicleType.Type
                 })
+                .OrderBy(v => v.RegistrationNumber)
                 .ToListAsync();
 
             return vehicles;

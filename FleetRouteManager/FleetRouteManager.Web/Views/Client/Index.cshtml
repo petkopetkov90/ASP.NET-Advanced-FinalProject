@@ -1,5 +1,5 @@
-﻿@* @model IEnumerable<ClientViewModel>
- *@
+﻿@model IEnumerable<ClientViewModel>
+
 @{
     ViewData["Title"] = "Clients";
 }
@@ -12,9 +12,10 @@
             <thead style="font-style: italic; text-decoration: underline;">
                 <tr>
                     <th style="padding: 15px" scope="col">Name</th>
-                    <th style="padding: 15px" scope="col">Post Code</th>
-                    <th style="padding: 15px" scope="col">City</th>
-                    <th style="padding: 15px" scope="col">Country</th>
+                    <th style="padding: 15px" scope="col">Phone Number</th>
+                    <th style="padding: 15px" scope="col">Email</th>
+                    <th style="padding: 15px" scope="col">VAT</th>
+                    <th style="padding: 15px" scope="col">Legal Name</th>
                     <th style="padding: 15px" scope="col">Actions</th>
                 </tr>
             </thead>
@@ -23,9 +24,10 @@
                 {
                     <tr>
                         <th style="padding: 15px">@clientViewModel.Name</th>
-                        <td style="padding: 15px">@clientViewModel.PostCode</td>
-                        <td style="padding: 15px">@clientViewModel.City</td>
-                        <td style="padding: 15px">@clientViewModel.Country</td>
+                        <td style="padding: 15px">@clientViewModel.PhoneNumber</td>
+                        <td style="padding: 15px">@clientViewModel.ContactEmail</td>
+                        <td style="padding: 15px">@clientViewModel.TaxNumber</td>
+                        <td style="padding: 15px">@clientViewModel.LegalName</td>
                         <td style="padding: 5px 0px">
                             <a asp-action="Details" asp-controller="Client" asp-route-id="@clientViewModel.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
                             @*    @if (User.IsInRole("Admin"))s
@@ -41,7 +43,7 @@
                     <td colspan="8" style="padding: 10px 0px">
                         @*     @if (User.IsInRole("Admin"))
                     { *@
-                        <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
+                        <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Client</a>
                         @* } *@
                     </td>
                 </tr>
@@ -51,12 +53,12 @@
     else
     {
         <div class="alert alert-danger text-center" role="alert">
-            <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No locations were found</p>
+            <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No clients were found</p>
             @* If User in role??*@
             <div style="margin: 1rem">
-                <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
+                <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Client</a>
             </div>
         </div>
     }
 
-</div>}
+</div>

@@ -12,6 +12,18 @@ namespace FleetRouteManager.Web.Controllers
             this.clientService = clientService;
         }
 
+        [HttpGet("Clients")]
+        public async Task<IActionResult> Index()
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = await clientService.GetAllClientsAsync();
+
+            return View(model);
+        }
 
     }
 }
