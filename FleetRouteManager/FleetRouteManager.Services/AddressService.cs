@@ -20,14 +20,15 @@ namespace FleetRouteManager.Services
         {
             var addressList = await repository.GetWhereAsIQueryable(a => !a.IsDeleted)
                 .Include(a => a.Country)
-                .AsNoTracking()
                 .OrderBy(a => a.Country.Name)
                 .ThenBy(a => a.PostCode)
                 .ThenBy(a => a.Street)
+                .AsNoTracking()
                 .Select(a => new AddressViewBagListModel
                 {
                     Id = a.Id,
-                    Name = $"{a.Street} {a.Number}, {a.PostCode} {a.Country.Name}",
+                    Name = FormatAddressToString(a)
+
                 })
                 .ToListAsync();
 
@@ -57,6 +58,16 @@ namespace FleetRouteManager.Services
             }
 
             return 0;
+        }
+
+        private static string FormatAddressToString(Address? address)
+        {
+            if (address == null)
+            {
+                return string.Empty;
+            }
+
+            return $"{address.Street} {(address.Number ?? "").Trim()}, {address.PostCode} {address.City}, {address.Country.Name}".Trim();
         }
     }
 }

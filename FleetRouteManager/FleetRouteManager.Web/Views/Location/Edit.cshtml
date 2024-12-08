@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Edit Location";
     var newAddressId = TempData["NewAddressId"] != null ? (int)TempData["NewAddressId"] : 0;
-
 }
 
 <h1 style="font-style: italic">@ViewData["Title"]</h1>
@@ -24,6 +23,7 @@
     <div class="form-group">
         <label asp-for="@Model.AddressId" style="font-style: italic; font-weight: 600">Address</label>
         <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control">
+
             @if (newAddressId > 0 && ViewBag.Addresses != null)
             {
                 @foreach (var item in ViewBag.Addresses as SelectList)
@@ -45,13 +45,13 @@
                 @TempData["AddressFormError"]
             </div>
         }
-        <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
+        <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
             Add New Address
         </button>
     </div>
 
     <div style="margin-top: 16px">
-        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
+        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Save</button>
         <a asp-action="Index" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
     </div>
 </form>

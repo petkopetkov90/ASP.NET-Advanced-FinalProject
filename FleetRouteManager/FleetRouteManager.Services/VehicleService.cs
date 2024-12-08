@@ -25,6 +25,7 @@ namespace FleetRouteManager.Services
                 .Where(e => e.IsDeleted == false)
                 .Include(v => v.Manufacturer)
                 .Include(v => v.VehicleType)
+                .OrderBy(v => v.RegistrationNumber)
                 .AsNoTracking()
                 .Select(v => new VehicleViewModel()
                 {
@@ -37,7 +38,6 @@ namespace FleetRouteManager.Services
                     EuroClass = v.EuroClass,
                     Type = v.VehicleType.Type
                 })
-                .OrderBy(v => v.RegistrationNumber)
                 .ToListAsync();
 
             return vehicles;
@@ -64,7 +64,7 @@ namespace FleetRouteManager.Services
                     Axles = v.Axles,
                     WeightCapacity = v.WeightCapacity,
                     AcquiredOn = v.AcquiredOn.ToString(VehicleDateFormat),
-                    Drivers = v.Drivers.Select(d => $"{d.FirstName} {d.MiddleName} {d.LastName}"),
+                    Drivers = v.Drivers.Select(d => FormatDriverToString(d)),
                     LiabilityInsurance = v.LiabilityInsurance,
                     LiabilityInsuranceExpirationDate = CustomNullableDateToStringParseExact(v.LiabilityInsuranceExpirationDate, VehicleDateFormat),
                     TechnicalReviewExpirationDate = CustomNullableDateToStringParseExact(v.TechnicalReviewExpirationDate, VehicleDateFormat),
@@ -163,9 +163,9 @@ namespace FleetRouteManager.Services
                 WeightCapacity = vehicle.WeightCapacity,
                 AcquiredOn = vehicle.AcquiredOn.ToString(VehicleDateFormat),
                 LiabilityInsurance = vehicle.LiabilityInsurance,
-                LiabilityInsuranceExpirationDate = vehicle.LiabilityInsuranceExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
-                TechnicalReviewExpirationDate = vehicle.TechnicalReviewExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
-                TachographExpirationDate = vehicle.TachographExpirationDate?.ToString(VehicleDateFormat) ?? string.Empty,
+                LiabilityInsuranceExpirationDate = CustomNullableDateToStringParseExact(vehicle.LiabilityInsuranceExpirationDate, VehicleDateFormat),
+                TechnicalReviewExpirationDate = CustomNullableDateToStringParseExact(vehicle.TechnicalReviewExpirationDate, VehicleDateFormat),
+                TachographExpirationDate = CustomNullableDateToStringParseExact(vehicle.TachographExpirationDate, VehicleDateFormat)
             };
 
             return model;
@@ -210,12 +210,13 @@ namespace FleetRouteManager.Services
         public async Task<IEnumerable<VehicleViewBagListModel>> GetVehicleViewBagListAsync()
         {
             var vehicleList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
+                .OrderBy(v => v.RegistrationNumber)
+                .AsNoTracking()
                 .Select(v => new VehicleViewBagListModel
                 {
                     Id = v.Id,
                     RegistrationNumber = v.RegistrationNumber
                 })
-                .OrderBy(v => v.RegistrationNumber)
                 .ToListAsync();
 
             vehicleList.Insert(0, new VehicleViewBagListModel()
@@ -229,9 +230,19 @@ namespace FleetRouteManager.Services
         private async Task<bool> CheckForRegistrationNumber(string registrationNumber)
         {
             return await repository.GetAllAsIQueryable()
-                .Select(v => v.RegistrationNumber)
                 .AsNoTracking()
+                .Select(v => v.RegistrationNumber)
                 .FirstOrDefaultAsync(r => r == registrationNumber) != null;
+        }
+
+        private static string FormatDriverToString(Driver? driver)
+        {
+            if (driver == null)
+            {
+                return string.Empty;
+            }
+
+            return $"{driver.FirstName} {driver.MiddleName} {driver.LastName}".Trim();
         }
     }
 }

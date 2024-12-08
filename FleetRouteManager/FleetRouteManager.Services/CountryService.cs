@@ -18,13 +18,13 @@ namespace FleetRouteManager.Services
         public async Task<IEnumerable<CountryViewBagListModel>> GetCountryViewBagListAsync()
         {
             var countryList = await repository.GetWhereAsIQueryable(c => !c.IsDeleted)
+                .OrderBy(c => c.Name)
                 .AsNoTracking()
                 .Select(c => new CountryViewBagListModel
                 {
                     Id = c.Id,
                     Name = c.Name,
                 })
-                .OrderBy(c => c.Name)
                 .ToListAsync();
 
 

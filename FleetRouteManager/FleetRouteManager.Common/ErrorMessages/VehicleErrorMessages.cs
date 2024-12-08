@@ -28,7 +28,7 @@
         public const string VehicleAxlesRangeMsg = "Axles count must be between 2 and 5.";
 
         public const string VehicleWeightCapacityRequiredMsg = "Please enter a legal weight capacity in tons.";
-        public const string VehicleWeightCapacityRangeMsg = "Capacity must be between 0.1 and 40 tons.";
+        public const string VehicleWeightCapacityRangeMsg = "Capacity must be between 0.0 and 40 tons.";
 
         public const string VehicleLiabilityInsuranceLengthMsg = "Insurance number must be between 10 and 50 characters.";
         public const string VehicleLiabilityInsuranceFormatMsg = "Insurance number must contain only letters (A-Z, a-z) and digits (0-9).<br>It may optionally contain spaces ( ), hyphens (-) or slashes (/) between characters, but only one symbol is allowed in a row.";

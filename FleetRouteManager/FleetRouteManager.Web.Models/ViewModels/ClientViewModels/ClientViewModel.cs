@@ -10,8 +10,6 @@
 
         public required string ContactEmail { get; set; }
 
-        public required string TaxNumber { get; set; }
-
-        public required string LegalName { get; set; }
+        public required string Address { get; set; }
     }
 }

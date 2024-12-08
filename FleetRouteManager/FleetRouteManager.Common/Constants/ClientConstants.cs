@@ -10,9 +10,9 @@
         public const int ClientTaxNumberMaxLength = 15;
         public const string ClientTaxNumberFormatRegex = @"^[A-Za-z0-9](?:([\s-])?[A-Za-z0-9]+)*$";
 
-        public const int EmailMinLength = 6;
-        public const int EmailMaxLength = 254;
-        public const string EmailFormatRegex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        public const int ClientEmailMinLength = 6;
+        public const int ClientEmailMaxLength = 254;
+        public const string ClientEmailFormatRegex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
 
         public const int ClientPhoneMinLength = 6;
         public const int ClientPhoneMaxLength = 20;

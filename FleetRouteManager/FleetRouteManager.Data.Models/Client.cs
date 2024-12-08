@@ -28,6 +28,12 @@ namespace FleetRouteManager.Data.Models
         public string LegalName { get; set; } = null!;
 
         [Required]
+        [Comment("Foreign key to address used for address of client")]
+        public int AddressId { get; set; }
+        [ForeignKey(nameof(AddressId))]
+        public Address Address { get; set; } = null!;
+
+        [Required]
         [Comment("Foreign key to address used for legal address")]
         public int? LegalAddressId { get; set; }
         [ForeignKey(nameof(LegalAddressId))]
@@ -43,19 +49,19 @@ namespace FleetRouteManager.Data.Models
         public string? PhoneNumber { get; set; }
 
         [Required]
-        [MaxLength(EmailMaxLength)]
+        [MaxLength(ClientEmailMaxLength)]
         [Comment("Email address for contact with client")]
         public string ContactEmail { get; set; } = null!;
 
-        [MaxLength(EmailMaxLength)]
+        [MaxLength(ClientEmailMaxLength)]
         [Comment("Email address used for sending proofs of deliveries")]
         public string? PodEmail { get; set; }
 
-        [MaxLength(EmailMaxLength)]
+        [MaxLength(ClientEmailMaxLength)]
         [Comment("Email address used for sending invoices")]
         public string? InvoicingEmail { get; set; }
 
-        [MaxLength(EmailMaxLength)]
+        [MaxLength(ClientEmailMaxLength)]
         [Comment("Email address used for payment requests")]
         public string? PaymentEmail { get; set; }
 

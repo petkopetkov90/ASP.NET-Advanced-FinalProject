@@ -9,6 +9,12 @@ namespace FleetRouteManager.Data.Common.Configurations
         public void Configure(EntityTypeBuilder<Client> builder)
         {
             builder
+                .HasOne(c => c.Address)
+                .WithMany(a => a.Clients)
+                .HasForeignKey(c => c.AddressId)
+                .OnDelete(deleteBehavior: DeleteBehavior.Restrict);
+
+            builder
                 .HasOne(c => c.LegalAddress)
                 .WithMany(a => a.LegalClients)
                 .HasForeignKey(c => c.LegalAddressId)
@@ -31,6 +37,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     Name = "DHL Bulgaria",
                     TaxNumber = "BG11111111",
                     LegalName = "DHL Express Bulgaria EOOD",
+                    AddressId = 2,
                     LegalAddressId = 2,
                     PostalAddressId = 2,
                     ContactEmail = "contact@dhl.bg",
@@ -44,6 +51,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     Name = "Schenker Bulgaria",
                     LegalName = "Schenker EOOD",
                     TaxNumber = "BG22222222",
+                    AddressId = 4,
                     LegalAddressId = 5,
                     PostalAddressId = 4,
                     ContactEmail = "contact@schenker.bg",
@@ -55,6 +63,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     Name = "LKW Walter",
                     TaxNumber = "AT333333333",
                     LegalName = "LKW WALTER Internationale Transportorganisation AG",
+                    AddressId = 3,
                     LegalAddressId = 5,
                     PostalAddressId = 3,
                     ContactEmail = "contact@lkw-walter.at",

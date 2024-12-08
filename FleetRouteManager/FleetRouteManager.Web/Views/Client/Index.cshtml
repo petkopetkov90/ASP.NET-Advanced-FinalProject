@@ -14,9 +14,7 @@
                     <th style="padding: 15px" scope="col">Name</th>
                     <th style="padding: 15px" scope="col">Phone Number</th>
                     <th style="padding: 15px" scope="col">Email</th>
-                    <th style="padding: 15px" scope="col">VAT</th>
-                    <th style="padding: 15px" scope="col">Legal Name</th>
-                    <th style="padding: 15px" scope="col">Actions</th>
+                    <th style="padding: 15px" scope="col">Address</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +24,7 @@
                         <th style="padding: 15px">@clientViewModel.Name</th>
                         <td style="padding: 15px">@clientViewModel.PhoneNumber</td>
                         <td style="padding: 15px">@clientViewModel.ContactEmail</td>
-                        <td style="padding: 15px">@clientViewModel.TaxNumber</td>
-                        <td style="padding: 15px">@clientViewModel.LegalName</td>
+                        <td style="padding: 15px">@clientViewModel.Address</td>
                         <td style="padding: 5px 0px">
                             <a asp-action="Details" asp-controller="Client" asp-route-id="@clientViewModel.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
                             @*    @if (User.IsInRole("Admin"))s

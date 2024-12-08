@@ -1,0 +1,138 @@
+﻿@model ClientCreateInputModel
+
+@{
+    ViewData["Title"] = "Add New Client";
+}
+
+<h1 style="font-style: italic">@ViewData["Title"]</h1>
+
+<form asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Name" style="font-style: italic; font-weight: 600">Name</label>
+        <input asp-for="@Model.Name" class="form-control" />
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PhoneNumber" style="font-style: italic; font-weight: 600">Phone Number</label>
+        <input asp-for="@Model.PhoneNumber" class="form-control" />
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.ContactEmail" style="font-style: italic; font-weight: 600">Email</label>
+        <input asp-for="@Model.ContactEmail" class="form-control" />
+        <span asp-validation-for="@Model.ContactEmail" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.AddressId" style="font-style: italic; font-weight: 600">Address</label>
+        <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control"></select>
+        <span asp-validation-for="@Model.AddressId" class="text-danger"></span>
+    </div>
+
+    <div>
+        <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
+            Add New Address
+        </button>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.LegalName" style="font-style: italic; font-weight: 600">Legal Name</label>
+        <input asp-for="@Model.LegalName" class="form-control" />
+        <span asp-validation-for="@Model.LegalName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.TaxNumber" style="font-style: italic; font-weight: 600">VAT/TAX Number</label>
+        <input asp-for="@Model.TaxNumber" class="form-control" />
+        <span asp-validation-for="@Model.TaxNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.LegalAddressId" style="font-style: italic; font-weight: 600">Legal Address</label>
+        <select asp-for="@Model.LegalAddressId" asp-items="ViewBag.Addresses" class="form-control"></select>
+        <span asp-validation-for="@Model.LegalAddressId" class="text-danger"></span>
+    </div>
+
+    <div>
+        <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
+            Add New Address
+        </button>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PodEmail" style="font-style: italic; font-weight: 600">Email for POD</label>
+        <input asp-for="@Model.PodEmail" class="form-control" />
+        <span asp-validation-for="@Model.PodEmail" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.InvoicingEmail" style="font-style: italic; font-weight: 600">Email for invoices</label>
+        <input asp-for="@Model.InvoicingEmail" class="form-control" />
+        <span asp-validation-for="@Model.InvoicingEmail" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PaymentEmail" style="font-style: italic; font-weight: 600">Email for payments</label>
+        <input asp-for="@Model.PaymentEmail" class="form-control" />
+        <span asp-validation-for="@Model.PaymentEmail" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PostalAddressId" style="font-style: italic; font-weight: 600">Postal Location</label>
+        <select asp-for="@Model.PostalAddressId" asp-items="ViewBag.Locations" class="form-control"></select>
+        <span asp-validation-for="@Model.PostalAddressId" class="text-danger"></span>
+    </div>
+
+    <div>
+        <a asp-action="Index" asp-controller="Location" class="btn btn-success mt-3" style="font-size: 12px">Go To Locations</a>
+    </div>
+
+
+    <div style="margin-top: 16px">
+        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
+        <a asp-action="Index" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
+    </div>
+</form>
+
+<div class="modal fade" id="AddNewAddressModal" tabindex="-1" aria-labelledby="AddNewAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="AddNewAddressModalLabel">Add New Address</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("_AddNewAddressPartial", new AddressCreateInputModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts 
+{
+    @if (TempData["AddressFormError"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('AddNewAddressModal'));
+                modal.show();
+            });
+        </script>
+    }
+
+    <script>
+        document.getElementById('AddNewAddressModal').addEventListener('hidden.bs.modal', function () {
+
+            document.querySelector('#AddNewAddressModal form').reset();
+            document.getElementById('addressErrorContainer').innerText = '';
+        });
+    </script>
+
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

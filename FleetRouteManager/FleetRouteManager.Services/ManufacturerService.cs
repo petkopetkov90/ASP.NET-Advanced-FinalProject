@@ -18,13 +18,14 @@ namespace FleetRouteManager.Services
         public async Task<IEnumerable<ManufacturerViewBagListModel>> GetManufacturersViewBagListAsync()
         {
             var manufacturerList = await repository.GetWhereAsIQueryable(m => !m.IsDeleted)
+                .OrderBy(m => m.Name)
+                .AsNoTracking()
                 .Select(m => new ManufacturerViewBagListModel
                 {
                     Id = m.Id,
                     Name = m.Name
 
                 })
-                .OrderBy(m => m.Name)
                 .ToListAsync();
 
             manufacturerList.Insert(0, new ManufacturerViewBagListModel()

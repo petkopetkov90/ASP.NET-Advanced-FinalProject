@@ -18,13 +18,14 @@ namespace FleetRouteManager.Services
         public async Task<IEnumerable<VehicleTypeViewBagListModel>> GetVehicleTypeViewBagListAsync()
         {
             var vehicleTypeList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
+                .OrderBy(v => v.Type)
+                .AsNoTracking()
                 .Select(v => new VehicleTypeViewBagListModel()
                 {
                     Id = v.Id,
                     Type = v.Type
 
                 })
-                .OrderBy(v => v.Type)
                 .ToListAsync();
 
             vehicleTypeList.Insert(0, new VehicleTypeViewBagListModel()

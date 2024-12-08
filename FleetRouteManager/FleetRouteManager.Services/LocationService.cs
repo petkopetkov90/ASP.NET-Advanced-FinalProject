@@ -10,20 +10,19 @@ namespace FleetRouteManager.Services
     public class LocationService : ILocationService
     {
         private readonly IRepository<Location, int> repository;
-        private readonly IAddressService addressService;
 
-        public LocationService(IRepository<Location, int> repository, IAddressService addressService)
+        public LocationService(IRepository<Location, int> repository)
         {
             this.repository = repository;
-            this.addressService = addressService;
         }
 
         public async Task<IEnumerable<LocationViewModel>> GetAllLocationsAsync()
         {
-            var model = await repository.GetAllAsIQueryable()
+            var locations = await repository.GetAllAsIQueryable()
                 .Where(l => !l.IsDeleted)
                 .Include(l => l.Address)
                 .ThenInclude(a => a.Country)
+                .OrderBy(l => l.Name)
                 .AsNoTracking()
                 .Select(l => new LocationViewModel()
                 {
@@ -33,10 +32,9 @@ namespace FleetRouteManager.Services
                     City = l.Address.City,
                     Country = l.Address.Country.Name
                 })
-                .OrderBy(l => l.Name)
                 .ToListAsync();
 
-            return model;
+            return locations;
         }
 
         public async Task<LocationDetailsViewModel?> GetLocationDetailsAsync(int id)
@@ -69,7 +67,7 @@ namespace FleetRouteManager.Services
                 .Select(l => new LocationDeleteViewModel
                 {
                     Id = l.Id,
-                    LocationName = $"{l.Name} {l.Address.PostCode} {l.Address.City}"
+                    LocationName = l.Name
                 })
                 .FirstOrDefaultAsync();
 
@@ -111,7 +109,6 @@ namespace FleetRouteManager.Services
         public async Task<LocationEditInputModel?> GetLocationEditModelAsync(int id)
         {
             var model = await repository.GetWhereAsIQueryable(l => l.Id == id && !l.IsDeleted)
-                .Include(l => l.Address)
                 .AsNoTracking()
                 .Select(l => new LocationEditInputModel()
                 {
@@ -141,6 +138,40 @@ namespace FleetRouteManager.Services
             location.AddressId = model.AddressId;
 
             return await repository.UpdateAsync(location);
+        }
+
+        public async Task<IEnumerable<LocationViewBagListModel>> GetLocationsViewBagListAsync()
+        {
+            var countryList = await repository.GetWhereAsIQueryable(c => !c.IsDeleted)
+                .OrderBy(l => l.Name)
+                .Include(l => l.Address)
+                .ThenInclude(a => a.Country)
+                .AsNoTracking()
+                .Select(c => new LocationViewBagListModel
+                {
+                    Id = c.Id,
+                    Name = FormatLocationToString(c)
+                })
+                .ToListAsync();
+
+
+            countryList.Insert(0, new LocationViewBagListModel()
+            {
+                Name = "Please select a Location"
+            });
+
+            return countryList;
+        }
+
+
+        private static string FormatLocationToString(Location? location)
+        {
+            if (location?.Address == null)
+            {
+                return string.Empty;
+            }
+
+            return $"{location.Name} - {location.Address.Street} {(location.Address.Number ?? "").Trim()}, {location.Address.PostCode} {location.Address.City}, {location.Address.Country.Name}".Trim();
         }
     }
 }

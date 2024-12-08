@@ -30,7 +30,12 @@ namespace FleetRouteManager.Common.Parsers
 
         public static string? CustomNullableDateToStringParseExact(DateTime? date, string dateFormat)
         {
-            return date is null ? null : CustomDateToStringParseExact(date.Value.Date, dateFormat);
+            if (date == null)
+            {
+                return null;
+            }
+
+            return CustomDateToStringParseExact(date.Value.Date, dateFormat);
         }
 
         public static string CustomDateToStringParseExact(DateTime date, string dateFormat)

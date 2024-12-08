@@ -45,7 +45,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Vehicle not found!
+                //TODO: Location not found!
                 return RedirectToAction("Index");
             }
 
@@ -130,6 +130,8 @@ namespace FleetRouteManager.Web.Controllers
 
             await locationService.CreateNewLocationAsync(model);
             return RedirectToAction("Index");
+
+
         }
 
         [HttpGet("Edit Location")]

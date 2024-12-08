@@ -24,15 +24,17 @@ namespace FleetRouteManager.Services
             var drivers = await repository.GetAllAsIQueryable()
                 .Where(d => d.IsDeleted == false)
                 .Include(d => d.Vehicle)
+                .OrderBy(d => d.FirstName)
+                .ThenBy(d => d.LastName)
                 .AsNoTracking()
                 .Select(d => new DriverViewModel()
                 {
                     Id = d.Id,
-                    FullName = $"{d.FirstName} {d.MiddleName} {d.LastName}",
+                    FullName = FormatDriverToString(d),
                     PhoneNumber = d.PhoneNumber,
                     DrivingLicense = d.DrivingLicense,
                     EmployedAt = d.EmployedOn.ToString(DriverDateFormat),
-                    Vehicle = d.Vehicle!.RegistrationNumber
+                    Vehicle = FormatVehicleToString(d.Vehicle)
                 })
                 .ToListAsync();
 
@@ -51,7 +53,7 @@ namespace FleetRouteManager.Services
                     MiddleName = d.MiddleName,
                     LastName = d.LastName,
                     PhoneNumber = d.PhoneNumber,
-                    Vehicle = d.Vehicle!.RegistrationNumber,
+                    Vehicle = FormatVehicleToString(d.Vehicle),
                     AdditionalPhoneNumber = d.AdditionalPhoneNumber,
                     DrivingLicense = d.DrivingLicense,
                     DrivingLicenseExpirationDate = d.DrivingLicenseExpirationDate.ToString(DriverDateFormat),
@@ -73,12 +75,12 @@ namespace FleetRouteManager.Services
 
         public async Task<DriverDeleteViewModel?> GetDriverDeleteModelAsync(int id)
         {
-            return await repository.GetWhereAsIQueryable(d => d.Id == id && d.IsDeleted == false)
+            return await repository.GetWhereAsIQueryable(d => d.Id == id && !d.IsDeleted)
                 .AsNoTracking()
                 .Select(d => new DriverDeleteViewModel
                 {
                     Id = d.Id,
-                    Names = $"{d.FirstName} {d.MiddleName} {d.LastName}"
+                    Name = FormatDriverToString(d)
                 })
                 .FirstOrDefaultAsync();
         }
@@ -211,9 +213,30 @@ namespace FleetRouteManager.Services
         private async Task<bool> CheckForPersonalIdentification(string registrationNumber)
         {
             return await repository.GetAllAsIQueryable()
-                .Select(d => d.PersonalIdentificationNumber)
                 .AsNoTracking()
+                .Select(d => d.PersonalIdentificationNumber)
                 .FirstOrDefaultAsync(d => d == registrationNumber) != null;
+        }
+
+
+        private static string FormatVehicleToString(Vehicle? vehicle)
+        {
+            if (vehicle == null)
+            {
+                return string.Empty;
+            }
+
+            return vehicle.RegistrationNumber;
+        }
+
+        private static string FormatDriverToString(Driver? driver)
+        {
+            if (driver == null)
+            {
+                return string.Empty;
+            }
+
+            return $"{driver.FirstName} {driver.MiddleName} {driver.LastName}".Trim();
         }
     }
 }

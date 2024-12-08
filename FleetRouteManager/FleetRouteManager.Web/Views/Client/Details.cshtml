@@ -1,0 +1,83 @@
+﻿@model ClientDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="text center" style="width: 100%; margin: 0; text-align:center">
+    <h1 style="font-family: Arial; font-weight:bolder">
+        @Model.Name
+    </h1>
+    <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+        <thead style="font-style: italic; text-decoration: underline">
+            <tr>
+                <h5 style="font-style: italic; text-decoration-line: underline">Main Information</h5>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.PhoneNumber</td>
+                <td>@Model.ContactEmail</td>
+                <td>@Model.Address</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+        <thead style="font-style: italic; text-decoration: underline">
+            <tr>
+                <h5 style="font-style: italic; text-decoration-line: underline">Legal Information</h5>
+                <th scope="col">Legal Name</th>
+                <th scope="col">VAT/TAX Number</th>
+                <th scope="col">Legal Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.LegalName</td>
+                <td>@Model.TaxNumber</td>
+                <td>@Model.LegalAddress</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+        <thead style="font-style: italic; text-decoration: underline">
+        <tr>
+            <h5 style="font-style: italic; text-decoration-line: underline">Communication Details</h5>
+            <th scope="col">Email for payment requests</th>
+            <th scope="col">Email for sending PODs</th>
+            <th scope="col">Email for sending invoices</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@Model.PaymentEmail</td>
+            <td>@Model.PodEmail</td>
+            <td>@Model.InvoicingEmail</td>
+        </tr>
+        </tbody>
+    </table>
+        <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+        <thead style="font-style: italic; text-decoration: underline">
+        <tr>
+            <th scope="col">Postal Address</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.PostalAddress</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text center" style="width: 100%; margin: 0">
+        <div style="display: inline-flex; column-gap: 5px">
+            <a asp-action="Index" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 40px" class="btn btn-primary">Back</a>
+            @*             @if (User.IsInRole("Admin"))
+            { *@
+            <a asp-action="Edit" asp-controller="Client" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 40px" class="btn btn-warning">Edit</a>
+            <a asp-action="Delete" asp-controller="Client" asp-route-id="@Model.Id" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 40px" class="btn btn-danger">Delete</a>
+            @* } *@
+        </div>
+    </div>
+</div>

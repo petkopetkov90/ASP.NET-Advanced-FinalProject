@@ -1,6 +1,6 @@
 ﻿@model AddressCreateInputModel
 
-<form asp-action="_AddNewAddressPartial" asp-controller="Address" method="post">
+<form asp-action="Add" asp-controller="Address" method="post">
     <div class="form-group">
         <label asp-for="@Model.StreetName" class="form-label">Street Name</label>
         <input asp-for="@Model.StreetName" class="form-control" />

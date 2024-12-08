@@ -12,5 +12,6 @@ namespace FleetRouteManager.Services.Interfaces
         Task<int> CreateNewLocationAsync(LocationCreateInputModel model);
         Task<LocationEditInputModel?> GetLocationEditModelAsync(int id);
         Task<bool> EditLocationAsync(LocationEditInputModel model);
+        Task<IEnumerable<LocationViewBagListModel>> GetLocationsViewBagListAsync();
     }
 }

@@ -44,7 +44,11 @@ namespace FleetRouteManager.Data.Models
         public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
+
+        [InverseProperty(nameof(Client.LegalAddress))]
         public virtual ICollection<Client> LegalClients { get; set; } = new List<Client>();
 
+        [InverseProperty(nameof(Client.Address))]
+        public virtual ICollection<Client> Clients { get; set; } = new List<Client>();
     }
 }
