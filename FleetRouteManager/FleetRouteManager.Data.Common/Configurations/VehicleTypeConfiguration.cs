@@ -9,6 +9,10 @@ namespace FleetRouteManager.Data.Common.Configurations
         public void Configure(EntityTypeBuilder<VehicleType> builder)
         {
             builder
+                .HasIndex(v => v.Type)
+                .IsUnique();
+
+            builder
                 .HasData
                 (
                     new VehicleType

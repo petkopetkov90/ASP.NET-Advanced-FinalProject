@@ -3,6 +3,7 @@
     //Euro classes for vehicles
     public enum EuroClass
     {
+        None,
         Euro0,
         Euro1,
         Euro2,

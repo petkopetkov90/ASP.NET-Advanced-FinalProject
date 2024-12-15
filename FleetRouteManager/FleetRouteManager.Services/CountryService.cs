@@ -28,11 +28,6 @@ namespace FleetRouteManager.Services
                 .ToListAsync();
 
 
-            countryList.Insert(0, new CountryViewBagListModel()
-            {
-                Name = "Please select a Country"
-            });
-
             return countryList;
         }
     }

@@ -8,6 +8,14 @@ namespace FleetRouteManager.Data.Common.Configurations
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
+
+            builder.Property(e => e.ComputedNumber)
+                .HasComputedColumnSql("ISNULL(Number, '-1')", stored: false);
+
+            builder.
+                HasIndex(e => new { e.Street, e.ComputedNumber, e.PostCode, e.City, e.CountryId })
+                .IsUnique();
+
             builder.HasData(
                 new Address
                 {

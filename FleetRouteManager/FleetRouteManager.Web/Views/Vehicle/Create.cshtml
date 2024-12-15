@@ -15,7 +15,9 @@
 
     <div class="form-group">
         <label asp-for="@Model.ManufacturerId" style="font-style: italic; font-weight: 600">Manufacturer</label>
-        <select asp-for="@Model.ManufacturerId" asp-items="ViewBag.Manufacturers" class="form-control"></select>
+        <select asp-for="@Model.ManufacturerId" asp-items="ViewBag.Manufacturers" class="form-control">
+            <option value="" disabled selected>Please select a manufacturer</option>
+        </select>
         <span asp-validation-for="@Model.ManufacturerId" class="text-danger"></span>
     </div>
 
@@ -46,7 +48,9 @@
 
     <div class="form-group">
         <label asp-for="@Model.VehicleTypeId" style="font-style: italic; font-weight: 600">Vehicle Type</label>
-        <select asp-for="@Model.VehicleTypeId" asp-items="ViewBag.VehicleTypes" class="form-control"></select>
+        <select asp-for="@Model.VehicleTypeId" asp-items="ViewBag.VehicleTypes" class="form-control">
+            <option value="" disabled selected>Please select a vehicle type</option>
+        </select>
         <span asp-validation-for="@Model.VehicleTypeId" class="text-danger"></span>
     </div>
 

@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Details";
 }
+
+@if (TempData["LocationSucceed"] != null)
+{
+    <div class="alert alert-success" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:darkred">@TempData["LocationSucceed"]</strong></h5>
+    </div>
+}
+
 <div class="text center" style="width: 100%; margin: 0; text-align:center">
     <h1 style="font-family: Arial; font-weight:bolder">
         @Model.Name

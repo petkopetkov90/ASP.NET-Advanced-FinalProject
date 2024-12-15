@@ -27,7 +27,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                 .OnDelete(deleteBehavior: DeleteBehavior.ClientSetNull);
 
             builder
-                .HasIndex(c => c.TaxNumber)
+                .HasIndex(c => new { c.Name, c.AddressId, c.TaxNumber })
                 .IsUnique();
 
             builder.HasData(

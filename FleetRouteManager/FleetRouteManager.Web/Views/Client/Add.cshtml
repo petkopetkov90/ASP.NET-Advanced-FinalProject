@@ -27,11 +27,25 @@
 
     <div class="form-group">
         <label asp-for="@Model.AddressId" style="font-style: italic; font-weight: 600">Address</label>
-        <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control"></select>
+        <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control">
+            <option value="" disabled selected>Please select an address</option>
+        </select>
         <span asp-validation-for="@Model.AddressId" class="text-danger"></span>
     </div>
 
     <div>
+        @if (TempData["AddressError"] != null)
+        {
+            <div id="addressErrorContainer" class="text-danger">
+                @TempData["AddressError"]
+            </div>
+        }
+        else if (TempData["AddressSuccess"] != null)
+        {
+            <div id="addressSuccessContainer" class="text-success">
+                @TempData["AddressSuccess"]
+            </div>
+        }
         <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
             Add New Address
         </button>
@@ -56,6 +70,18 @@
     </div>
 
     <div>
+        @if (TempData["AddressError"] != null)
+        {
+            <div id="addressErrorContainer" class="text-danger">
+                @TempData["AddressError"]
+            </div>
+        }
+        else if (TempData["AddressSuccess"] != null)
+        {
+            <div id="addressSuccessContainer" class="text-success">
+                @TempData["AddressSuccess"]
+            </div>
+        }
         <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
             Add New Address
         </button>

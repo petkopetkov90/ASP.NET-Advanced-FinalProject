@@ -28,11 +28,6 @@ namespace FleetRouteManager.Services
                 })
                 .ToListAsync();
 
-            manufacturerList.Insert(0, new ManufacturerViewBagListModel()
-            {
-                Name = "Please select a Manufacturer"
-            });
-
             return manufacturerList;
         }
     }

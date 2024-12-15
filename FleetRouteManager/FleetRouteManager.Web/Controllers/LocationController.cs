@@ -1,4 +1,5 @@
-﻿using FleetRouteManager.Services.Interfaces;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.LocationInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Location not found!
+                TempData["LocationError"] = "Location was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -64,7 +65,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Vehicle not found!
+                TempData["LocationError"] = "Location was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -87,7 +88,15 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await locationService.DeleteLocationAsync(id);
+            if (await locationService.DeleteLocationAsync(id))
+            {
+                TempData["LocationSucceed"] = "Location was deleted successfully.";
+            }
+            else
+            {
+                TempData["LocationError"] = "Something went wrong.";
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -124,14 +133,27 @@ namespace FleetRouteManager.Web.Controllers
                 TempData["ReturnToController"] = "Location";
                 TempData["ReturnToValue"] = null;
 
+                TempData["LocationError"] = "There were validation errors.";
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
-            await locationService.CreateNewLocationAsync(model);
+            try
+            {
+                var id = await locationService.CreateNewLocationAsync(model);
+                TempData["LocationSucceed"] = "Location was created successfully.";
+            }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["LocationError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["LocationError"] = "An unexpected error occurred.";
+            }
+
             return RedirectToAction("Index");
-
-
         }
 
         [HttpGet("Edit Location")]
@@ -152,6 +174,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model is null)
             {
+                TempData["LocationError"] = "Location was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -176,12 +199,27 @@ namespace FleetRouteManager.Web.Controllers
                 return View(model);
             }
 
-            if (!await locationService.EditLocationAsync(model))
+            try
             {
-                return RedirectToAction("Index");
+                if (await locationService.EditLocationAsync(model))
+                {
+                    TempData["LocationSucceed"] = "Location was edited successfully.";
+                    return RedirectToAction("Details", new { model.Id });
+                }
+
+                TempData["LocationError"] = "Location was not found.";
+            }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["LocationError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["LocationError"] = "An unexpected error occurred.";
             }
 
-            return RedirectToAction("Details", new { model.Id });
+
+            return RedirectToAction("Index");
         }
 
 

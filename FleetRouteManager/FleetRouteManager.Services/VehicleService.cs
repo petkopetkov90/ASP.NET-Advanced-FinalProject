@@ -1,11 +1,15 @@
-﻿using FleetRouteManager.Data.Models;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.VehicleInputModels;
 using FleetRouteManager.Web.Models.ViewModels.VehicleViewModels;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
+using static FleetRouteManager.Common.ErrorMessages.ExceptionMessages;
 using static FleetRouteManager.Common.Parsers.CustomDateParsers;
+
 
 
 namespace FleetRouteManager.Services
@@ -106,10 +110,6 @@ namespace FleetRouteManager.Services
 
         public async Task<int> CreateNewVehicleAsync(VehicleCreateInputModel model)
         {
-            if (await CheckForRegistrationNumber(model.RegistrationNumber))
-            {
-                return 0;
-            }
 
             var vehicle = new Vehicle
             {
@@ -131,12 +131,27 @@ namespace FleetRouteManager.Services
             };
 
 
-            if (await repository.AddAsync(vehicle))
+            try
             {
-                return vehicle.Id;
-            }
+                if (await repository.AddAsync(vehicle))
+                {
+                    return vehicle.Id;
+                }
 
-            return 0;
+                return 0;
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(ExistingEntityExceptionMsg, vehicle.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
         public async Task<VehicleEditInputModel?> GetVehicleEditModelAsync(int id)
@@ -180,11 +195,6 @@ namespace FleetRouteManager.Services
                 return false;
             }
 
-            if (model.RegistrationNumber != vehicle.RegistrationNumber && await CheckForRegistrationNumber(model.RegistrationNumber))
-            {
-                return false;
-            }
-
             vehicle.RegistrationNumber = model.RegistrationNumber;
             vehicle.ManufacturerId = model.ManufacturerId;
             vehicle.Model = model.VehicleModel;
@@ -204,7 +214,22 @@ namespace FleetRouteManager.Services
             vehicle.TachographExpirationDate = CustomNullableStringToDateParseExact(model.TachographExpirationDate,
                 VehicleDateFormat, nameof(model.TachographExpirationDate));
 
-            return await repository.UpdateAsync(vehicle);
+            try
+            {
+                return await repository.UpdateAsync(vehicle);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(EditExistingEntityExceptionMsg, vehicle.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
         public async Task<IEnumerable<VehicleViewBagListModel>> GetVehicleViewBagListAsync()
@@ -219,20 +244,8 @@ namespace FleetRouteManager.Services
                 })
                 .ToListAsync();
 
-            vehicleList.Insert(0, new VehicleViewBagListModel()
-            {
-                RegistrationNumber = "You can assign the driver to a vehicle"
-            });
 
             return vehicleList;
-        }
-
-        private async Task<bool> CheckForRegistrationNumber(string registrationNumber)
-        {
-            return await repository.GetAllAsIQueryable()
-                .AsNoTracking()
-                .Select(v => v.RegistrationNumber)
-                .FirstOrDefaultAsync(r => r == registrationNumber) != null;
         }
 
         private static string FormatDriverToString(Driver? driver)

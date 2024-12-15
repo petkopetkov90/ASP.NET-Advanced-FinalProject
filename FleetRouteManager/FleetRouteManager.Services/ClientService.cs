@@ -1,9 +1,13 @@
-﻿using FleetRouteManager.Data.Models;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.ClientInputModels;
 using FleetRouteManager.Web.Models.ViewModels.ClientViewModels;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using static FleetRouteManager.Common.ErrorMessages.ExceptionMessages;
+
 
 namespace FleetRouteManager.Services
 {
@@ -112,12 +116,28 @@ namespace FleetRouteManager.Services
                 PaymentEmail = model.PaymentEmail
             };
 
-            if (await repository.AddAsync(client))
+            try
             {
-                return client.Id;
-            }
+                if (await repository.AddAsync(client))
+                {
+                    return client.Id;
+                }
 
-            return 0;
+                return 0;
+
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(ExistingEntityExceptionMsg, client.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
         public async Task<ClientEditInputModel?> GetClientEditModelAsync(int id)
@@ -166,7 +186,22 @@ namespace FleetRouteManager.Services
             client.InvoicingEmail = model.InvoicingEmail;
             client.PaymentEmail = model.PaymentEmail;
 
-            return await repository.UpdateAsync(client);
+            try
+            {
+                return await repository.UpdateAsync(client);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(EditExistingEntityExceptionMsg, client.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
 

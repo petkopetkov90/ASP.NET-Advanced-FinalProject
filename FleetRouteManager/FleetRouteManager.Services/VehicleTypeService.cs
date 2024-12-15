@@ -28,11 +28,6 @@ namespace FleetRouteManager.Services
                 })
                 .ToListAsync();
 
-            vehicleTypeList.Insert(0, new VehicleTypeViewBagListModel()
-            {
-                Type = "Please select a Type"
-            });
-
             return vehicleTypeList;
         }
     }

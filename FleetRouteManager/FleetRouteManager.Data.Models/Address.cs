@@ -50,5 +50,8 @@ namespace FleetRouteManager.Data.Models
 
         [InverseProperty(nameof(Client.Address))]
         public virtual ICollection<Client> Clients { get; set; } = new List<Client>();
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string ComputedNumber { get; private set; } = null!;
     }
 }

@@ -1,4 +1,5 @@
-﻿using FleetRouteManager.Services.Interfaces;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.AddressInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace FleetRouteManager.Web.Controllers
             this.addressService = addressService;
         }
 
-        [HttpPost("Add New Address Modal")]
+        [HttpPost("Add New Address")]
         public async Task<IActionResult> Add(AddressCreateInputModel model)
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -25,12 +26,25 @@ namespace FleetRouteManager.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["AddressFormError"] = "There were validation errors";
+                TempData["AddressFormError"] = "There were validation errors.";
             }
 
             else
             {
-                TempData["NewAddressId"] = await addressService.AddNewAddressAsync(model);
+                try
+                {
+                    TempData["AddressId"] = await addressService.AddNewAddressAsync(model);
+                    TempData["AddressSuccess"] = "Address was added successfully.";
+                }
+                catch (CustomExistingEntityException e)
+                {
+                    TempData["AddressError"] = e.Message;
+                    TempData["AddressId"] = await addressService.GetAddressId(model);
+                }
+                catch (Exception)
+                {
+                    TempData["AddressError"] = "An unexpected error occurred.";
+                }
             }
 
             var action = TempData["ReturnToAction"]?.ToString() ?? "Index";

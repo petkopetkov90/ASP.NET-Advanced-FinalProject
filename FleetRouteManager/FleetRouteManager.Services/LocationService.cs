@@ -1,9 +1,12 @@
-﻿using FleetRouteManager.Data.Models;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.LocationInputModels;
 using FleetRouteManager.Web.Models.ViewModels.LocationViewModels;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using static FleetRouteManager.Common.ErrorMessages.ExceptionMessages;
 
 namespace FleetRouteManager.Services
 {
@@ -98,12 +101,27 @@ namespace FleetRouteManager.Services
                 AddressId = model.AddressId
             };
 
-            if (await repository.AddAsync(location))
+            try
             {
-                return location.Id;
-            }
+                if (await repository.AddAsync(location))
+                {
+                    return location.Id;
+                }
 
-            return 0;
+                return 0;
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(ExistingEntityExceptionMsg, location.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
         public async Task<LocationEditInputModel?> GetLocationEditModelAsync(int id)
@@ -137,7 +155,22 @@ namespace FleetRouteManager.Services
             location.PhoneNumber = model.PhoneNumber;
             location.AddressId = model.AddressId;
 
-            return await repository.UpdateAsync(location);
+            try
+            {
+                return await repository.UpdateAsync(location);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(EditExistingEntityExceptionMsg, location.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
         public async Task<IEnumerable<LocationViewBagListModel>> GetLocationsViewBagListAsync()
@@ -153,12 +186,6 @@ namespace FleetRouteManager.Services
                     Name = FormatLocationToString(c)
                 })
                 .ToListAsync();
-
-
-            countryList.Insert(0, new LocationViewBagListModel()
-            {
-                Name = "Please select a Location"
-            });
 
             return countryList;
         }

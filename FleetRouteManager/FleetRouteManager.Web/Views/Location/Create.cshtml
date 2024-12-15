@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Add New Location";
-    var newAddressId = TempData["NewAddressId"] != null ? (int)TempData["NewAddressId"] : 0;
+    var newAddressId = TempData["AddressId"] != null ? (int)TempData["AddressId"] : 0;
 }
 
 <h1 style="font-style: italic">@ViewData["Title"]</h1>
@@ -23,7 +23,7 @@
     <div class="form-group">
         <label asp-for="@Model.AddressId" style="font-style: italic; font-weight: 600">Address</label>
         <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control">
-
+            <option value="" disabled selected>Please select an address</option>
             @if (newAddressId > 0 && ViewBag.Addresses != null)
             {
                 @foreach (var item in ViewBag.Addresses as SelectList)
@@ -39,10 +39,16 @@
     </div>
 
     <div>
-        @if (TempData["AddressFormError"] != null)
+        @if (TempData["AddressError"] != null)
         {
             <div id="addressErrorContainer" class="text-danger">
-                @TempData["AddressFormError"]
+                @TempData["AddressError"]
+            </div>
+        }
+        else if (TempData["AddressSuccess"] != null)
+        {
+            <div id="addressSuccessContainer" class="text-success">
+                @TempData["AddressSuccess"]
             </div>
         }
         <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
@@ -79,16 +85,16 @@
             document.addEventListener('DOMContentLoaded', function () {
                 var modal = new bootstrap.Modal(document.getElementById('AddNewAddressModal'));
                 modal.show();
-                                    });
+            });
         </script>
     }
 
     <script>
         document.getElementById('AddNewAddressModal').addEventListener('hidden.bs.modal', function () {
 
-                                    document.querySelector('#AddNewAddressModal form').reset();
-                                    document.getElementById('addressErrorContainer').innerText = '';
-                                });
+            document.querySelector('#AddNewAddressModal form').reset();
+            document.getElementById('addressErrorContainer').innerText = '';
+        });
     </script>
 
     @{

@@ -1,11 +1,15 @@
-﻿using FleetRouteManager.Data.Models;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Data.Models;
 using FleetRouteManager.Data.Repositories.Interfaces;
 using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.DriverInputModels;
 using FleetRouteManager.Web.Models.ViewModels.DriverViewModels;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using static FleetRouteManager.Common.Constants.DriverConstants;
+using static FleetRouteManager.Common.ErrorMessages.ExceptionMessages;
 using static FleetRouteManager.Common.Parsers.CustomDateParsers;
+
 
 
 namespace FleetRouteManager.Services
@@ -102,10 +106,6 @@ namespace FleetRouteManager.Services
 
         public async Task<int> AssignNewDriverAsync(DriverCreateInputModel model)
         {
-            if (await CheckForPersonalIdentification(model.PersonalIdentificationNumber))
-            {
-                return 0;
-            }
 
             var driver = new Driver()
             {
@@ -128,13 +128,27 @@ namespace FleetRouteManager.Services
                 MedicalInsuranceExpirationDate = CustomNullableStringToDateParseExact(model.MedicalInsuranceExpirationDate, DriverDateFormat, nameof(model.MedicalInsuranceExpirationDate))
             };
 
-
-            if (await repository.AddAsync(driver))
+            try
             {
-                return driver.Id;
-            }
+                if (await repository.AddAsync(driver))
+                {
+                    return driver.Id;
+                }
 
-            return 0;
+                return 0;
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(ExistingEntityExceptionMsg, driver.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
         public async Task<DriverEditInputModel> GetDriverEditModelAsync(int id)
@@ -180,11 +194,6 @@ namespace FleetRouteManager.Services
                 return false;
             }
 
-            if (model.PersonalIdentificationNumber != driver.PersonalIdentificationNumber && await CheckForPersonalIdentification(model.PersonalIdentificationNumber))
-            {
-                return false;
-            }
-
             driver.FirstName = model.FirstName;
             driver.MiddleName = model.MiddleName;
             driver.LastName = model.LastName;
@@ -207,15 +216,23 @@ namespace FleetRouteManager.Services
             driver.MedicalInsuranceExpirationDate = CustomNullableStringToDateParseExact(model.MedicalInsuranceExpirationDate,
                 DriverDateFormat, nameof(model.MedicalInsuranceExpirationDate));
 
-            return await repository.UpdateAsync(driver);
-        }
 
-        private async Task<bool> CheckForPersonalIdentification(string registrationNumber)
-        {
-            return await repository.GetAllAsIQueryable()
-                .AsNoTracking()
-                .Select(d => d.PersonalIdentificationNumber)
-                .FirstOrDefaultAsync(d => d == registrationNumber) != null;
+            try
+            {
+                return await repository.UpdateAsync(driver);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is SqlException inner)
+                {
+                    if (inner.Number is 2601 or 2627)
+                    {
+                        throw new CustomExistingEntityException(string.Format(EditExistingEntityExceptionMsg, driver.GetType().Name));
+                    }
+                }
+
+                throw;
+            }
         }
 
 

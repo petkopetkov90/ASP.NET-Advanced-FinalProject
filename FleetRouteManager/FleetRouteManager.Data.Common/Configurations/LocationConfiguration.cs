@@ -9,7 +9,12 @@ namespace FleetRouteManager.Data.Common.Configurations
         public void Configure(EntityTypeBuilder<Location> builder)
         {
 
-            builder.HasData(
+            builder
+                .HasIndex(e => new { e.Name, e.AddressId })
+                .IsUnique();
+
+            builder
+                .HasData(
                 new Location
                 {
                     Id = 1,

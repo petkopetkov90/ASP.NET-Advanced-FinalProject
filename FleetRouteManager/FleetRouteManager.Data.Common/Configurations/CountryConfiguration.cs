@@ -8,6 +8,10 @@ namespace FleetRouteManager.Data.Common.Configurations
     {
         public void Configure(EntityTypeBuilder<Country> builder)
         {
+            builder
+                .HasIndex(e => new { e.Name, e.ContinentId })
+                .IsUnique();
+
             builder.HasData(
                 new Country { Id = 1, Name = "Algeria", ContinentId = 1 },
                 new Country { Id = 2, Name = "Angola", ContinentId = 1 },
