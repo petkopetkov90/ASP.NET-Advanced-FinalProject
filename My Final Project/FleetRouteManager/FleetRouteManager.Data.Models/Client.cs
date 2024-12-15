@@ -70,5 +70,7 @@ namespace FleetRouteManager.Data.Models
 
         [Comment("Date and time when the Client was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

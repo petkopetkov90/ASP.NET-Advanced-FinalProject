@@ -84,7 +84,7 @@ namespace FleetRouteManager.Services
                 )
                 .FirstOrDefaultAsync();
 
-            if (address == null)
+            if (address == null || address.IsDeleted)
             {
                 return 0;
             }

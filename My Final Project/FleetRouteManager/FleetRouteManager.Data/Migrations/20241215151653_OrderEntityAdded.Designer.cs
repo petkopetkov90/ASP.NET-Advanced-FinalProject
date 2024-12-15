@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241215151653_OrderEntityAdded")]
+    partial class OrderEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1981,6 +1984,73 @@ namespace FleetRouteManager.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FleetRouteManager.Data.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary Key for Driver entity");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int")
+                        .HasComment("Foreign key to Client");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2")
+                        .HasComment("Date and time when the Order was marked as deleted");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasComment("Indicates if the Order was deleted");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("date of issue of the Order");
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Order number");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("OrderNumber")
+                        .IsUnique();
+
+                    b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClientId = 1,
+                            IsDeleted = false,
+                            OrderDate = new DateTime(2024, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderNumber = "43/ZTE/240412"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClientId = 2,
+                            IsDeleted = false,
+                            OrderDate = new DateTime(2024, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderNumber = "240613/125"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClientId = 3,
+                            IsDeleted = false,
+                            OrderDate = new DateTime(2024, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderNumber = "1324141"
+                        });
+                });
+
             modelBuilder.Entity("FleetRouteManager.Data.Models.Vehicle", b =>
                 {
                     b.Property<int>("Id")
@@ -2507,6 +2577,17 @@ namespace FleetRouteManager.Data.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("FleetRouteManager.Data.Models.Order", b =>
+                {
+                    b.HasOne("FleetRouteManager.Data.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("FleetRouteManager.Data.Models.Vehicle", b =>
                 {
                     b.HasOne("FleetRouteManager.Data.Models.Manufacturer", "Manufacturer")
@@ -2584,6 +2665,11 @@ namespace FleetRouteManager.Data.Migrations
                     b.Navigation("LegalClients");
 
                     b.Navigation("Locations");
+                });
+
+            modelBuilder.Entity("FleetRouteManager.Data.Models.Client", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Continent", b =>
