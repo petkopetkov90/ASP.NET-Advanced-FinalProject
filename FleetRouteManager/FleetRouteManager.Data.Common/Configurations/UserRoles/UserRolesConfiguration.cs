@@ -25,8 +25,8 @@ namespace FleetRouteManager.Data.Common.Configurations.UserRoles
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            string adminEmail = "admin@myapp.com";
-            string adminPassword = "Admin123";
+            var adminEmail = "admin@myapp.com";
+            var adminPassword = "Admin123";
 
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 

@@ -27,10 +27,10 @@
                         <td style="padding: 15px">@clientViewModel.Address</td>
                         <td style="padding: 5px 0px">
                             <a asp-action="Details" asp-controller="Client" asp-route-id="@clientViewModel.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
-                            @*    @if (User.IsInRole("Admin"))s
-                    { *@
-                            <a asp-action="Delete" asp-controller="Client" asp-route-id="@clientViewModel.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
-                            @* } *@
+                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                            {
+                                <a asp-action="Delete" asp-controller="Client" asp-route-id="@clientViewModel.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                            }
                         </td>
                     </tr>
                 }
@@ -38,10 +38,10 @@
             <tfoot>
                 <tr>
                     <td colspan="8" style="padding: 10px 0px">
-                        @*     @if (User.IsInRole("Admin"))
-                    { *@
-                        <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Client</a>
-                        @* } *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                            <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Client</a>
+                        }
                     </td>
                 </tr>
             </tfoot>
@@ -51,10 +51,12 @@
     {
         <div class="alert alert-danger text-center" role="alert">
             <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No clients were found</p>
-            @* If User in role??*@
-            <div style="margin: 1rem">
-                <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Client</a>
-            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+                <div style="margin: 1rem">
+                    <a asp-action="Add" asp-controller="Client" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Client</a>
+                </div>
+            }
         </div>
     }
 

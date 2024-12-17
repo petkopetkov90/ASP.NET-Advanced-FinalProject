@@ -12,6 +12,5 @@ namespace FleetRouteManager.Web.Areas.Admin.Controllers
         {
             return View();
         }
-
     }
 }

@@ -16,14 +16,10 @@ namespace FleetRouteManager.Web.Controllers
             this.addressService = addressService;
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Add New Address")]
         public async Task<IActionResult> Add(AddressCreateInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 TempData["AddressFormError"] = "There were validation errors.";

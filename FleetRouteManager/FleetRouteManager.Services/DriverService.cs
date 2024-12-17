@@ -38,6 +38,7 @@ namespace FleetRouteManager.Services
                     PhoneNumber = d.PhoneNumber,
                     DrivingLicense = d.DrivingLicense,
                     EmployedAt = d.EmployedOn.ToString(DriverDateFormat),
+                    VehicleId = d.VehicleId,
                     Vehicle = FormatVehicleToString(d.Vehicle)
                 })
                 .ToListAsync();

@@ -22,11 +22,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Drivers")]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await driverService.GetAllDriversAsync();
 
             return View(model);
@@ -35,11 +30,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Driver Details")]
         public async Task<IActionResult> Details(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await driverService.GetDriverDetailsAsync(id);
 
             if (model == null)
@@ -54,11 +44,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Delete Driver")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await driverService.GetDriverDeleteModelAsync(id);
 
             if (model == null)
@@ -79,14 +64,10 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Driver")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             await driverService.DeleteDriverAsync(id);
             return RedirectToAction("Index");
         }
@@ -94,24 +75,16 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Assign New Driver")]
         public async Task<IActionResult> Assign()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             await SetViewBagSelectListsAsync();
             var model = new DriverCreateInputModel();
 
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Assign New Driver")]
         public async Task<IActionResult> Assign(DriverCreateInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -137,11 +110,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Edit Driver")]
         public async Task<IActionResult> Edit(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             await SetViewBagSelectListsAsync();
 
             var model = await driverService.GetDriverEditModelAsync(id);
@@ -154,14 +122,10 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Driver")]
         public async Task<IActionResult> Edit(DriverEditInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 await SetViewBagSelectListsAsync();

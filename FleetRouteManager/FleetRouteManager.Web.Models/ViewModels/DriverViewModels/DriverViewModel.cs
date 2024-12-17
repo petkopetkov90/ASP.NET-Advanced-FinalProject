@@ -12,6 +12,8 @@
 
         public required string EmployedAt { get; set; }
 
+        public int? VehicleId { get; set; }
+
         public string? Vehicle { get; set; }
     }
 }

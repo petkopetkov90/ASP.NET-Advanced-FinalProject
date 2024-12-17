@@ -1,8 +1,10 @@
 ﻿using FleetRouteManager.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FleetRouteManager.Web.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderService orderService;
@@ -12,13 +14,9 @@ namespace FleetRouteManager.Web.Controllers
             this.orderService = orderService;
         }
 
+        [HttpGet("Orders")]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await orderService.GetAllOrdersAsync();
 
             return View(model);

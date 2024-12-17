@@ -24,11 +24,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Locations")]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await locationService.GetAllLocationsAsync();
 
             return View(model);
@@ -37,11 +32,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Location Details")]
         public async Task<IActionResult> Details(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await locationService.GetLocationDetailsAsync(id);
 
             if (model == null)
@@ -56,11 +46,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Delete Location")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await locationService.GetLocationDeleteModelAsync(id);
 
             if (model == null)
@@ -80,14 +65,10 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Location")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (await locationService.DeleteLocationAsync(id))
             {
                 TempData["LocationSucceed"] = "Location was deleted successfully.";
@@ -103,11 +84,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Create New Location")]
         public async Task<IActionResult> Create()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             TempData["ReturnToAction"] = "Create";
             TempData["ReturnToController"] = "Location";
             TempData["ReturnToValue"] = null;
@@ -119,14 +95,10 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Create New Location")]
         public async Task<IActionResult> Create(LocationCreateInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 TempData["ReturnToAction"] = "Create";
@@ -159,11 +131,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Edit Location")]
         public async Task<IActionResult> Edit(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             TempData["ReturnToAction"] = "Edit";
             TempData["ReturnToController"] = "Location";
             TempData["ReturnToValue"] = id;
@@ -181,14 +148,10 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Location")]
         public async Task<IActionResult> Edit(LocationEditInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 TempData["ReturnToAction"] = "Edit";

@@ -25,11 +25,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Vehicles")]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var vehicles = await vehicleService.GetAllVehiclesAsync();
 
             return View(vehicles);
@@ -39,11 +34,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Vehicle Details")]
         public async Task<IActionResult> Details(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await vehicleService.GetVehicleDetailsModelAsync(id);
 
             if (model == null)
@@ -58,11 +48,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Delete Vehicle")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await vehicleService.GetVehicleDeleteModelAsync(id);
 
             if (model == null)
@@ -83,14 +68,10 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Vehicle")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             await vehicleService.DeleteVehicleAsync(id);
             return RedirectToAction("Index");
         }
@@ -98,25 +79,16 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Create Vehicle")]
         public async Task<IActionResult> Create()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             await SetViewBagSelectListsAsync();
             var model = new VehicleCreateInputModel();
 
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Create Vehicle")]
         public async Task<IActionResult> Create(VehicleCreateInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 await SetViewBagSelectListsAsync();
@@ -141,11 +113,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Edit Vehicle")]
         public async Task<IActionResult> Edit(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             await SetViewBagSelectListsAsync();
 
             var model = await vehicleService.GetVehicleEditModelAsync(id);
@@ -158,14 +125,10 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Vehicle")]
         public async Task<IActionResult> Edit(VehicleEditInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 await SetViewBagSelectListsAsync();

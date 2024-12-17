@@ -39,13 +39,15 @@ else if (TempData["OrderSucceed"] != null)
                         <td style="padding: 15px">@order.OrderDate</td>
                         <td style="padding: 15px">@order.Amount</td>
                         <td style="padding: 15px">@order.User</td>
-                        <td style="padding: 15px"> <a asp-action="Details" asp-controller="Client" asp-route-id="@order.ClientId" class="btn btn-primary" style="border-radius: 9999px" target="_blank">@order.Client</a></td>
+                        <td style="padding: 5px 0px">
+                            <a asp-action="Details" asp-controller="Client" asp-route-id="@order.ClientId" style="text-decoration: none; color: inherit" target="_blank"><strong>@order.Client</strong></a>
+                        </td>
                         <td style="padding: 5px 0px">
                             <a asp-action="Details" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
-                            @*    @if (User.IsInRole("Admin"))s
-                    { *@
-                            <a asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
-                            @* } *@
+                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                            {
+                                <a asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                            }
                         </td>
                     </tr>
                 }
@@ -53,10 +55,10 @@ else if (TempData["OrderSucceed"] != null)
             <tfoot>
                 <tr>
                     <td colspan="6" style="padding: 10px 0px">
-                        @*     @if (User.IsInRole("Admin"))
-                    { *@
-                        <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
-                        @* } *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                            <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
+                        }
                     </td>
                 </tr>
             </tfoot>
@@ -66,10 +68,12 @@ else if (TempData["OrderSucceed"] != null)
     {
         <div class="alert alert-danger text-center" role="alert">
             <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No locations were found</p>
-            @* If User in role??*@
-            <div style="margin: 1rem">
-                <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
-            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+                <div style="margin: 1rem">
+                    <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
+                </div>
+            }
         </div>
     }
 

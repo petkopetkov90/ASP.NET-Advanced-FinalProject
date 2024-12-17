@@ -25,11 +25,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Clients")]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await clientService.GetAllClientsAsync();
 
             return View(model);
@@ -38,11 +33,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Client Details")]
         public async Task<IActionResult> Details(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await clientService.GetClientDetailsAsync(id);
 
 
@@ -57,11 +47,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Delete Client")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var model = await clientService.GetClientDeleteModelAsync(id);
 
             if (model == null)
@@ -82,14 +67,10 @@ namespace FleetRouteManager.Web.Controllers
             return View("DeleteConfirmation", model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Client")]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             await clientService.DeleteClientAsync(id);
             return RedirectToAction("Index");
         }
@@ -97,11 +78,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Add New Client")]
         public async Task<IActionResult> Add()
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             TempData["ReturnToAction"] = "Add";
             TempData["ReturnToController"] = "Client";
             TempData["ReturnToValue"] = null;
@@ -112,14 +88,10 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Add New Client")]
         public async Task<IActionResult> Add(ClientCreateInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 TempData["ReturnToAction"] = "Add";
@@ -139,11 +111,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Edit Client")]
         public async Task<IActionResult> Edit(int id)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             TempData["ReturnToAction"] = "Edit";
             TempData["ReturnToController"] = "Client";
             TempData["ReturnToValue"] = id;
@@ -160,14 +127,10 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Client")]
         public async Task<IActionResult> Edit(ClientEditInputModel model)
         {
-            if (User.Identity?.IsAuthenticated != true)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (!ModelState.IsValid)
             {
                 TempData["ReturnToAction"] = "Edit";

@@ -32,10 +32,10 @@
                         <td style="padding: 15px">@vehicle.Type</td>
                         <td style="padding: 5px 0px">
                             <a asp-action="Details" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
-                            @*    @if (User.IsInRole("Admin"))s
-                    { *@
-                            <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
-                            @* } *@
+                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                            {
+                                <a asp-action="Delete" asp-controller="Vehicle" asp-route-id="@vehicle.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                            }
                         </td>
                     </tr>
                 }
@@ -43,10 +43,10 @@
             <tfoot>
                 <tr>
                     <td colspan="8" style="padding: 10px 0px">
-                        @*     @if (User.IsInRole("Admin"))
-                    { *@
-                        <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>
-                        @* } *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                            <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>
+                        }
                     </td>
                 </tr>
             </tfoot>
@@ -56,10 +56,12 @@
     {
         <div class="alert alert-danger text-center" role="alert">
             <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No vehicles were found</p>
-            @* If User in role??*@
-            <div style="margin: 1rem">
-                <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>
-            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+                <div style="margin: 1rem">
+                    <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>
+                </div>
+            }
         </div>
     }
 </div>

@@ -40,10 +40,10 @@ else if (TempData["LocationSucceed"] != null)
                         <td style="padding: 15px">@location.Country</td>
                         <td style="padding: 5px 0px">
                             <a asp-action="Details" asp-controller="Location" asp-route-id="@location.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
-                            @*    @if (User.IsInRole("Admin"))s
-                    { *@
-                            <a asp-action="Delete" asp-controller="Location" asp-route-id="@location.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
-                            @* } *@
+                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                            {
+                                <a asp-action="Delete" asp-controller="Location" asp-route-id="@location.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                            }
                         </td>
                     </tr>
                 }
@@ -51,10 +51,10 @@ else if (TempData["LocationSucceed"] != null)
             <tfoot>
                 <tr>
                     <td colspan="5" style="padding: 10px 0px">
-                        @*     @if (User.IsInRole("Admin"))
-                    { *@
-                        <a asp-action="Create" asp-controller="Location" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
-                        @* } *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                            <a asp-action="Create" asp-controller="Location" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
+                        }
                     </td>
                 </tr>
             </tfoot>
@@ -64,10 +64,12 @@ else if (TempData["LocationSucceed"] != null)
     {
         <div class="alert alert-danger text-center" role="alert">
             <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No locations were found</p>
-            @* If User in role??*@
-            <div style="margin: 1rem">
-                <a asp-action="Create" asp-controller="Location" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
-            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+                <div style="margin: 1rem">
+                    <a asp-action="Create" asp-controller="Location" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Location</a>
+                </div>
+            }
         </div>
     }
 

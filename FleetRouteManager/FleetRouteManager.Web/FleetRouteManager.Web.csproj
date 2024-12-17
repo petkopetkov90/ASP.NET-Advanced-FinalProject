@@ -30,4 +30,8 @@
     <ProjectReference Include="..\FleetRouteManager.Web.Models\FleetRouteManager.Web.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\UserManagement\" />
+  </ItemGroup>
+
 </Project>
