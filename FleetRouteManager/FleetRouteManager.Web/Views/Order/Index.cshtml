@@ -1,0 +1,76 @@
+﻿@model IEnumerable<OrderViewModel>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+@if (TempData["OrderError"] != null)
+{
+    <div class="alert alert-danger" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["OrderError"]</strong></h5>
+    </div>
+}
+else if (TempData["OrderSucceed"] != null)
+{
+    <div class="alert alert-success" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["OrderSucceed"]</strong></h5>
+    </div>
+}
+
+<div class="text center" style="width: 100%; margin: 0">
+    @if (Model.Any())
+    {
+        <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+            <thead style="font-style: italic; text-decoration: underline;">
+                <tr>
+                    <th style="padding: 15px" scope="col">Order Number</th>
+                    <th style="padding: 15px" scope="col">Order Date</th>
+                    <th style="padding: 15px" scope="col">Amount</th>
+                    <th style="padding: 15px" scope="col">Created by</th>
+                    <th style="padding: 15px" scope="col">Client</th>
+                    <th style="padding: 15px" scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <th style="padding: 15px">@order.OrderNumber</th>
+                        <td style="padding: 15px">@order.OrderDate</td>
+                        <td style="padding: 15px">@order.Amount</td>
+                        <td style="padding: 15px">@order.User</td>
+                        <td style="padding: 15px"> <a asp-action="Details" asp-controller="Client" asp-route-id="@order.ClientId" class="btn btn-primary" style="border-radius: 9999px" target="_blank">@order.Client</a></td>
+                        <td style="padding: 5px 0px">
+                            <a asp-action="Details" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
+                            @*    @if (User.IsInRole("Admin"))s
+                    { *@
+                            <a asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                            @* } *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" style="padding: 10px 0px">
+                        @*     @if (User.IsInRole("Admin"))
+                    { *@
+                        <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
+                        @* } *@
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No locations were found</p>
+            @* If User in role??*@
+            <div style="margin: 1rem">
+                <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
+            </div>
+        </div>
+    }
+
+</div>

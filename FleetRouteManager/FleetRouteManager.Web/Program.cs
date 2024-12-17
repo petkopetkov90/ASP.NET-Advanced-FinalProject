@@ -2,6 +2,8 @@ using FleetRouteManager.Data;
 using FleetRouteManager.Web.Common.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using static FleetRouteManager.Data.Common.Configurations.UserRoles.UserRolesConfiguration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +15,9 @@ builder.Services.AddDbContext<FleetRouteManagerDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddRepositories();
+builder.Services.AddApplicationRepositories();
 
-builder.Services.AddServices();
-
+builder.Services.AddApplicationServices();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
@@ -26,6 +27,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
         options.Password.RequireLowercase = false;
         options.Password.RequireUppercase = false;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<FleetRouteManagerDbContext>();
 
 builder.Services.AddControllersWithViews();
@@ -38,11 +40,11 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 
-    //using (var scope = app.Services.CreateScope())
-    //{
-    //    var dbContext = scope.ServiceProvider.GetRequiredService<FleetRouteManagerDbContext>();
-    //    dbContext.Database.Migrate(); // This will apply all pending migrations
-    //}
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<FleetRouteManagerDbContext>();
+        dbContext.Database.Migrate(); // This will apply all pending migrations
+    }
 }
 else
 {
@@ -57,7 +59,34 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+
+app.Use(async (context, next) =>
+{
+    if (context.User.Identity?.IsAuthenticated == true && context.Request.Path == "/")
+    {
+        if (context.User.IsInRole("Admin"))
+        {
+            context.Response.Redirect("/Admin/Home/Index");
+            return;
+        }
+    }
+
+    await next.Invoke();
+});
+
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    await SeedRoles(serviceProvider);
+    await AssignAdminRole(serviceProvider);
+}
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

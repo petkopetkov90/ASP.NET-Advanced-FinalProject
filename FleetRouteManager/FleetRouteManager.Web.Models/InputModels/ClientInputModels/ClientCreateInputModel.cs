@@ -11,31 +11,29 @@ namespace FleetRouteManager.Web.Models.InputModels.ClientInputModels
         [RegularExpression(ClientNameFormatRegex, ErrorMessage = ClientNameFormatMsg)]
         public string Name { get; set; } = null!;
 
-        [Required(ErrorMessage = ClientTaxNumberRequiredMsg)]
-        [StringLength(ClientTaxNumberMaxLength, MinimumLength = ClientTaxNumberMinLength, ErrorMessage = ClientTaxNumberLengthMsg)]
-        [RegularExpression(ClientTaxNumberFormatRegex, ErrorMessage = ClientTaxNumberFormatMsg)]
-        public string TaxNumber { get; set; } = null!;
+        [Required(ErrorMessage = ClientEmailRequiredMsg)]
+        [StringLength(ClientEmailMaxLength, MinimumLength = ClientEmailMinLength, ErrorMessage = ClientEmailLengthMsg)]
+        [RegularExpression(ClientEmailFormatRegex, ErrorMessage = ClientEmailFormatMsg)]
+        public string ContactEmail { get; set; } = null!;
+
+        [StringLength(ClientPhoneMaxLength, MinimumLength = ClientPhoneMinLength, ErrorMessage = ClientPhoneNumberLengthMsg)]
+        [RegularExpression(ClientPhoneFormatRegex, ErrorMessage = ClientPhoneNumberFormatMsg)]
+        public string? PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = ClientAddressRequiredMsg)]
+        public int AddressId { get; set; }
 
         [Required(ErrorMessage = ClientNameRequiredMsg)]
         [StringLength(ClientNameMaxLength, MinimumLength = ClientNameMinLength, ErrorMessage = ClientNameLengthMsg)]
         [RegularExpression(ClientNameFormatRegex, ErrorMessage = ClientNameFormatMsg)]
         public string LegalName { get; set; } = null!;
 
-        [Required(ErrorMessage = ClientAddressRequiredMsg)]
-        public int AddressId { get; set; }
+        [Required(ErrorMessage = ClientTaxNumberRequiredMsg)]
+        [StringLength(ClientTaxNumberMaxLength, MinimumLength = ClientTaxNumberMinLength, ErrorMessage = ClientTaxNumberLengthMsg)]
+        [RegularExpression(ClientTaxNumberFormatRegex, ErrorMessage = ClientTaxNumberFormatMsg)]
+        public string TaxNumber { get; set; } = null!;
 
         public int? LegalAddressId { get; set; }
-
-        public int? PostalAddressId { get; set; }
-
-        [StringLength(ClientPhoneMaxLength, MinimumLength = ClientPhoneMinLength, ErrorMessage = ClientPhoneNumberLengthMsg)]
-        [RegularExpression(ClientPhoneFormatRegex, ErrorMessage = ClientPhoneNumberFormatMsg)]
-        public string? PhoneNumber { get; set; }
-
-        [Required(ErrorMessage = ClientEmailRequiredMsg)]
-        [StringLength(ClientEmailMaxLength, MinimumLength = ClientEmailMinLength, ErrorMessage = ClientEmailLengthMsg)]
-        [RegularExpression(ClientEmailFormatRegex, ErrorMessage = ClientEmailFormatMsg)]
-        public string ContactEmail { get; set; } = null!;
 
         [StringLength(ClientEmailMaxLength, MinimumLength = ClientEmailMinLength, ErrorMessage = ClientEmailLengthMsg)]
         [RegularExpression(ClientEmailFormatRegex, ErrorMessage = ClientEmailFormatMsg)]
@@ -48,5 +46,7 @@ namespace FleetRouteManager.Web.Models.InputModels.ClientInputModels
         [StringLength(ClientEmailMaxLength, MinimumLength = ClientEmailMinLength, ErrorMessage = ClientEmailLengthMsg)]
         [RegularExpression(ClientEmailFormatRegex, ErrorMessage = ClientEmailFormatMsg)]
         public string? PaymentEmail { get; set; }
+
+        public int? PostalLocationId { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241217071740_ClientPostalLocationPropertyRename")]
+    partial class ClientPostalLocationPropertyRename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2016,12 +2019,6 @@ namespace FleetRouteManager.Data.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasComment("Order number");
 
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasComment("User who created the Order");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
@@ -2039,8 +2036,7 @@ namespace FleetRouteManager.Data.Migrations
                             ClientId = 1,
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "43/ZTE/240412",
-                            User = "admin"
+                            OrderNumber = "43/ZTE/240412"
                         },
                         new
                         {
@@ -2049,8 +2045,7 @@ namespace FleetRouteManager.Data.Migrations
                             ClientId = 2,
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "240613/125",
-                            User = "admin"
+                            OrderNumber = "240613/125"
                         },
                         new
                         {
@@ -2059,8 +2054,7 @@ namespace FleetRouteManager.Data.Migrations
                             ClientId = 3,
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "1324141",
-                            User = "admin"
+                            OrderNumber = "1324141"
                         });
                 });
 
@@ -2595,7 +2589,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasOne("FleetRouteManager.Data.Models.Client", "Client")
                         .WithMany("Orders")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");

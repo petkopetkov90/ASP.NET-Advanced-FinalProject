@@ -26,7 +26,6 @@ namespace FleetRouteManager.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
             builder.ApplyConfiguration(new VehicleConfiguration());
             builder.ApplyConfiguration(new ManufacturerConfiguration());
             builder.ApplyConfiguration(new VehicleTypeConfiguration());

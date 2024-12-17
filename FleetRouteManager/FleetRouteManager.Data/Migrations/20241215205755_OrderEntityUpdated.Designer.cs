@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241215205755_OrderEntityUpdated")]
+    partial class OrderEntityUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,7 +211,7 @@ namespace FleetRouteManager.Data.Migrations
                         .HasColumnType("nvarchar(254)")
                         .HasComment("Email address used for sending proofs of deliveries");
 
-                    b.Property<int?>("PostalLocationId")
+                    b.Property<int?>("PostalAddressId")
                         .HasColumnType("int")
                         .HasComment("Foreign key to location used for postal address");
 
@@ -224,7 +227,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("LegalAddressId");
 
-                    b.HasIndex("PostalLocationId");
+                    b.HasIndex("PostalAddressId");
 
                     b.HasIndex("Name", "AddressId", "TaxNumber")
                         .IsUnique();
@@ -244,7 +247,7 @@ namespace FleetRouteManager.Data.Migrations
                             Name = "DHL Bulgaria",
                             PaymentEmail = "payments@dhl.bg",
                             PodEmail = "pod@dhl.bg",
-                            PostalLocationId = 2,
+                            PostalAddressId = 2,
                             TaxNumber = "BG11111111"
                         },
                         new
@@ -257,7 +260,7 @@ namespace FleetRouteManager.Data.Migrations
                             LegalName = "Schenker EOOD",
                             Name = "Schenker Bulgaria",
                             PodEmail = "pod@schenker.bg",
-                            PostalLocationId = 4,
+                            PostalAddressId = 4,
                             TaxNumber = "BG22222222"
                         },
                         new
@@ -271,7 +274,7 @@ namespace FleetRouteManager.Data.Migrations
                             LegalName = "LKW WALTER Internationale Transportorganisation AG",
                             Name = "LKW Walter",
                             PodEmail = "pod@lkw-walter.at",
-                            PostalLocationId = 3,
+                            PostalAddressId = 3,
                             TaxNumber = "AT333333333"
                         });
                 });
@@ -2016,12 +2019,6 @@ namespace FleetRouteManager.Data.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasComment("Order number");
 
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasComment("User who created the Order");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
@@ -2039,8 +2036,7 @@ namespace FleetRouteManager.Data.Migrations
                             ClientId = 1,
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "43/ZTE/240412",
-                            User = "admin"
+                            OrderNumber = "43/ZTE/240412"
                         },
                         new
                         {
@@ -2049,8 +2045,7 @@ namespace FleetRouteManager.Data.Migrations
                             ClientId = 2,
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "240613/125",
-                            User = "admin"
+                            OrderNumber = "240613/125"
                         },
                         new
                         {
@@ -2059,8 +2054,7 @@ namespace FleetRouteManager.Data.Migrations
                             ClientId = 3,
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "1324141",
-                            User = "admin"
+                            OrderNumber = "1324141"
                         });
                 });
 
@@ -2548,8 +2542,8 @@ namespace FleetRouteManager.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("FleetRouteManager.Data.Models.Location", "PostalLocation")
-                        .WithMany("Clients")
-                        .HasForeignKey("PostalLocationId");
+                        .WithMany("PostClients")
+                        .HasForeignKey("PostalAddressId");
 
                     b.Navigation("Address");
 
@@ -2582,7 +2576,7 @@ namespace FleetRouteManager.Data.Migrations
             modelBuilder.Entity("FleetRouteManager.Data.Models.Location", b =>
                 {
                     b.HasOne("FleetRouteManager.Data.Models.Address", "Address")
-                        .WithMany()
+                        .WithMany("Locations")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2595,7 +2589,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasOne("FleetRouteManager.Data.Models.Client", "Client")
                         .WithMany("Orders")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -2676,6 +2670,8 @@ namespace FleetRouteManager.Data.Migrations
                     b.Navigation("Clients");
 
                     b.Navigation("LegalClients");
+
+                    b.Navigation("Locations");
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Client", b =>
@@ -2695,7 +2691,7 @@ namespace FleetRouteManager.Data.Migrations
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Location", b =>
                 {
-                    b.Navigation("Clients");
+                    b.Navigation("PostClients");
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Manufacturer", b =>

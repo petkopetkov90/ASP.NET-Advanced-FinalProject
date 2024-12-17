@@ -31,18 +31,18 @@ namespace FleetRouteManager.Data.Models
         [Comment("Foreign key to address used for address of client")]
         public int AddressId { get; set; }
         [ForeignKey(nameof(AddressId))]
-        public Address Address { get; set; } = null!;
+        public virtual Address Address { get; set; } = null!;
 
         [Required]
         [Comment("Foreign key to address used for legal address")]
         public int? LegalAddressId { get; set; }
         [ForeignKey(nameof(LegalAddressId))]
-        public Address? LegalAddress { get; set; }
+        public virtual Address? LegalAddress { get; set; }
 
         [Comment("Foreign key to location used for postal address")]
-        public int? PostalAddressId { get; set; }
-        [ForeignKey(nameof(PostalAddressId))]
-        public Location? PostalLocation { get; set; }
+        public int? PostalLocationId { get; set; }
+        [ForeignKey(nameof(PostalLocationId))]
+        public virtual Location? PostalLocation { get; set; }
 
         [MaxLength(ClientPhoneMaxLength)]
         [Comment("Client phone number")]

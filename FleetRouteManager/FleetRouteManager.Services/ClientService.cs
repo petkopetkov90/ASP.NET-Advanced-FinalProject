@@ -65,7 +65,7 @@ namespace FleetRouteManager.Services
                     PaymentEmail = c.PaymentEmail,
                     PodEmail = c.PodEmail,
                     InvoicingEmail = c.InvoicingEmail,
-                    PostalAddress = FormatLocationToString(c.PostalLocation)
+                    PostalLocation = FormatLocationToString(c.PostalLocation)
                 })
                 .FirstOrDefaultAsync();
 
@@ -108,7 +108,7 @@ namespace FleetRouteManager.Services
                 LegalName = model.LegalName,
                 AddressId = model.AddressId,
                 LegalAddressId = model.LegalAddressId,
-                PostalAddressId = model.PostalAddressId,
+                PostalLocationId = model.PostalLocationId,
                 PhoneNumber = model.PhoneNumber,
                 ContactEmail = model.ContactEmail,
                 PodEmail = model.PodEmail,
@@ -152,7 +152,7 @@ namespace FleetRouteManager.Services
                     LegalName = l.LegalName,
                     AddressId = l.AddressId,
                     LegalAddressId = l.LegalAddressId,
-                    PostalAddressId = l.PostalAddressId,
+                    PostalLocationId = l.PostalLocationId,
                     PhoneNumber = l.PhoneNumber,
                     ContactEmail = l.ContactEmail,
                     PodEmail = l.PodEmail,
@@ -179,7 +179,7 @@ namespace FleetRouteManager.Services
             client.LegalName = model.LegalName;
             client.AddressId = model.AddressId;
             client.LegalAddressId = model.LegalAddressId;
-            client.PostalAddressId = model.PostalAddressId;
+            client.PostalLocationId = model.PostalLocationId;
             client.PhoneNumber = model.PhoneNumber;
             client.ContactEmail = model.ContactEmail;
             client.PodEmail = model.PodEmail;

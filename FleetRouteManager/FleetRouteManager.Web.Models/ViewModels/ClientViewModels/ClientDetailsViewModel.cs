@@ -24,7 +24,7 @@
 
         public string? InvoicingEmail { get; set; }
 
-        public required string PostalAddress { get; set; }
+        public required string PostalLocation { get; set; }
 
     }
 }

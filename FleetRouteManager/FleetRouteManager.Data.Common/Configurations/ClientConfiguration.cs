@@ -22,8 +22,8 @@ namespace FleetRouteManager.Data.Common.Configurations
 
             builder
                 .HasOne(c => c.PostalLocation)
-                .WithMany(a => a.PostClients)
-                .HasForeignKey(c => c.PostalAddressId)
+                .WithMany(a => a.Clients)
+                .HasForeignKey(c => c.PostalLocationId)
                 .OnDelete(deleteBehavior: DeleteBehavior.ClientSetNull);
 
             builder
@@ -39,7 +39,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     LegalName = "DHL Express Bulgaria EOOD",
                     AddressId = 2,
                     LegalAddressId = 2,
-                    PostalAddressId = 2,
+                    PostalLocationId = 2,
                     ContactEmail = "contact@dhl.bg",
                     PodEmail = "pod@dhl.bg",
                     InvoicingEmail = "invoices@dhl.bg",
@@ -53,7 +53,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     TaxNumber = "BG22222222",
                     AddressId = 4,
                     LegalAddressId = 5,
-                    PostalAddressId = 4,
+                    PostalLocationId = 4,
                     ContactEmail = "contact@schenker.bg",
                     PodEmail = "pod@schenker.bg",
                 },
@@ -65,7 +65,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     LegalName = "LKW WALTER Internationale Transportorganisation AG",
                     AddressId = 3,
                     LegalAddressId = 5,
-                    PostalAddressId = 3,
+                    PostalLocationId = 3,
                     ContactEmail = "contact@lkw-walter.at",
                     PodEmail = "pod@lkw-walter.at",
                     InvoicingEmail = "invoicing@lkw-walter.at",

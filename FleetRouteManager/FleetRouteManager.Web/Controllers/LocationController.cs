@@ -206,8 +206,10 @@ namespace FleetRouteManager.Web.Controllers
                     TempData["LocationSucceed"] = "Location was edited successfully.";
                     return RedirectToAction("Details", new { model.Id });
                 }
-
-                TempData["LocationError"] = "Location was not found.";
+                else
+                {
+                    TempData["LocationError"] = "Location was not found.";
+                }
             }
             catch (CustomExistingEntityException e)
             {

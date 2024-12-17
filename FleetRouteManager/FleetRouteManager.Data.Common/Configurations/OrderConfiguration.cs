@@ -8,11 +8,14 @@ namespace FleetRouteManager.Data.Common.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
+            builder.Property(o => o.Amount)
+                .HasColumnType("decimal(18,2)");
+
             builder
                 .HasOne(o => o.Client)
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.ClientId)
-                .OnDelete(deleteBehavior: DeleteBehavior.Cascade);
+                .OnDelete(deleteBehavior: DeleteBehavior.Restrict);
 
             builder
                 .HasIndex(o => o.OrderNumber)
@@ -24,6 +27,8 @@ namespace FleetRouteManager.Data.Common.Configurations
                     Id = 1,
                     OrderNumber = "43/ZTE/240412",
                     OrderDate = new DateTime(2024, 04, 12),
+                    Amount = 500m,
+                    User = "admin",
                     ClientId = 1
                 },
                 new Order
@@ -31,6 +36,8 @@ namespace FleetRouteManager.Data.Common.Configurations
                     Id = 2,
                     OrderNumber = "240613/125",
                     OrderDate = new DateTime(2024, 06, 13),
+                    Amount = 220.50m,
+                    User = "admin",
                     ClientId = 2
                 },
                 new Order
@@ -38,6 +45,8 @@ namespace FleetRouteManager.Data.Common.Configurations
                     Id = 3,
                     OrderNumber = "1324141",
                     OrderDate = new DateTime(2024, 11, 06),
+                    Amount = 1800m,
+                    User = "admin",
                     ClientId = 3
                 });
         }

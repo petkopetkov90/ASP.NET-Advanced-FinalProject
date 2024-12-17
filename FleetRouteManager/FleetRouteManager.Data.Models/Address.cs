@@ -43,8 +43,6 @@ namespace FleetRouteManager.Data.Models
         [Comment("Date and time when the Address was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
-
         [InverseProperty(nameof(Client.LegalAddress))]
         public virtual ICollection<Client> LegalClients { get; set; } = new List<Client>();
 

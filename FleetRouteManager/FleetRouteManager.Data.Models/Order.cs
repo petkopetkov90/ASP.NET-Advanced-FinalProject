@@ -22,10 +22,19 @@ namespace FleetRouteManager.Data.Models
         public DateTime OrderDate { get; set; }
 
         [Required]
+        [Comment("Amount in EURO payable for completing the Order")]
+        public decimal Amount { get; set; }
+
+        [Required]
+        [MaxLength(UsernameMaxLength)]
+        [Comment("User who created the Order")]
+        public string User { get; set; } = null!;
+
+        [Required]
         [Comment("Foreign key to Client")]
         public int ClientId { get; set; }
         [ForeignKey(nameof(ClientId))]
-        public Client Client { get; set; } = null!;
+        public virtual Client Client { get; set; } = null!;
 
         [Comment("Indicates if the Order was deleted")]
         public bool IsDeleted { get; set; }
@@ -33,5 +42,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Date and time when the Order was marked as deleted")]
 
         public DateTime? DeletedOn { get; set; }
+
+
     }
 }

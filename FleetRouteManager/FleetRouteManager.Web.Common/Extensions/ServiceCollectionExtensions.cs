@@ -10,7 +10,7 @@ namespace FleetRouteManager.Web.Common.Extensions
     public static class ServiceCollectionExtensions
     {
 
-        public static void AddRepositories(this IServiceCollection services)
+        public static void AddApplicationRepositories(this IServiceCollection services)
         {
             services.AddScoped<IRepository<Vehicle, int>, Repository<Vehicle, int>>();
             services.AddScoped<IRepository<Manufacturer, int>, Repository<Manufacturer, int>>();
@@ -24,7 +24,7 @@ namespace FleetRouteManager.Web.Common.Extensions
             services.AddScoped<IRepository<Order, int>, Repository<Order, int>>();
         }
 
-        public static void AddServices(this IServiceCollection services)
+        public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IManufacturerService, ManufacturerService>();
@@ -34,6 +34,7 @@ namespace FleetRouteManager.Web.Common.Extensions
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
     }
 }
