@@ -67,6 +67,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Location")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             if (await locationService.DeleteLocationAsync(id))
@@ -97,6 +98,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Create New Location")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LocationCreateInputModel model)
         {
             if (!ModelState.IsValid)
@@ -150,6 +152,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Location")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(LocationEditInputModel model)
         {
             if (!ModelState.IsValid)

@@ -9,6 +9,7 @@
 <div class="alert alert-danger" style="text-align: center">
     <h5>Are you sure you want to delete: <strong style="color:darkred">@Model.Name</strong> ?</h5>
     <form method="post" asp-action="DeleteConfirmation" asp-route-id="@Model.Id">
+        @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-danger" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;">Confirm</button>
 
         <a href="@(ViewData["ReturnUrl"])" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;">Cancel</a>

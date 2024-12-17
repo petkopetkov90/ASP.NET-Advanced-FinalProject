@@ -66,6 +66,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Driver")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             await driverService.DeleteDriverAsync(id);
@@ -83,6 +84,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Assign New Driver")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Assign(DriverCreateInputModel model)
         {
 
@@ -124,6 +126,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Driver")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(DriverEditInputModel model)
         {
             if (!ModelState.IsValid)

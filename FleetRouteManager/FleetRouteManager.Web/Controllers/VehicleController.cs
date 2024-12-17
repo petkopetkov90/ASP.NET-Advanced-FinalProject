@@ -70,6 +70,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Vehicle")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             await vehicleService.DeleteVehicleAsync(id);
@@ -87,6 +88,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Create Vehicle")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(VehicleCreateInputModel model)
         {
             if (!ModelState.IsValid)
@@ -127,6 +129,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Vehicle")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(VehicleEditInputModel model)
         {
             if (!ModelState.IsValid)

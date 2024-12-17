@@ -18,6 +18,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Add New Address")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(AddressCreateInputModel model)
         {
             if (!ModelState.IsValid)

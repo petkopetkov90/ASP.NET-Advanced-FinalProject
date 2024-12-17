@@ -22,7 +22,8 @@
                     </td>
                     <td>
                         <form method="post" asp-action="AssignRole" asp-controller="UserManagement" asp-area="Admin" class="d-inline">
-                            <input type="hidden" name="userId" value="@user.Id" />
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="userId" value="@user.Id"/>
                             <select name="role" class="form-select d-inline w-auto">
                                 <option value="Admin">Admin</option>
                                 <option value="Manager">Manager</option>
@@ -32,7 +33,8 @@
                         </form>
 
                         <form method="post" asp-action="RemoveRole" asp-controller="UserManagement" asp-area="Admin" class="d-inline ms-2">
-                            <input type="hidden" name="userId" value="@user.Id" />
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="userId" value="@user.Id"/>
                             <select name="role" class="form-select d-inline w-auto">
                                 @foreach (var role in user.Roles)
                                 {
@@ -43,7 +45,8 @@
                         </form>
 
                         <form method="post" asp-action="DeleteUser" asp-controller="UserManagement" asp-area="Admin" class="d-inline ms-2">
-                            <input type="hidden" name="userId" value="@user.Id" />
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="userId" value="@user.Id"/>
                             <button type="submit" class="btn btn-danger">Delete User</button>
                         </form>
                     </td>

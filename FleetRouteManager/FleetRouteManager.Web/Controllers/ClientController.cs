@@ -69,6 +69,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Delete Client")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
             await clientService.DeleteClientAsync(id);
@@ -90,6 +91,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Add New Client")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(ClientCreateInputModel model)
         {
             if (!ModelState.IsValid)
@@ -129,6 +131,7 @@ namespace FleetRouteManager.Web.Controllers
 
         [Authorize(Roles = "Admin, Manager")]
         [HttpPost("Edit Client")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ClientEditInputModel model)
         {
             if (!ModelState.IsValid)

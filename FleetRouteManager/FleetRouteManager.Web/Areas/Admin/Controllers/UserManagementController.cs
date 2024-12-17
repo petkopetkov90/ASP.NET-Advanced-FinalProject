@@ -43,6 +43,8 @@ namespace FleetRouteManager.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("Assign Role")]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> AssignRole(string userId, string role)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -56,6 +58,7 @@ namespace FleetRouteManager.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("Remove Role")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveRole(string userId, string role)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -69,6 +72,7 @@ namespace FleetRouteManager.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("Delete User")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
