@@ -22,12 +22,22 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Privacy")]
         public IActionResult Privacy()
         {
+
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
+            if (statusCode == 404)
+            {
+                return View("_Error404"); // Custom 404 view
+            }
+            else if (statusCode == 500)
+            {
+                return View("_Error500"); // Custom 500 view
+            }
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
