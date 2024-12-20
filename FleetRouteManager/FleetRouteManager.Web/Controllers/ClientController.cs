@@ -1,4 +1,5 @@
-﻿using FleetRouteManager.Services.Interfaces;
+﻿using FleetRouteManager.Common.Exceptions;
+using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.ClientInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,13 +36,26 @@ namespace FleetRouteManager.Web.Controllers
         {
             var model = await clientService.GetClientDetailsAsync(id);
 
-
             if (model == null)
             {
+                TempData["ClientError"] = "Client was not found.";
                 return RedirectToAction("Index");
             }
 
             return View(model);
+        }
+
+        [HttpGet("Client Details Partial")]
+        public async Task<IActionResult> DetailsPartial(int id)
+        {
+            var model = await clientService.GetClientDetailsAsync(id);
+
+            if (model == null)
+            {
+                return PartialView("_Error404");
+            }
+
+            return PartialView("DetailsPartial", model);
         }
 
         [HttpGet("Delete Client")]
@@ -51,7 +65,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Driver not found!
+                TempData["ClientError"] = "Client was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -72,17 +86,22 @@ namespace FleetRouteManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            await clientService.DeleteClientAsync(id);
+
+            if (await clientService.DeleteClientAsync(id))
+            {
+                TempData["ClientSucceed"] = "Client was deleted successfully.";
+            }
+            else
+            {
+                TempData["ClientError"] = "Something went wrong.";
+            }
+
             return RedirectToAction("Index");
         }
 
         [HttpGet("Add New Client")]
         public async Task<IActionResult> Add()
         {
-            TempData["ReturnToAction"] = "Add";
-            TempData["ReturnToController"] = "Client";
-            TempData["ReturnToValue"] = null;
-
             await SetViewBagSelectListsAsync();
             var model = new ClientCreateInputModel();
 
@@ -96,33 +115,40 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ReturnToAction"] = "Add";
-                TempData["ReturnToController"] = "Client";
-                TempData["ReturnToValue"] = null;
+                TempData["ClientError"] = "There were validation errors.";
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
+            try
+            {
+                await clientService.CrateNewClientAsync(model);
+                TempData["ClientSucceed"] = "Client was created successfully.";
+            }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["ClientError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["ClientError"] = "An unexpected error occurred.";
+            }
 
-            await clientService.CrateNewClientAsync(model);
             return RedirectToAction("Index");
-
         }
 
 
         [HttpGet("Edit Client")]
         public async Task<IActionResult> Edit(int id)
         {
-            TempData["ReturnToAction"] = "Edit";
-            TempData["ReturnToController"] = "Client";
-            TempData["ReturnToValue"] = id;
-
             await SetViewBagSelectListsAsync();
 
             var model = await clientService.GetClientEditModelAsync(id);
 
             if (model is null)
             {
+                TempData["ClientError"] = "Client was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -136,20 +162,35 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ReturnToAction"] = "Edit";
-                TempData["ReturnToController"] = "Client";
-                TempData["ReturnToValue"] = model.Id;
+                TempData["ClientError"] = "There were validation errors.";
 
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
-            if (!await clientService.EditClientAsync(model))
+            try
             {
-                return RedirectToAction("Index");
+                if (await clientService.EditClientAsync(model))
+                {
+                    TempData["ClientSucceed"] = "Client was edited successfully.";
+                    return RedirectToAction("Details", new { model.Id });
+                }
+                else
+                {
+                    TempData["ClientError"] = "Client was not found.";
+                }
+            }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["ClientError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["ClientError"] = "An unexpected error occurred.";
             }
 
-            return RedirectToAction("Details", new { model.Id });
+
+            return RedirectToAction("Index");
         }
 
         private async Task SetViewBagSelectListsAsync()

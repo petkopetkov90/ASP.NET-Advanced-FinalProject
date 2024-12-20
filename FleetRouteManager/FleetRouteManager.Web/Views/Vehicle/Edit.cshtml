@@ -4,6 +4,19 @@
     ViewData["Title"] = "Edit Vehicle";
 }
 
+@if (TempData["VehicleError"] != null)
+{
+    <div class="alert alert-danger" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["VehicleError"]</strong></h5>
+    </div>
+}
+else if (TempData["VehicleSucceed"] != null)
+{
+    <div class="alert alert-success" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["VehicleSucceed"]</strong></h5>
+    </div>
+}
+
 <h1 style="font-style: italic">@ViewData["Title"]</h1>
 
 <form asp-action="Edit" method="post">

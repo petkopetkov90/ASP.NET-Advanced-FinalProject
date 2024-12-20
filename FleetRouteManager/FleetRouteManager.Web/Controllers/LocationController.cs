@@ -85,10 +85,6 @@ namespace FleetRouteManager.Web.Controllers
         [HttpGet("Create New Location")]
         public async Task<IActionResult> Create()
         {
-            TempData["ReturnToAction"] = "Create";
-            TempData["ReturnToController"] = "Location";
-            TempData["ReturnToValue"] = null;
-
 
             await SetViewBagSelectListsAsync();
             var model = new LocationCreateInputModel();
@@ -103,10 +99,6 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ReturnToAction"] = "Create";
-                TempData["ReturnToController"] = "Location";
-                TempData["ReturnToValue"] = null;
-
                 TempData["LocationError"] = "There were validation errors.";
 
                 await SetViewBagSelectListsAsync();
@@ -115,7 +107,7 @@ namespace FleetRouteManager.Web.Controllers
 
             try
             {
-                var id = await locationService.CreateNewLocationAsync(model);
+                await locationService.CreateNewLocationAsync(model);
                 TempData["LocationSucceed"] = "Location was created successfully.";
             }
             catch (CustomExistingEntityException e)
@@ -130,12 +122,52 @@ namespace FleetRouteManager.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("Create New Location Modal")]
+        public async Task<IActionResult> CreateModal()
+        {
+
+            await SetViewBagSelectListsAsync();
+            var model = new LocationCreateInputModel();
+
+            return PartialView(model);
+        }
+
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpPost("Create New Location Modal")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateModal(LocationCreateInputModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["LocationError"] = "There were validation errors.";
+
+                await SetViewBagSelectListsAsync();
+                return PartialView(model);
+            }
+
+            try
+            {
+                await locationService.CreateNewLocationAsync(model);
+                TempData["LocationSucceed"] = "Location was created successfully.";
+                return Json(new { success = true });
+
+            }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["LocationError"] = e.Message;
+                return Json(new { success = true });
+
+            }
+            catch (Exception)
+            {
+                TempData["LocationError"] = "An unexpected error occurred.";
+                return Json(new { success = true });
+            }
+        }
+
         [HttpGet("Edit Location")]
         public async Task<IActionResult> Edit(int id)
         {
-            TempData["ReturnToAction"] = "Edit";
-            TempData["ReturnToController"] = "Location";
-            TempData["ReturnToValue"] = id;
 
             await SetViewBagSelectListsAsync();
 
@@ -157,9 +189,7 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ReturnToAction"] = "Edit";
-                TempData["ReturnToController"] = "Location";
-                TempData["ReturnToValue"] = model.Id;
+                TempData["LocationError"] = "There were validation errors.";
 
                 await SetViewBagSelectListsAsync();
                 return View(model);

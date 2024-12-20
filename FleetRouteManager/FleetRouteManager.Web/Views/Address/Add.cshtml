@@ -1,30 +1,25 @@
-﻿@* @model AddressCreateInputModel
+﻿@model AddressCreateInputModel
 
-@{
-    ViewData["Title"] = "Add New Address";
-}
-
-<h1 style="font-style: italic">@ViewData["Title"]</h1>
-
-<form asp-action="Add" method="post">
+<form asp-action="Add" asp-controller="Address" method="post">
+    @Html.AntiForgeryToken()
     <div class="form-group">
         <label asp-for="@Model.StreetName" class="form-label">Street Name</label>
-        <input asp-for="@Model.StreetName" class="form-control" />
+        <input asp-for="@Model.StreetName" class="form-control"/>
         <span asp-validation-for="@Model.StreetName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="@Model.StreetNumber" class="form-label">Street Number</label>
-        <input asp-for="@Model.StreetNumber" class="form-control" />
+        <input asp-for="@Model.StreetNumber" class="form-control"/>
         <span asp-validation-for="@Model.StreetNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="@Model.PostCode" class="form-label">Post Code</label>
-        <input asp-for="@Model.PostCode" class="form-control" />
+        <input asp-for="@Model.PostCode" class="form-control"/>
         <span asp-validation-for="@Model.PostCode" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="@Model.City" class="form-label">City</label>
-        <input asp-for="@Model.City" class="form-control" />
+        <input asp-for="@Model.City" class="form-control"/>
         <span asp-validation-for="@Model.City" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -32,16 +27,11 @@
         <select asp-for="@Model.CountryId" asp-items="ViewBag.Countries" class="form-control"></select>
         <span asp-validation-for="@Model.CountryId" class="text-danger"></span>
     </div>
-
-    <div style="margin-top: 16px">
-        <button type="submit" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Add</button>
-        <a asp-action="Index" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
-    </div>
 </form>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
 }
- *@

@@ -47,9 +47,11 @@
                 @TempData["AddressSuccess"]
             </div>
         }
-        <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
-            Add New Address
-        </button>
+        <div style="margin-bottom: 1rem">
+            <button class="add-new-address btn btn-success mt-3" style="font-size: 12px">Add New Address</button>
+            <div class="data-container">
+            </div>
+        </div>
     </div>
 
     <div class="form-group">
@@ -83,9 +85,11 @@
                 @TempData["AddressSuccess"]
             </div>
         }
-        <button type="button" class="btn btn-success mt-3" style="margin-bottom: 1rem; font-size: 12px" data-bs-toggle="modal" data-bs-target="#AddNewAddressModal">
-            Add New Address
-        </button>
+        <div style="margin-bottom: 1rem">
+            <button class="add-new-address btn btn-success mt-3" style="font-size: 12px">Add New Address</button>
+            <div class="data-container">
+            </div>
+        </div>
     </div>
 
     <div class="form-group">
@@ -123,43 +127,95 @@
     </div>
 </form>
 
-<div class="modal fade" id="AddNewAddressModal" tabindex="-1" aria-labelledby="AddNewAddressModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addNewAddressModal" tabindex="-1" aria-labelledby="addNewAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="AddNewAddressModalLabel">Add New Address</h1>
+                <h5 class="modal-title" id="addNewAddressModalLabel">Add New Address</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @await Html.PartialAsync("_AddNewAddressPartial", new AddressCreateInputModel())
+                <div id="addNewAddress-content">
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: flex-start; width: 100%;">
+                <button type="button" id="submitNewAddress" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
 </div>
 
+
 @section Scripts
 {
-    @if (TempData["AddressFormError"] != null)
-    {
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var modal = new bootstrap.Modal(document.getElementById('AddNewAddressModal'));
-                modal.show();
-            });
-        </script>
-    }
 
     <script>
-        document.getElementById('AddNewAddressModal').addEventListener('hidden.bs.modal', function () {
+        $(document).ready(function () {
+            // Open the modal and load the form
+            $(document).on('click', '.add-new-address', function () {
 
-            document.querySelector('#AddNewAddressModal form').reset();
-            document.getElementById('addressErrorContainer').innerText = '';
+                event.preventDefault(); // Prevent page reload
+
+                var $modalContent = $('#addNewAddress-content');
+                $modalContent.html('<p>Loading...</p>');
+
+                $.ajax({
+                    url: '@Url.Action("Add", "Address")',
+                    method: 'GET',
+                    success: function (response) {
+                        $modalContent.html(response);
+                        $modalContent.find('form').validate({
+                            errorClass: 'text-danger',
+                            validClass: 'is-valid'
+                        }); // Apply validation to the form
+                        $('#addNewAddressModal').modal('show'); // Open the modal
+                    },
+                    error: function () {
+                        $modalContent.html('<p>Error loading data. Please try again later.</p>');
+                        $('#addNewAddressModal').modal('show'); // Open the modal even if there's an error
+                    }
+                });
+            });
+
+            // Form submission logic
+            $('#submitNewAddress').on('click', function () {
+                var $form = $('#addNewAddress-content form');
+                if ($form.valid()) { // Check if the form is valid before submitting
+                    var formData = $form.serialize(); // Serialize the form data
+
+                    $.ajax({
+                        url: '@Url.Action("Add", "Address")',
+                        method: 'POST',
+                        data: formData,
+                        success: function (response) {
+                            var hasValidationErrors = $(response).find('.text-danger').length > 0;
+
+                            if (hasValidationErrors) {
+                                // If validation errors exist, reload the form with errors
+                                $('#addNewAddress-content').html(response);
+                                $('#addNewAddress-content').find("form").validate(); // Re-initialize validation
+                                $('#addNewAddressModal').modal('show'); // Keep the modal open
+                            } else {
+                                // On success, close the modal and reload the page
+                                $('#addNewAddressModal').modal('hide');
+                                location.reload(); // Refresh the page to reflect new data
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while saving the address. Please try again.');
+                            $('#addNewAddressModal').modal('show'); // Keep the modal open in case of error
+                        }
+                    });
+                } else {
+                    alert("Please fix the errors before submitting.");
+                }
+            });
         });
     </script>
-
 
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
 
+}

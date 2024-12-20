@@ -34,7 +34,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Driver not found!
+                TempData["DriverError"] = "Driver was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -48,7 +48,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Driver not found!
+                TempData["DriverError"] = "Driver was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -69,7 +69,16 @@ namespace FleetRouteManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            await driverService.DeleteDriverAsync(id);
+
+            if (await driverService.DeleteDriverAsync(id))
+            {
+                TempData["DriverSucceed"] = "Driver was deleted successfully.";
+            }
+            else
+            {
+                TempData["DriverError"] = "Something went wrong.";
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -87,9 +96,10 @@ namespace FleetRouteManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Assign(DriverCreateInputModel model)
         {
-
             if (!ModelState.IsValid)
             {
+                TempData["DriverError"] = "There were validation errors.";
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
@@ -97,15 +107,26 @@ namespace FleetRouteManager.Web.Controllers
             try
             {
                 await driverService.AssignNewDriverAsync(model);
-                return RedirectToAction("Index");
+                TempData["DriverSucceed"] = "Driver was created successfully.";
             }
             catch (CustomDateFormatException e)
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
+                TempData["DriverError"] = "There were validation errors.";
 
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["DriverError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["DriverError"] = "An unexpected error occurred.";
+            }
+
+            return RedirectToAction("Index");
 
         }
 
@@ -118,6 +139,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model is null)
             {
+                TempData["DriverError"] = "Driver was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -131,26 +153,43 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["DriverError"] = "There were validation errors.";
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
             try
             {
-                if (!await driverService.EditDriverAsync(model))
+                if (await driverService.EditDriverAsync(model))
                 {
-                    return RedirectToAction("Index");
+                    TempData["DriverSucceed"] = "Driver was edited successfully.";
+                    return RedirectToAction("Details", new { model.Id });
                 }
 
-                return RedirectToAction("Details", new { model.Id });
+                else
+                {
+                    TempData["DriverError"] = "Driver was not found.";
+                }
             }
             catch (CustomDateFormatException e)
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
+                TempData["DriverError"] = "There were validation errors.";
 
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["DriverError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["DriverError"] = "An unexpected error occurred.";
+            }
+
+            return RedirectToAction("Index");
 
         }
 

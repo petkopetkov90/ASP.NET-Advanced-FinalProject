@@ -65,7 +65,6 @@ namespace FleetRouteManager.Services
         public async Task<LocationDeleteViewModel?> GetLocationDeleteModelAsync(int id)
         {
             var model = await repository.GetWhereAsIQueryable(d => d.Id == id && !d.IsDeleted)
-                .Include(d => d.Address)
                 .AsNoTracking()
                 .Select(l => new LocationDeleteViewModel
                 {
@@ -175,7 +174,7 @@ namespace FleetRouteManager.Services
 
         public async Task<IEnumerable<LocationViewBagListModel>> GetLocationsViewBagListAsync()
         {
-            var countryList = await repository.GetWhereAsIQueryable(c => !c.IsDeleted)
+            var countryList = await repository.GetWhereAsIQueryable(l => !l.IsDeleted)
                 .OrderBy(l => l.Name)
                 .Include(l => l.Address)
                 .ThenInclude(a => a.Country)

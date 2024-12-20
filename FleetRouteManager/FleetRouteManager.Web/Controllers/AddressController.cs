@@ -3,6 +3,7 @@ using FleetRouteManager.Services.Interfaces;
 using FleetRouteManager.Web.Models.InputModels.AddressInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FleetRouteManager.Web.Controllers
 {
@@ -10,10 +11,21 @@ namespace FleetRouteManager.Web.Controllers
     public class AddressController : Controller
     {
         private readonly IAddressService addressService;
+        private readonly ICountryService countryService;
 
-        public AddressController(IAddressService addressService)
+        public AddressController(IAddressService addressService, ICountryService countryService)
         {
             this.addressService = addressService;
+            this.countryService = countryService;
+        }
+
+        [HttpGet("Add New Address")]
+        public async Task<IActionResult> Add()
+        {
+            await SetViewBagSelectListsAsync();
+            var model = new AddressCreateInputModel();
+
+            return PartialView(model);
         }
 
         [Authorize(Roles = "Admin, Manager")]
@@ -23,39 +35,34 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["AddressFormError"] = "There were validation errors.";
+                await SetViewBagSelectListsAsync();
+                return PartialView(model);
             }
 
-            else
+            try
             {
-                try
-                {
-                    TempData["AddressId"] = await addressService.AddNewAddressAsync(model);
-                    TempData["AddressSuccess"] = "Address was added successfully.";
-                }
-                catch (CustomExistingEntityException e)
-                {
-                    TempData["AddressError"] = e.Message;
-                    TempData["AddressId"] = await addressService.GetAddressId(model);
-                }
-                catch (Exception)
-                {
-                    TempData["AddressError"] = "An unexpected error occurred.";
-                }
+                TempData["AddressId"] = await addressService.AddNewAddressAsync(model);
+                TempData["AddressSuccess"] = "Address was added successfully.";
+                return Json(new { success = true });
             }
-
-            var action = TempData["ReturnToAction"]?.ToString() ?? "Index";
-            var controller = TempData["ReturnToController"]?.ToString() ?? "Home";
-            var value = TempData["ReturnToValue"];
-
-            if (value != null)
+            catch (CustomExistingEntityException e)
             {
-                return RedirectToAction(action, controller, new { id = value });
-            }
+                TempData["AddressError"] = e.Message;
+                return Json(new { success = true });
 
-            return RedirectToAction(action, controller);
+            }
+            catch (Exception)
+            {
+                TempData["AddressError"] = "An unexpected error occurred.";
+                return Json(new { success = true });
+
+            }
         }
 
 
+        private async Task SetViewBagSelectListsAsync()
+        {
+            ViewBag.Countries = new SelectList(await countryService.GetCountryViewBagListAsync(), "Id", "Name");
+        }
     }
 }

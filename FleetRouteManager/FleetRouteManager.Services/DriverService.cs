@@ -152,7 +152,7 @@ namespace FleetRouteManager.Services
             }
         }
 
-        public async Task<DriverEditInputModel> GetDriverEditModelAsync(int id)
+        public async Task<DriverEditInputModel?> GetDriverEditModelAsync(int id)
         {
             var driver = await repository.GetByIdAsync(id);
 

@@ -3,6 +3,20 @@
 @{
     ViewData["Title"] = "Trucks";
 }
+
+@if (TempData["VehicleError"] != null)
+{
+    <div class="alert alert-danger" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["VehicleError"]</strong></h5>
+    </div>
+}
+else if (TempData["VehicleSucceed"] != null)
+{
+    <div class="alert alert-success" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["VehicleSucceed"]</strong></h5>
+    </div>
+}
+
 <div class="text center" style="width: 100%; margin: 0;">
     @if (Model.Any())
     {
@@ -40,28 +54,19 @@
                     </tr>
                 }
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="8" style="padding: 10px 0px">
-                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                        {
-                            <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>
-                        }
-                    </td>
-                </tr>
-            </tfoot>
         </table>
     }
+    
     else
     {
-        <div class="alert alert-danger text-center" role="alert">
-            <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No vehicles were found</p>
-            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
-                <div style="margin: 1rem">
-                    <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>
-                </div>
-            }
+    <div class="alert alert-danger text-center" role="alert">
+        <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No drivers were found</p>
+    </div>
+    }
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <div style="margin: 1rem; display: flex; justify-content: center; align-items: center; height: 100%;">
+            <a asp-action="Create" asp-controller="Vehicle" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Add New Vehicle</a>
         </div>
     }
 </div>

@@ -39,8 +39,10 @@ else if (TempData["OrderSucceed"] != null)
                         <td style="padding: 15px">@order.OrderDate</td>
                         <td style="padding: 15px">@order.Amount</td>
                         <td style="padding: 15px">@order.User</td>
-                        <td style="padding: 5px 0px">
-                            <a asp-action="Details" asp-controller="Client" asp-route-id="@order.ClientId" style="text-decoration: none; color: inherit" target="_blank"><strong>@order.Client</strong></a>
+                        <td style="padding: 5px opx">
+                            <button class="load-client-details btn btn-link" data-client-id="@order.ClientId" style="color: black; font-weight:bold">@order.Client</button>
+                            <div class="data-container">
+                            </div>
                         </td>
                         <td style="padding: 5px 0px">
                             <a asp-action="Details" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
@@ -52,29 +54,68 @@ else if (TempData["OrderSucceed"] != null)
                     </tr>
                 }
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6" style="padding: 10px 0px">
-                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                        {
-                            <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
-                        }
-                    </td>
-                </tr>
-            </tfoot>
         </table>
     }
     else
     {
         <div class="alert alert-danger text-center" role="alert">
             <p style="font-style: italic; font-size: 1.4em; margin: 0; color: black">No locations were found</p>
-            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
-                <div style="margin: 1rem">
-                    <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
-                </div>
-            }
         </div>
     }
-
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <div style="margin: 1rem; display: flex; justify-content: center; align-items: center; height: 100%;">
+            <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
+        </div>
+    }
 </div>
+
+<div class="modal fade" id="clientDetailsModal" tabindex="-1" aria-labelledby="clientDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clientDetailsModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="client-details-content">
+                    <!-- Client details will be loaded here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Use event delegation for dynamically loaded elements
+            $(document).on('click', '.load-client-details', function () {
+                var clientId = $(this).data('client-id'); // Get the client ID
+                var $modalContent = $('#client-details-content'); // Modal content container
+
+                $modalContent.html('<p>Loading...</p>');
+
+                // Make the AJAX request to fetch client details
+                $.ajax({
+                    url: '@Url.Action("DetailsPartial", "Client", new { id = "_id_" })'.replace('_id_', clientId),
+                    method: 'GET', // Use GET method for fetching data
+                    success: function (response) {
+                        // Update modal content with the response
+                        $modalContent.html(response);
+
+                        // Show the modal
+                        $('#clientDetailsModal').modal('show');
+                    },
+                    error: function () {
+                        // Display error message in modal
+                        $modalContent.html('<p>Error loading data. Please try again later.</p>');
+
+                        // Show the modal even on error
+                        $('#clientDetailsModal').modal('show');
+                    }
+                });
+            });
+        });
+    </script>
+}

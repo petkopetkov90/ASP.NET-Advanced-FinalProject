@@ -38,11 +38,25 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Vehicle not found!
+                TempData["VehicleError"] = "Vehicle was not found.";
                 return RedirectToAction("Index");
             }
 
             return View(model);
+        }
+
+        [HttpGet("Vehicle Details Partial")]
+        public async Task<IActionResult> DetailsPartial(int id)
+        {
+            var model = await vehicleService.GetVehicleDetailsModelAsync(id);
+
+            if (model == null)
+            {
+
+                return PartialView("_Error404");
+            }
+
+            return PartialView(model);
         }
 
         [HttpGet("Delete Vehicle")]
@@ -52,7 +66,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model == null)
             {
-                //TODO: Vehicle not found!
+                TempData["VehicleError"] = "Vehicle was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -73,7 +87,16 @@ namespace FleetRouteManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            await vehicleService.DeleteVehicleAsync(id);
+
+            if (await vehicleService.DeleteVehicleAsync(id))
+            {
+                TempData["VehicleSucceed"] = "Vehicle was deleted successfully.";
+            }
+            else
+            {
+                TempData["VehicleError"] = "Something went wrong.";
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -93,6 +116,8 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["VehicleError"] = "There were validation errors.";
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
@@ -100,15 +125,26 @@ namespace FleetRouteManager.Web.Controllers
             try
             {
                 await vehicleService.CreateNewVehicleAsync(model);
-                return RedirectToAction("Index");
+                TempData["VehicleSucceed"] = "Vehicle was created successfully.";
             }
             catch (CustomDateFormatException e)
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
+                TempData["VehicleError"] = "There were validation errors.";
 
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["VehicleError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["VehicleError"] = "An unexpected error occurred.";
+            }
+
+            return RedirectToAction("Index");
 
         }
 
@@ -121,6 +157,7 @@ namespace FleetRouteManager.Web.Controllers
 
             if (model is null)
             {
+                TempData["VehicleError"] = "Vehicle was not found.";
                 return RedirectToAction("Index");
             }
 
@@ -134,27 +171,44 @@ namespace FleetRouteManager.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["VehicleError"] = "There were validation errors.";
+
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
 
             try
             {
-                if (!await vehicleService.EditVehicleAsync(model))
+                if (await vehicleService.EditVehicleAsync(model))
                 {
-                    return RedirectToAction("Index");
+                    TempData["VehicleSucceed"] = "Vehicle was edited successfully.";
+                    return RedirectToAction("Details", new { model.Id });
                 }
 
-                return RedirectToAction("Details", new { model.Id });
+                else
+                {
+                    TempData["VehicleError"] = "Vehicle was not found.";
+                }
             }
             catch (CustomDateFormatException e)
             {
                 ModelState.AddModelError(e.PropertyName, e.Message);
+                TempData["VehicleError"] = "There were validation errors.";
+
 
                 await SetViewBagSelectListsAsync();
                 return View(model);
             }
+            catch (CustomExistingEntityException e)
+            {
+                TempData["LocationError"] = e.Message;
+            }
+            catch (Exception)
+            {
+                TempData["LocationError"] = "An unexpected error occurred.";
+            }
 
+            return RedirectToAction("Index");
         }
 
         private async Task SetViewBagSelectListsAsync()

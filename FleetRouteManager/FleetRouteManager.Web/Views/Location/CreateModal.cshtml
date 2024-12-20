@@ -1,0 +1,69 @@
+﻿@model LocationCreateInputModel
+
+@{
+    var newAddressId = TempData["AddressId"] != null ? (int)TempData["AddressId"] : 0;
+}
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label asp-for="@Model.Name" style="font-style: italic; font-weight: 600">Location Name</label>
+        <input asp-for="@Model.Name" class="form-control" />
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.PhoneNumber" style="font-style: italic; font-weight: 600">Phone Number</label>
+        <input asp-for="@Model.PhoneNumber" class="form-control" />
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.AddressId" style="font-style: italic; font-weight: 600">Address</label>
+        <select asp-for="@Model.AddressId" asp-items="ViewBag.Addresses" class="form-control">
+            <option value="" disabled selected>Please select an address</option>
+            @if (newAddressId > 0 && ViewBag.Addresses != null)
+            {
+                @foreach (var item in ViewBag.Addresses as SelectList)
+                {
+                    if (item.Value == newAddressId.ToString())
+                    {
+                        <option value="@item.Value" selected>@item.Text</option>
+                    }
+                }
+            }
+        </select>
+        <span asp-validation-for="@Model.AddressId" class="text-danger"></span>
+    </div>
+
+</form>
+
+
+<div class="modal fade" id="addNewAddressModal1" tabindex="-1" aria-labelledby="addNewAddressModalLabel1" aria-hidden="true" style="z-index: 1055;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNewAddressModalLabel1">Add New Address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="addNewAddress1-content">
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: flex-start; width: 100%;">
+                <button type="button" id="submitNewAddress1" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
