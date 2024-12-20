@@ -26,7 +26,6 @@ else if (TempData["OrderSucceed"] != null)
                     <th style="padding: 15px" scope="col">Order Number</th>
                     <th style="padding: 15px" scope="col">Order Date</th>
                     <th style="padding: 15px" scope="col">Amount</th>
-                    <th style="padding: 15px" scope="col">Created by</th>
                     <th style="padding: 15px" scope="col">Client</th>
                     <th style="padding: 15px" scope="col">Trip</th>
                     <th style="padding: 15px" scope="col">Actions</th>
@@ -39,22 +38,20 @@ else if (TempData["OrderSucceed"] != null)
                         <th style="padding: 15px">@order.OrderNumber</th>
                         <td style="padding: 15px">@order.OrderDate</td>
                         <td style="padding: 15px">@order.Amount</td>
-                        <td style="padding: 15px">@order.User</td>
                         <td style="padding: 15px">
                             <button class="load-client-details btn btn-link" data-client-id="@order.ClientId" style="color: black; font-weight:bold">@order.Client</button>
                             <div class="data-container">
                             </div>
-                            </td>
+                        </td>
                         <td style="padding: 15px">
                             <button class="load-trip-details btn btn-link" data-trip-id="@order.TripId" style="color: black; font-weight:bold">@order.Trip</button>
                             <div class="data-container">
                             </div>
                         </td>
                         <td style="padding: 5px 0px">
-                            <a asp-action="Details" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
                             @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                             {
-                                <a asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                                <a asp-action="Delete" asp-controller="ManagerOrder" asp-route-id="@order.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
                             }
                         </td>
                     </tr>
@@ -71,7 +68,7 @@ else if (TempData["OrderSucceed"] != null)
     @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
     {
         <div style="margin: 1rem; display: flex; justify-content: center; align-items: center; height: 100%;">
-            <a asp-action="Create" asp-controller="Order" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
+            <a asp-action="Create" asp-controller="ManagerOrder" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
         </div>
     }
 </div>
@@ -138,7 +135,7 @@ else if (TempData["OrderSucceed"] != null)
             });
         });
     </script>
-    
+
     <script>
         $(document).ready(function () {
             // Use event delegation for dynamically loaded elements

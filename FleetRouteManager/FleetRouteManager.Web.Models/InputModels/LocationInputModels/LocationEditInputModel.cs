@@ -6,6 +6,7 @@ namespace FleetRouteManager.Web.Models.InputModels.LocationInputModels
 {
     public class LocationEditInputModel
     {
+        [Required]
         public int Id { get; set; }
 
         [Required(ErrorMessage = LocationNameRequiredMsg)]

@@ -5,7 +5,7 @@ namespace FleetRouteManager.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class HomeController : Controller
+    public class AdminHomeController : Controller
     {
         [HttpGet]
         public IActionResult Index()

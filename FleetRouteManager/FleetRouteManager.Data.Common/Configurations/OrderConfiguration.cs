@@ -28,7 +28,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     OrderNumber = "43/ZTE/240412",
                     OrderDate = new DateTime(2024, 04, 12),
                     Amount = 500m,
-                    User = "admin",
+                    User = "admin@myapp.com",
                     ClientId = 1
                 },
                 new Order
@@ -37,7 +37,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     OrderNumber = "240613/125",
                     OrderDate = new DateTime(2024, 06, 13),
                     Amount = 220.50m,
-                    User = "admin",
+                    User = "admin@myapp.com",
                     ClientId = 2
                 },
                 new Order
@@ -46,7 +46,7 @@ namespace FleetRouteManager.Data.Common.Configurations
                     OrderNumber = "1324141",
                     OrderDate = new DateTime(2024, 11, 06),
                     Amount = 1800m,
-                    User = "admin",
+                    User = "admin@myapp.com",
                     ClientId = 3
                 });
         }

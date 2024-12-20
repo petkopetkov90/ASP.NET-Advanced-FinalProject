@@ -12,5 +12,6 @@ namespace FleetRouteManager.Services.Interfaces
         Task<int> CrateNewClientAsync(ClientCreateInputModel model);
         Task<ClientEditInputModel?> GetClientEditModelAsync(int id);
         Task<bool> EditClientAsync(ClientEditInputModel model);
+        Task<IEnumerable<ClientViewBagListModel>> GetClientViewBagListAsync();
     }
 }

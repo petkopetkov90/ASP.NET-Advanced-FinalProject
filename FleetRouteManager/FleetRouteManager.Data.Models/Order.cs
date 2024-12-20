@@ -36,6 +36,11 @@ namespace FleetRouteManager.Data.Models
         [ForeignKey(nameof(ClientId))]
         public virtual Client Client { get; set; } = null!;
 
+        [Comment("Foreign key to Trip")]
+        public int? TripId { get; set; }
+        [ForeignKey(nameof(TripId))]
+        public virtual Trip? Trip { get; set; }
+
         [Comment("Indicates if the Order was deleted")]
         public bool IsDeleted { get; set; }
 

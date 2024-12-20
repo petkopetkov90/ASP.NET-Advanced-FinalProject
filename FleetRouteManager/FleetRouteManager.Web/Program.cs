@@ -69,7 +69,16 @@ app.Use(async (context, next) =>
     {
         if (context.User.IsInRole("Admin"))
         {
-            context.Response.Redirect("/Admin/Home/Index");
+            context.Response.Redirect("/Admin/AdminHome/Index");
+            return;
+        }
+    }
+    /*else*/
+    if (context.User.Identity?.IsAuthenticated == true && context.Request.Path == "/")
+    {
+        if (context.User.IsInRole("Manager"))
+        {
+            context.Response.Redirect("/Manager/ManagerHome/Index");
             return;
         }
     }

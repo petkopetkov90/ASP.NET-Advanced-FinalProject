@@ -6,6 +6,7 @@ namespace FleetRouteManager.Web.Models.InputModels.ClientInputModels
 {
     public class ClientEditInputModel
     {
+        [Required]
         public int Id { get; set; }
 
         [Required(ErrorMessage = ClientNameRequiredMsg)]

@@ -204,6 +204,21 @@ namespace FleetRouteManager.Services
             }
         }
 
+        public async Task<IEnumerable<ClientViewBagListModel>> GetClientViewBagListAsync()
+        {
+            var clientList = await repository.GetWhereAsIQueryable(v => !v.IsDeleted)
+                .OrderBy(c => c.Name)
+                .AsNoTracking()
+                .Select(c => new ClientViewBagListModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+
+            return clientList;
+        }
+
 
         private static string FormatAddressToString(Address? address)
         {

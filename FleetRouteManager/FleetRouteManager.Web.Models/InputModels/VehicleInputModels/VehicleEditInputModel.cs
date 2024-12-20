@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FleetRouteManager.Common.Enums;
+﻿using FleetRouteManager.Common.Enums;
+using System.ComponentModel.DataAnnotations;
 using static FleetRouteManager.Common.Constants.VehicleConstants;
 using static FleetRouteManager.Common.ErrorMessages.VehicleErrorMessages;
 
@@ -7,6 +7,7 @@ namespace FleetRouteManager.Web.Models.InputModels.VehicleInputModels
 {
     public class VehicleEditInputModel
     {
+        [Required]
         public int Id { get; set; }
 
         [Required(ErrorMessage = VehicleRegistrationNumberRequiredMsg)]

@@ -6,6 +6,7 @@ namespace FleetRouteManager.Web.Models.InputModels.DriverInputModels
 {
     public class DriverEditInputModel
     {
+        [Required]
         public int Id { get; set; }
 
         [Required(ErrorMessage = DriverNameRequiredMsg)]

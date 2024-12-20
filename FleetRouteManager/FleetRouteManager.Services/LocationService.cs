@@ -64,7 +64,7 @@ namespace FleetRouteManager.Services
 
         public async Task<LocationDeleteViewModel?> GetLocationDeleteModelAsync(int id)
         {
-            var model = await repository.GetWhereAsIQueryable(d => d.Id == id && !d.IsDeleted)
+            var model = await repository.GetWhereAsIQueryable(l => l.Id == id && !l.IsDeleted)
                 .AsNoTracking()
                 .Select(l => new LocationDeleteViewModel
                 {

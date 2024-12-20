@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220200731_TripEntityAdded")]
+    partial class TripEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Street", "ComputedNumber", "PostCode", "City", "CountryId")
                         .IsUnique();
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
 
                     b.HasData(
                         new
@@ -229,7 +232,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name", "AddressId", "TaxNumber")
                         .IsUnique();
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
 
                     b.HasData(
                         new
@@ -296,7 +299,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Continents", (string)null);
+                    b.ToTable("Continents");
 
                     b.HasData(
                         new
@@ -370,7 +373,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name", "ContinentId")
                         .IsUnique();
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
 
                     b.HasData(
                         new
@@ -1738,7 +1741,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Drivers");
 
                     b.HasData(
                         new
@@ -1836,7 +1839,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name", "AddressId")
                         .IsUnique();
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
 
                     b.HasData(
                         new
@@ -1904,7 +1907,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Manufacturers", (string)null);
+                    b.ToTable("Manufacturers");
 
                     b.HasData(
                         new
@@ -2035,7 +2038,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
 
                     b.HasData(
                         new
@@ -2080,7 +2083,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trip", (string)null);
+                    b.ToTable("Trip");
                 });
 
             modelBuilder.Entity("FleetRouteManager.Data.Models.Vehicle", b =>
@@ -2178,7 +2181,7 @@ namespace FleetRouteManager.Data.Migrations
 
                     b.HasIndex("VehicleTypeId");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.ToTable("Vehicles");
 
                     b.HasData(
                         new
@@ -2287,7 +2290,7 @@ namespace FleetRouteManager.Data.Migrations
                     b.HasIndex("Type")
                         .IsUnique();
 
-                    b.ToTable("VehicleTypes", (string)null);
+                    b.ToTable("VehicleTypes");
 
                     b.HasData(
                         new

@@ -1,6 +1,6 @@
 ﻿namespace FleetRouteManager.Web.Models.ViewModels.OrderViewModels
 {
-    public class OrderViewModel
+    public class OrderDetailsViewModel
     {
         public required int Id { get; set; }
 
@@ -14,10 +14,7 @@
 
         public required string Client { get; set; }
 
-        public required int ClientId { get; set; }
-
         public string? Trip { get; set; }
 
-        public int TripId { get; set; }
     }
 }

@@ -1,0 +1,64 @@
+﻿@model OrderEditInputModel
+
+@{
+    ViewData["Title"] = "Edit Order";
+}
+
+@if (TempData["OrderError"] != null)
+{
+    <div class="alert alert-danger" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["OrderError"]</strong></h5>
+    </div>
+}
+else if (TempData["OrderSucceed"] != null)
+{
+    <div class="alert alert-success" style="text-align: center; width: 100%; margin: 0">
+        <h5><strong style="color:black">@TempData["OrderSucceed"]</strong></h5>
+    </div>
+}
+
+<h1 style="font-style: italic">@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label asp-for="@Model.OrderNumber" style="font-style: italic; font-weight: 600">Order Number</label>
+        <input asp-for="@Model.OrderNumber" class="form-control" />
+        <span asp-validation-for="@Model.OrderNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.OrderDate" style="font-style: italic; font-weight: 600">Order Date</label>
+        <input asp-for="@Model.OrderDate" class="form-control" />
+        <span asp-validation-for="@Model.OrderDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Amount" style="font-style: italic; font-weight: 600">Amount</label>
+        <input asp-for="@Model.Amount" class="form-control" />
+        <span asp-validation-for="@Model.Amount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.ClientId" style="font-style: italic; font-weight: 600">Client</label>
+        <select asp-for="@Model.ClientId" asp-items="ViewBag.Clients" class="form-control">
+            <option value="" disabled selected>Please select a Client</option>
+        </select>
+        <span asp-validation-for="@Model.ClientId" class="text-danger"></span>
+    </div>
+    
+    <input type="hidden" asp-for="@Model.User" />
+    <input type="hidden" asp-for="@Model.TripId" />
+
+
+    <div style="margin-top: 16px">
+        <button type="submit" asp-route-id="@Model.Id" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Save</button>
+        <a asp-action="Index" asp-route-id="@Model.Id" class="btn btn-secondary" style="display: inline-flex; justify-content: center; align-items: center; width: 100px; height: 40px">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

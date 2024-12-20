@@ -1,0 +1,28 @@
+﻿<div class="text-center">
+    <h1>Dashboard</h1>
+</div>
+<br />
+<div class="row" style="justify-content:center">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body d-flex flex-column align-items-center text-center">
+                <h5 class="card-title">My Trips</h5>
+                <br />
+                <a asp-area="Manager" asp-controller="ManagerTrip" asp-action="Index" class="btn btn-primary">
+                    Manage Trips
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body d-flex flex-column align-items-center text-center">
+                <h5 class="card-title">My Orders</h5>
+                <br />
+                <a asp-area="Manager" asp-controller="ManagerOrder" asp-action="Index" class="btn btn-primary">
+                    Manage Orders
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
