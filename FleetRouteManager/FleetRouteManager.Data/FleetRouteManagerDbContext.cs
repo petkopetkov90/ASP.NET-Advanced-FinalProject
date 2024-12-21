@@ -23,6 +23,7 @@ namespace FleetRouteManager.Data
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Trip> Trips { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -36,6 +37,7 @@ namespace FleetRouteManager.Data
             builder.ApplyConfiguration(new ClientConfiguration());
             builder.ApplyConfiguration(new AddressConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new TripConfiguration());
 
             base.OnModelCreating(builder);
         }

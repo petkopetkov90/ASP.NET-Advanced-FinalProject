@@ -26,6 +26,7 @@ namespace FleetRouteManager.Services
         {
             var orders = await repository.GetWhereAsIQueryable(o => !o.IsDeleted)
                 .Include(o => o.Client)
+                .Include(o => o.Trip)
                 .OrderBy(o => o.OrderDate)
                 .AsNoTracking()
                 .Select(o => new OrderViewModel()
@@ -36,7 +37,9 @@ namespace FleetRouteManager.Services
                     Amount = o.Amount,
                     User = o.User,
                     Client = o.Client.Name,
-                    ClientId = o.ClientId
+                    ClientId = o.ClientId,
+                    TripId = o.TripId,
+                    Trip = o.Trip != null ? o.Trip.TripNumber : string.Empty
 
                 })
                 .ToListAsync();
@@ -57,6 +60,7 @@ namespace FleetRouteManager.Services
                     Amount = o.Amount,
                     User = o.User,
                     Client = o.Client.Name,
+                    Trip = o.Trip != null ? o.Trip.TripNumber : string.Empty
                 })
                 .FirstOrDefaultAsync();
 
@@ -78,11 +82,16 @@ namespace FleetRouteManager.Services
             return model;
         }
 
-        public async Task<bool> DeleteOrderAsync(int id)
+        public async Task<bool> DeleteOrderAsync(int id, string? user)
         {
             var order = await repository.GetByIdAsync(id);
 
             if (order == null || order.IsDeleted)
+            {
+                return false;
+            }
+
+            if (user != "admin@myapp.com" && order.User != user)
             {
                 return false;
             }
@@ -150,13 +159,18 @@ namespace FleetRouteManager.Services
             return model;
         }
 
-        public async Task<bool> EditOrderAsync(OrderEditInputModel model)
+        public async Task<bool> EditOrderAsync(OrderEditInputModel model, string? user)
         {
             var order = await repository.GetByIdAsync(model.Id);
 
             if (order == null || order.IsDeleted)
             {
                 return false;
+            }
+
+            if (user != "admin@myapp.com" && order.User != user)
+            {
+                throw new UnauthorizedAccessException();
             }
 
             order.OrderNumber = model.OrderNumber;
@@ -187,6 +201,7 @@ namespace FleetRouteManager.Services
         {
             var orders = await repository.GetWhereAsIQueryable(o => !o.IsDeleted && o.User == user)
                 .Include(o => o.Client)
+                .Include(o => o.Trip)
                 .OrderBy(o => o.OrderDate)
                 .AsNoTracking()
                 .Select(o => new OrderViewModel()
@@ -196,6 +211,8 @@ namespace FleetRouteManager.Services
                     OrderDate = o.OrderDate.ToString(OrderDateFormat),
                     Amount = o.Amount,
                     User = o.User,
+                    TripId = o.TripId,
+                    Trip = o.Trip != null ? o.Trip.TripNumber : string.Empty,
                     Client = o.Client.Name,
                     ClientId = o.ClientId
 

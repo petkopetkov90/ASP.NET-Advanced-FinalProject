@@ -52,7 +52,7 @@ namespace FleetRouteManager.Services
             var vehicle = await repository.GetWhereAsIQueryable(v => v.Id == id && v.IsDeleted == false)
                 .Include(v => v.Manufacturer)
                 .Include(v => v.VehicleType)
-                .Include(v => v.Drivers)
+                .Include(v => v.CurrentDrivers)
                 .AsNoTracking()
                 .Select(v => new VehicleDetailsViewModel()
                 {
@@ -68,7 +68,7 @@ namespace FleetRouteManager.Services
                     Axles = v.Axles,
                     WeightCapacity = v.WeightCapacity,
                     AcquiredOn = v.AcquiredOn.ToString(VehicleDateFormat),
-                    Drivers = v.Drivers.Select(d => FormatDriverToString(d)),
+                    Drivers = v.CurrentDrivers.Select(d => FormatDriverToString(d)),
                     LiabilityInsurance = v.LiabilityInsurance,
                     LiabilityInsuranceExpirationDate = CustomNullableDateToStringParseExact(v.LiabilityInsuranceExpirationDate, VehicleDateFormat),
                     TechnicalReviewExpirationDate = CustomNullableDateToStringParseExact(v.TechnicalReviewExpirationDate, VehicleDateFormat),

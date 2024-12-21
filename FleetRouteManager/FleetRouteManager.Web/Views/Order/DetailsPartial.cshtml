@@ -1,0 +1,28 @@
+﻿@model OrderDetailsViewModel
+
+<div class="text center" style="width: 100%; margin: 0; text-align:center">
+    <h1 style="font-family: Arial; font-weight:bolder">
+        @Model.OrderNumber
+    </h1>
+    <table class="table table-striped table-hover table-bordered" style="text-align: center; width: 100%">
+        <thead style="font-style: italic; text-decoration: underline">
+            <tr>
+                <h5 style="font-style: italic; text-decoration-line: underline">Information</h5>
+                <th style="padding: 15px" scope="col">Order Date</th>
+                <th style="padding: 15px" scope="col">Amount</th>
+                <th style="padding: 15px" scope="col">Created by</th>
+                <th style="padding: 15px" scope="col">Client</th>
+                <th style="padding: 15px" scope="col">Trip</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 15px">@Model.OrderDate</td>
+                <td style="padding: 15px">@Model.Amount EURO</td>
+                <td style="padding: 15px">@Model.User</td>
+                <td style="padding: 15px">@Model.Client</td>
+                <td style="padding: 15px">@Model.Trip</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -18,6 +18,6 @@
 
         public string? Trip { get; set; }
 
-        public int TripId { get; set; }
+        public int? TripId { get; set; }
     }
 }

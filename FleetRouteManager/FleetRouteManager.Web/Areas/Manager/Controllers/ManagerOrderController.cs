@@ -64,8 +64,9 @@ namespace FleetRouteManager.Web.Areas.Manager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
+            var user = User.Identity?.Name;
 
-            if (await orderService.DeleteOrderAsync(id))
+            if (await orderService.DeleteOrderAsync(id, user))
             {
                 TempData["OrderSucceed"] = "Order was deleted successfully.";
             }

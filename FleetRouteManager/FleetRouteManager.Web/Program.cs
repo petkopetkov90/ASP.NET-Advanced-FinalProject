@@ -61,6 +61,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    await SeedRoles(serviceProvider);
+    await AssignAdminRole(serviceProvider);
+}
+
+
 app.UseAuthentication();
 
 app.Use(async (context, next) =>
@@ -73,7 +81,7 @@ app.Use(async (context, next) =>
             return;
         }
     }
-    /*else*/
+
     if (context.User.Identity?.IsAuthenticated == true && context.Request.Path == "/")
     {
         if (context.User.IsInRole("Manager"))
@@ -87,14 +95,6 @@ app.Use(async (context, next) =>
 });
 
 app.UseAuthorization();
-
-
-using (var scope = app.Services.CreateScope())
-{
-    var serviceProvider = scope.ServiceProvider;
-    await SeedRoles(serviceProvider);
-    await AssignAdminRole(serviceProvider);
-}
 
 app.MapControllerRoute(
     name: "areas",

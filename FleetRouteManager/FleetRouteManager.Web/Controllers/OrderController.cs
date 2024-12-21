@@ -41,6 +41,20 @@ namespace FleetRouteManager.Web.Controllers
             return View(model);
         }
 
+        [HttpGet("Order Details Partial")]
+        public async Task<IActionResult> DetailsPartial(int id)
+        {
+            var model = await orderService.GetOrderDetailsAsync(id);
+
+            if (model == null)
+            {
+
+                return PartialView("_Error404");
+            }
+
+            return PartialView(model);
+        }
+
         [HttpGet("Delete Order")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -52,7 +66,7 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (model.User != User.Identity!.Name!)
+            if (User.Identity?.Name != "admin@myapp.com" && model.User != User.Identity?.Name)
             {
                 TempData["OrderError"] = "Order can be deleted by current order manager.";
                 return RedirectToAction("Index");
@@ -75,8 +89,9 @@ namespace FleetRouteManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
+            var user = User.Identity?.Name;
 
-            if (await orderService.DeleteOrderAsync(id))
+            if (await orderService.DeleteOrderAsync(id, user))
             {
                 TempData["OrderSucceed"] = "Order was deleted successfully.";
             }
@@ -150,14 +165,13 @@ namespace FleetRouteManager.Web.Controllers
                 TempData["OrderError"] = "Order was not found.";
                 return RedirectToAction("Index");
             }
-
             if (model.TripId != null)
             {
                 TempData["OrderError"] = $"Order has already been fulfilled with trip {model.TripId}.";
                 return RedirectToAction("Details", new { model.Id });
             }
 
-            if (model.User != User.Identity!.Name!)
+            if (User.Identity!.Name! != "admin@myapp.com" && model.User != User.Identity!.Name!)
             {
                 TempData["OrderError"] = "Changes can be made only by current order manager.";
                 return RedirectToAction("Details", new { model.Id });
@@ -185,15 +199,11 @@ namespace FleetRouteManager.Web.Controllers
                 return RedirectToAction("Details", new { model.Id });
             }
 
-            if (model.User != User.Identity!.Name!)
-            {
-                TempData["OrderError"] = "Changes can be made only by current order manager.";
-                return RedirectToAction("Details", new { model.Id });
-            }
+            var user = User.Identity?.Name;
 
             try
             {
-                if (await orderService.EditOrderAsync(model))
+                if (await orderService.EditOrderAsync(model, user))
                 {
                     TempData["OrderSucceed"] = "Order was edited successfully.";
                     return RedirectToAction("Details", new { model.Id });
@@ -206,6 +216,11 @@ namespace FleetRouteManager.Web.Controllers
             catch (CustomExistingEntityException e)
             {
                 TempData["OrderError"] = e.Message;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                TempData["OrderError"] = "Changes can be made only by current order manager.";
+                return RedirectToAction("Details", new { model.Id });
             }
             catch (Exception)
             {

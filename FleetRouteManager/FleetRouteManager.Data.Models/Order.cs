@@ -9,7 +9,7 @@ namespace FleetRouteManager.Data.Models
     public class Order : ISoftDeletable
     {
         [Key]
-        [Comment("Primary Key for Driver entity")]
+        [Comment("Primary Key for Order entity")]
         public int Id { get; set; }
 
         [Required]
@@ -26,7 +26,7 @@ namespace FleetRouteManager.Data.Models
         public decimal Amount { get; set; }
 
         [Required]
-        [MaxLength(UsernameMaxLength)]
+        [MaxLength(UserNameMaxLength)]
         [Comment("User who created the Order")]
         public string User { get; set; } = null!;
 

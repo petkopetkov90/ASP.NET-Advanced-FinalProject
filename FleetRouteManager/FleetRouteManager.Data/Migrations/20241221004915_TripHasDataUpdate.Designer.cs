@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241221004915_TripHasDataUpdate")]
+    partial class TripHasDataUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2070,39 +2073,6 @@ namespace FleetRouteManager.Data.Migrations
                             OrderNumber = "1324141",
                             TripId = 2,
                             User = "admin@myapp.com"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Amount = 333m,
-                            ClientId = 2,
-                            IsDeleted = false,
-                            OrderDate = new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "Z-11111/24",
-                            TripId = 3,
-                            User = "petkopetkov900808@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Amount = 555.50m,
-                            ClientId = 3,
-                            IsDeleted = false,
-                            OrderDate = new DateTime(2024, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "Z-15123/24",
-                            TripId = 4,
-                            User = "petkopetkov900808@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Amount = 770m,
-                            ClientId = 1,
-                            IsDeleted = false,
-                            OrderDate = new DateTime(2024, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "Z-53235/24",
-                            TripId = 5,
-                            User = "petkopetkov900808@gmail.com"
                         });
                 });
 
@@ -2219,32 +2189,6 @@ namespace FleetRouteManager.Data.Migrations
                             TripNumber = "2/2/2024",
                             User = "admin@myapp.com",
                             VehicleId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DriverId = 3,
-                            EndDate = new DateTime(2024, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EndLocationId = 1,
-                            IsDeleted = false,
-                            StartDate = new DateTime(2024, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartLocationId = 4,
-                            TripNumber = "13/3/2024",
-                            User = "petkopetkov900808@gmail.com",
-                            VehicleId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DriverId = 1,
-                            EndDate = new DateTime(2024, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EndLocationId = 4,
-                            IsDeleted = false,
-                            StartDate = new DateTime(2024, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartLocationId = 1,
-                            TripNumber = "16/4/2024",
-                            User = "petkopetkov900808@gmail.com",
-                            VehicleId = 1
                         });
                 });
 

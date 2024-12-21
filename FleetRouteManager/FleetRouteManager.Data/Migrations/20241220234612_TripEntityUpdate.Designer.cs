@@ -4,6 +4,7 @@ using FleetRouteManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetRouteManager.Data.Migrations
 {
     [DbContext(typeof(FleetRouteManagerDbContext))]
-    partial class FleetRouteManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220234612_TripEntityUpdate")]
+    partial class TripEntityUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2046,7 +2049,6 @@ namespace FleetRouteManager.Data.Migrations
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderNumber = "43/ZTE/240412",
-                            TripId = 1,
                             User = "admin@myapp.com"
                         },
                         new
@@ -2057,7 +2059,6 @@ namespace FleetRouteManager.Data.Migrations
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderNumber = "240613/125",
-                            TripId = 1,
                             User = "admin@myapp.com"
                         },
                         new
@@ -2068,41 +2069,7 @@ namespace FleetRouteManager.Data.Migrations
                             IsDeleted = false,
                             OrderDate = new DateTime(2024, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderNumber = "1324141",
-                            TripId = 2,
                             User = "admin@myapp.com"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Amount = 333m,
-                            ClientId = 2,
-                            IsDeleted = false,
-                            OrderDate = new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "Z-11111/24",
-                            TripId = 3,
-                            User = "petkopetkov900808@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Amount = 555.50m,
-                            ClientId = 3,
-                            IsDeleted = false,
-                            OrderDate = new DateTime(2024, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "Z-15123/24",
-                            TripId = 4,
-                            User = "petkopetkov900808@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Amount = 770m,
-                            ClientId = 1,
-                            IsDeleted = false,
-                            OrderDate = new DateTime(2024, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "Z-53235/24",
-                            TripId = 5,
-                            User = "petkopetkov900808@gmail.com"
                         });
                 });
 
@@ -2115,10 +2082,6 @@ namespace FleetRouteManager.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date and time when the Trip was marked as deleted");
-
                     b.Property<int>("DriverId")
                         .HasColumnType("int")
                         .HasComment("Foreign key to Driver");
@@ -2130,10 +2093,6 @@ namespace FleetRouteManager.Data.Migrations
                     b.Property<int>("EndLocationId")
                         .HasColumnType("int")
                         .HasComment("Foreign key to Location");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasComment("Indicates if the Trip was deleted");
 
                     b.Property<int?>("SecondDriverId")
                         .HasColumnType("int")
@@ -2187,7 +2146,6 @@ namespace FleetRouteManager.Data.Migrations
                             DriverId = 1,
                             EndDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndLocationId = 2,
-                            IsDeleted = false,
                             StartDate = new DateTime(2024, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartLocationId = 1,
                             TripNumber = "1/1/2024",
@@ -2200,10 +2158,9 @@ namespace FleetRouteManager.Data.Migrations
                             DriverId = 2,
                             EndDate = new DateTime(2024, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndLocationId = 3,
-                            IsDeleted = false,
                             StartDate = new DateTime(2024, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartLocationId = 2,
-                            TripNumber = "1/2/2024",
+                            TripNumber = "1/1/2024",
                             User = "admin@myapp.com",
                             VehicleId = 2
                         },
@@ -2213,38 +2170,11 @@ namespace FleetRouteManager.Data.Migrations
                             DriverId = 3,
                             EndDate = new DateTime(2024, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndLocationId = 3,
-                            IsDeleted = false,
                             StartDate = new DateTime(2024, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartLocationId = 2,
-                            TripNumber = "2/2/2024",
+                            TripNumber = "1/1/2024",
                             User = "admin@myapp.com",
                             VehicleId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DriverId = 3,
-                            EndDate = new DateTime(2024, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EndLocationId = 1,
-                            IsDeleted = false,
-                            StartDate = new DateTime(2024, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartLocationId = 4,
-                            TripNumber = "13/3/2024",
-                            User = "petkopetkov900808@gmail.com",
-                            VehicleId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DriverId = 1,
-                            EndDate = new DateTime(2024, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EndLocationId = 4,
-                            IsDeleted = false,
-                            StartDate = new DateTime(2024, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartLocationId = 1,
-                            TripNumber = "16/4/2024",
-                            User = "petkopetkov900808@gmail.com",
-                            VehicleId = 1
                         });
                 });
 

@@ -12,17 +12,17 @@ namespace FleetRouteManager.Web.Models.InputModels.AddressInputModels
         public string StreetName { get; set; } = null!;
 
         [StringLength(AddressStreetNumberMaxLength, MinimumLength = AddressStreetNumberMinLength, ErrorMessage = AddressStreetNumberLengthMsg)]
-        [RegularExpression(AddressStreetNameFormatRegex, ErrorMessage = AddressStreetNumberFormatMsg)]
+        [RegularExpression(AddressStreetNumberFormatRegex, ErrorMessage = AddressStreetNumberFormatMsg)]
         public string? StreetNumber { get; set; }
 
         [Required(ErrorMessage = AddressPostCodeRequiredMsg)]
-        [StringLength(AddressPostCodeMaxLength, MinimumLength = AddressStreetNameMinLength, ErrorMessage = AddressStreetNameLengthMsg)]
-        [RegularExpression(AddressStreetNameFormatRegex, ErrorMessage = AddressPostCodeFormatMsg)]
+        [StringLength(AddressPostCodeMaxLength, MinimumLength = AddressPostCodeMinLength, ErrorMessage = AddressPostCodeLengthMsg)]
+        [RegularExpression(AddressPostCodeFormatRegex, ErrorMessage = AddressPostCodeFormatMsg)]
         public string PostCode { get; set; } = null!;
 
         [Required(ErrorMessage = AddressCityNameRequiredMsg)]
-        [StringLength(AddressStreetNumberMaxLength, MinimumLength = AddressStreetNumberMinLength, ErrorMessage = AddressStreetNameLengthMsg)]
-        [RegularExpression(AddressStreetNameFormatRegex, ErrorMessage = AddressCityNameFormatMsg)]
+        [StringLength(AddressCityMaxLength, MinimumLength = AddressCityMinLength, ErrorMessage = AddressCityNameLengthMsg)]
+        [RegularExpression(AddressCityFormatRegex, ErrorMessage = AddressCityNameFormatMsg)]
         public string City { get; set; } = null!;
 
         [Required(ErrorMessage = AddressCountryRequiredMsg)]

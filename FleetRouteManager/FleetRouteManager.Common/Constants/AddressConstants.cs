@@ -12,7 +12,7 @@
 
         public const int AddressPostCodeMinLength = 2;
         public const int AddressPostCodeMaxLength = 10;
-        public const string LocationPostCodeFormatRegex = @"^[A-Za-z0-9](?:[\s-]?[A-Za-z0-9]+)*$";
+        public const string AddressPostCodeFormatRegex = @"^[A-Za-z0-9](?:[\s-]?[A-Za-z0-9]+)*$";
 
         public const int AddressCityMinLength = 2;
         public const int AddressCityMaxLength = 60;

@@ -13,7 +13,7 @@ namespace FleetRouteManager.Web.Controllers
             _logger = logger;
         }
 
-        [HttpGet("Home")]
+        [HttpGet()]
         public IActionResult Index()
         {
             return View();

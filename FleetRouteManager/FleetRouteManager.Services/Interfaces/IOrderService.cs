@@ -8,10 +8,10 @@ namespace FleetRouteManager.Services.Interfaces
         Task<IEnumerable<OrderViewModel>> GetAllOrdersAsync();
         Task<OrderDetailsViewModel?> GetOrderDetailsAsync(int id);
         Task<OrderDeleteViewModel?> GetOrderDeleteModelAsync(int id);
-        Task<bool> DeleteOrderAsync(int id);
+        Task<bool> DeleteOrderAsync(int id, string? user);
         Task<int> CreateNewOrderAsync(OrderCreateInputModel model);
         Task<OrderEditInputModel?> GetOrderEditModelAsync(int id);
-        Task<bool> EditOrderAsync(OrderEditInputModel model);
+        Task<bool> EditOrderAsync(OrderEditInputModel model, string? user);
         Task<IEnumerable<OrderViewModel>> GetMyOrdersAsync(string user);
     }
 }

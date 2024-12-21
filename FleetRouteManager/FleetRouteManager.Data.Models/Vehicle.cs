@@ -84,6 +84,7 @@ namespace FleetRouteManager.Data.Models
         [Comment("Date and time when the Vehicle was marked as deleted")]
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<Driver> Drivers { get; set; } = new List<Driver>();
+        public virtual ICollection<Driver> CurrentDrivers { get; set; } = new List<Driver>();
+        public virtual ICollection<Trip> Trips { get; set; } = new List<Trip>();
     }
 }

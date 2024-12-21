@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FleetRouteManager.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FleetRouteManager.Web.Areas.Manager.Controllers
@@ -7,9 +8,21 @@ namespace FleetRouteManager.Web.Areas.Manager.Controllers
     [Authorize(Roles = "Manager")]
     public class ManagerTripController : Controller
     {
-        public IActionResult Index()
+        private readonly ITripService tripService;
+
+        public ManagerTripController(ITripService tripService)
         {
-            return View();
+            this.tripService = tripService;
+        }
+
+        [HttpGet("My Trip")]
+        public async Task<IActionResult> Index()
+        {
+            var user = User.Identity!.Name;
+
+            var model = await tripService.GetMyTripsAsync(user!);
+
+            return View(model);
         }
     }
 }

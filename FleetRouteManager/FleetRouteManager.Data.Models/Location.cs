@@ -35,5 +35,13 @@ namespace FleetRouteManager.Data.Models
 
         public virtual ICollection<Client> Clients { get; set; } = new List<Client>();
 
+        [InverseProperty(nameof(Trip.StartingLocation))]
+
+        public virtual ICollection<Trip> TripsStart { get; set; } = new List<Trip>();
+
+        [InverseProperty(nameof(Trip.EndingLocation))]
+
+        public virtual ICollection<Trip> TripsEnd { get; set; } = new List<Trip>();
+
     }
 }

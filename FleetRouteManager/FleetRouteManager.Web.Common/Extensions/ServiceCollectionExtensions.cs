@@ -22,6 +22,7 @@ namespace FleetRouteManager.Web.Common.Extensions
             services.AddScoped<IRepository<Address, int>, Repository<Address, int>>();
             services.AddScoped<IRepository<Client, int>, Repository<Client, int>>();
             services.AddScoped<IRepository<Order, int>, Repository<Order, int>>();
+            services.AddScoped<IRepository<Trip, int>, Repository<Trip, int>>();
         }
 
         public static void AddApplicationServices(this IServiceCollection services)
@@ -35,6 +36,7 @@ namespace FleetRouteManager.Web.Common.Extensions
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ITripService, TripService>();
         }
     }
 }

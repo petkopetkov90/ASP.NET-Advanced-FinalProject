@@ -14,7 +14,7 @@ namespace FleetRouteManager.Data.Common.Configurations
 
             builder
                 .HasOne(d => d.Vehicle)
-                .WithMany(v => v.Drivers)
+                .WithMany(v => v.CurrentDrivers)
                 .HasForeignKey(d => d.VehicleId)
                 .OnDelete(deleteBehavior: DeleteBehavior.Restrict);
 

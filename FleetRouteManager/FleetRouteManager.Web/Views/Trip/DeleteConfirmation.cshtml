@@ -1,0 +1,17 @@
+﻿@model TripDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete Confirmation";
+}
+
+<h2 style="text-align: center; font-style: italic">Delete Confirmation</h2>
+
+<div class="alert alert-danger" style="text-align: center">
+    <h5>Are you sure you want to delete: <strong style="color:darkred">@Model.TripNumber</strong> ?</h5>
+    <form method="post" asp-route="@Model.Id">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-danger" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;">Confirm</button>
+
+        <a href="@(ViewData["ReturnUrl"])" class="btn btn-primary" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px; width: 100px; height: 44px;">Cancel</a>
+    </form>
+</div>

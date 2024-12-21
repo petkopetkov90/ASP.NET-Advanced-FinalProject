@@ -47,7 +47,7 @@ else if (TempData["TripSucceed"] != null)
                             </td>
                             <td style="padding: 15px">@trip.User</td>
                             <td>
-                                @foreach (var order in orders)
+                                @foreach(var order in orders)
                                 {
                                     <span>
                                         <button class="load-order-details btn btn-link" data-order-id="@order.Id" style="color: black; font-weight:bold">@order.OrderNumber</button>
@@ -58,10 +58,10 @@ else if (TempData["TripSucceed"] != null)
                             </td>
 
                             <td style="padding: 5px 0px">
-                                <a asp-action="Details" asp-controller="ManagerTrip" asp-route-id="@trip.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
+                                <a asp-action="Details" asp-controller="Trip" asp-route-id="@trip.Id" class="btn btn-primary" style="border-radius: 9999px">Details</a>
                                 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                                 {
-                                    <a asp-action="Delete" asp-controller="ManagerTrip" asp-route-id="@trip.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
+                                    <a asp-action="Delete" asp-controller="Trip" asp-route-id="@trip.Id" class="btn btn-danger" style="border-radius: 9999px">Delete</a>
                                 }
                             </td>
                         </tr>
@@ -79,7 +79,7 @@ else if (TempData["TripSucceed"] != null)
     @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
     {
         <div style="margin: 1rem; display: flex; justify-content: center; align-items: center; height: 100%;">
-            <a asp-action="Create" asp-controller="ManagerTrip" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Order</a>
+            <a asp-action="Create" asp-controller="Trip" style="display: inline-flex; justify-content: center; align-items: center; border-radius: 9999px" class="btn btn-success">Create New Trip</a>
         </div>
     }
 </div>

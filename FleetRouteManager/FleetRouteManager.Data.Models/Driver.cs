@@ -94,5 +94,12 @@ namespace FleetRouteManager.Data.Models
 
         [Comment("Date and time when the Driver was marked as released")]
         public DateTime? DeletedOn { get; set; }
+
+        [InverseProperty(nameof(Trip.Driver))]
+        public virtual ICollection<Trip> Trips { get; set; } = new List<Trip>();
+
+        [InverseProperty(nameof(Trip.SecondDriver))]
+
+        public virtual ICollection<Trip> TripsSecond { get; set; } = new List<Trip>();
     }
 }
